@@ -1,12 +1,14 @@
 # JAVA Notes
 
-
-
 ## Spring
 
 用于运行时单实例对象的创建
 
 
+
+Bean Factory
+
++ Application Context `applicationContext.xml `
 
 Bean
 
@@ -20,15 +22,16 @@ Configuration
 + xml
 
    ```xml
-  <bean id="..." class="...">
+    <bean id="..." class="...">
       <property name="..." ref="..." />
-  </bean>
+      <property name="..." value="..." />
+    </bean>
    ```
 
-  
++ annotation
+  + `@Component` bean
+  + `@Autowired` + interface 用于 field setter constructor
 
-+ anno
-  + `@Autowired`
 
 
 启动
@@ -36,6 +39,12 @@ Configuration
 
 
 ## JDBC
+
+
+ResultSet
+
+
+
 
 ## Servlet
 
@@ -74,7 +83,9 @@ File 片段 `WEB-INF/web.xml`
 
 
 
- *Servlet*、Filter、*Listener*, 
+ *Servlet*、Filter、Listener 事件
+
+ 
 
 ## Spring MVC
 
@@ -83,7 +94,7 @@ File 片段 `WEB-INF/web.xml`
 ### servlet.xml
 
 ```xml
-<context:component-scan base-package="package1"/>
+<context:component-scan base-package="*"/>
 <context:annotation-config/>
 <bean      class="org.springframework.web.servlet.view.InternalResourceViewResolver">
     <property name="prefix">
@@ -97,6 +108,14 @@ File 片段 `WEB-INF/web.xml`
 
 
 
+### Controller 
+
+
+
+Component: Controller -> Service -> Repository
+
+`@Component、@Repository、@Service、@Controller`
+
 ### Database
 
 基于 jdbc
@@ -104,7 +123,36 @@ File 片段 `WEB-INF/web.xml`
 POJO
 getter seter
 
+```
+class Data{
+    
+}
+```
+
+
+
+@Repository
+
 Data Access Object
+
+​     
+
+​     The DAO completely hides the data source implementation details from its clients. 
+
+
+
+```
+
+class DAOImpl{
+    private DataSource dataSource;
+    public insertObject()
+    public updateObject()
+    public Object findById(int id)
+    public findAll()
+    public save
+    boolean exists(int id)
+}
+```
 
 
 
@@ -129,8 +177,8 @@ pom.xml
 ### Create
 
 + CREATE TABLE 
-  + `create table table1 ()`
-  + type
+  + `create table if not exists table1 (id integer primary key,key, value text)`
+  + Type
   + cons
     + primary key
     + not null
@@ -140,18 +188,24 @@ pom.xml
 
 
 
+##  
+
 
 
 ### CRUD
 
 + SELECT
   + `select * from where id=?`
+  + WHERE
   + AS `select 1 as name`
   + ORDER  `select * order by id asc` (asc/desc)
   + LIMIT `select * from table1 limit 10 `
-  + JOIN `select * from table1 join table2 on table1.id=table2.id`
+  + JOIN `select * from table1 join table2 on table1.id=table2.id` 
+    + inner join, left join
   + arr `select count(*) from table`
   + GROUP `select column1,count(1) group by column1`
+    + HAVING
+  + distinct `select distinct`, union `select ... union select ...`
 + INSERT
   + `insert table(columns) values (?)`
 + UPDATE 
@@ -160,6 +214,12 @@ pom.xml
   + `delete where id=?`
 
 ### Transaction
+
+## MyBatis
+
+## Design Pattern
+
+对象创建
 
 
 
