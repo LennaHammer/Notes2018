@@ -1,12 +1,43 @@
 # Ruby
 
-## Sin
+## Sinatra
 
-### Hello
+### Hello World
+
+```ruby
+require 'sinatra'
+require 'sinatra/reloader'
+
+get '/' do
+  'Hello'
+end
+  
+```
 
 
 
 ### Active Record
+
+```ruby
+ActiveRecord::Base.establish_connection(
+  adapter: 'sqlite3',
+  database: 'db.sqlite3'
+)
+
+class Post < ActiveRecord::Base
+end
+
+get '/' do
+  @posts = Post.all()
+  erb :index
+end
+
+post '/add' do
+
+end
+
+
+```
 
 
 
@@ -20,16 +51,16 @@ cd myblog
 rails server
 ```
 
-## Step 2 Sc
+### Step 2 Scaffold
 
 ```bash
-rails posts title, body:string 
+rails scaffold posts title, body:string 
 rails comments user,body, post_id
 ```
 
 type 
 
-## Step 3 Ass
+### Step 3 Ass
 
 Model
 
@@ -50,7 +81,7 @@ View
 
 
 
-### Step 3 Session
+### Step 4 Session
 
 
 
@@ -58,9 +89,15 @@ before_action
 
 
 
-### Step 4 page
+### Step 5 pagination
 
-### Step 5 bootstrap
+### Step 6 bootstrap
+
+### Step 7 Ajax
 
 
 
+
+## Ref
+
++ http://sinatrarb.com/

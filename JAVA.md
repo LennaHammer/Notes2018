@@ -41,6 +41,9 @@ Configuration
 ## JDBC
 
 
+
+DataSource
+
 ResultSet
 
 
@@ -50,10 +53,12 @@ ResultSet
 
 用于 http 网络服务
 
-HttpServlet
+### HttpServlet
 
-+ request
-+ response
++ `HttpServletResponse response`
++ `HttpServletRequest request`
+
+
 
 ### web.xml
 
@@ -75,6 +80,34 @@ File 片段 `WEB-INF/web.xml`
 
 
 
+### Session
+
+
+
+ 
+
+*Servlet*、Filter、Listener 事件
+
+```xml
+<listener>
+<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+</listener>
+<filter>
+<filter-name>characterEncodingFilter</filter-name>
+<filter-class>
+org.springframework.web.filter.CharacterEncodingFilter
+</filter-class>
+<init-param>
+<param-name>encoding</param-name>
+<param-value>UTF-8</param-value>
+</init-param>
+</filter>
+<filter-mapping>
+<filter-name>characterEncodingFilter</filter-name>
+<url-pattern>/*</url-pattern>
+</filter-mapping>
+```
+
 ### .jsp
 
 ```jsp
@@ -83,19 +116,18 @@ File 片段 `WEB-INF/web.xml`
 
 
 
- *Servlet*、Filter、Listener 事件
-
  
 
 ## Spring MVC
 
 基于 Servlet
 
-### servlet.xml
+### springmvc_servlet.xml
 
 ```xml
 <context:component-scan base-package="*"/>
 <context:annotation-config/>
+<mvc:default-servlet-handler/>
 <bean      class="org.springframework.web.servlet.view.InternalResourceViewResolver">
     <property name="prefix">
         <value>/WEB-INF/views/</value>
@@ -110,11 +142,29 @@ File 片段 `WEB-INF/web.xml`
 
 ### Controller 
 
+`@Controller class ...`
+
+@RequestMapping
 
 
-Component: Controller -> Service -> Repository
 
-`@Component、@Repository、@Service、@Controller`
+
+
+`@PathVariable` `@RequestParam` 
+
+
+
+
+
+
+
+
+
+@Component: @Controller -> @Service -> @Repository
+
+
+
+
 
 ### Database
 
@@ -131,7 +181,34 @@ class Data{
 
 
 
-@Repository
+#### JdbcTemplate 
+
+```xml
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    	<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+    	<property name="url" value="jdbc:oracle:thin:@192.168.0.159:1521:orcl" />
+    	<property name="username" value="geologic" />
+    	<property name="password" value="geologic" />
+    </bean>
+    <bean id="jdbcTemplate"
+        class="org.springframework.jdbc.core.JdbcTemplate" abstract="false" lazy-init="false" autowire="default">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+```
+
+
+
+```java
+update("",);
+queryForList();
+
+```
+
+
+
+
 
 Data Access Object
 
@@ -154,11 +231,17 @@ class DAOImpl{
 }
 ```
 
-
+@Repository
 
 
 
 ### Form
+
+post
+
+view
+
+File
 
 
 
@@ -167,6 +250,36 @@ class DAOImpl{
 管理依赖
 
 pom.xml
+
+```xml
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-web</artifactId>
+    <version>4.1.2.RELEASE</version>
+</dependency>
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-webmvc</artifactId>
+    <version>4.1.2.RELEASE</version>
+</dependency>
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-jdbc</artifactId>
+    <version>4.1.2.RELEASE</version>
+</dependency>
+<dependency>
+    <groupId>javax.servlet</groupId>
+    <artifactId>javax.servlet-api</artifactId>
+    <version>3.0.1</version>
+</dependency>
+<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>5.1.25</version>
+</dependency>
+```
+
+
 
 运行
 
@@ -223,10 +336,15 @@ pom.xml
 
 
 
+## Tomcat
+
+
+
 ## References
 
 + https://docs.oracle.com/javase/tutorial/index.html
 + https://www.tutorialspoint.com/jdbc/index.htm
++ http://spring.io/guides
 
 
 
