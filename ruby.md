@@ -33,10 +33,14 @@ get '/' do
 end
 
 post '/add' do
-
+  params[:body]
+  redirect to '/'
 end
 
-
+__END__
+<html>
+    
+</html>
 ```
 
 
@@ -91,9 +95,21 @@ before_action
 
 ### Step 5 pagination
 
+bundle install 
+
 ### Step 6 bootstrap
 
 ### Step 7 Ajax
+
+s
+## w
+
+'require.js'
+
+```bash
+gem install rails sinatra activerecord sinatra-contrib sqlite3
+gem install rails sinatra
+```
 
 
 
@@ -101,3 +117,4 @@ before_action
 ## Ref
 
 + http://sinatrarb.com/
++ http://sinatrarb.com/intro.html

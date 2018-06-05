@@ -111,7 +111,18 @@ org.springframework.web.filter.CharacterEncodingFilter
 ### .jsp
 
 ```jsp
-
+<%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Hello World</title>
+</head>
+<body>
+    <h1>${greeting}</h1>
+    123456789
+</body>
+</html>
 ```
 
 
@@ -122,20 +133,161 @@ org.springframework.web.filter.CharacterEncodingFilter
 
 基于 Servlet
 
-### springmvc_servlet.xml
+
+
+web.xml(servlet)
+
+```xml
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>classpath:applicationContext.xml</param-value>
+  </context-param>
+	<servlet>
+		<servlet-name>spring-mvc</servlet-name>
+		<servlet-class>
+			org.springframework.web.servlet.DispatcherServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>spring-mvc</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+    <filter>
+        <filter-name>characterEncodingFilter</filter-name>
+        <filter-class>
+            org.springframework.web.filter.CharacterEncodingFilter
+        </filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>characterEncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+```
+
+
+
+```xml
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaeehttp://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	id="WebApp_ID" version="3.0">
+	<display-name>HelloWorldSpring</display-name>
+
+	<servlet>
+		<servlet-name>spring-mvc</servlet-name>
+		<servlet-class>
+			org.springframework.web.servlet.DispatcherServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>spring-mvc</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
+
+	<!-- Other XML Configuration -->
+	<!-- Load by Spring ContextLoaderListener -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/root-context.xml</param-value>
+	</context-param>
+
+
+	<!-- Spring ContextLoaderListener -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener
+		</listener-class>
+	</listener>
+</web-app>
+
+
+```
+
+
+
+### spring-mvc-servlet.xml(spring-mvc)
 
 ```xml
 <context:component-scan base-package="*"/>
 <context:annotation-config/>
 <mvc:default-servlet-handler/>
-<bean      class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
     <property name="prefix">
         <value>/WEB-INF/views/</value>
     </property>
-    <property name="suffix">
-        <value>.jsp</value>
-    </property>
+    <property name="suffix" value=".jsp"></property>
 </bean>
+```
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans-4.1.xsd 
+      http://www.springframework.org/schema/context
+      http://www.springframework.org/schema/context/spring-context-4.1.xsd 
+      http://www.springframework.org/schema/mvc
+      http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd">
+ 
+ 
+   <context:component-scan base-package="demo2"/>
+    
+   <context:annotation-config/>
+    
+   <bean
+       class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        
+       <property name="prefix">
+           <value>/WEB-INF/views/</value>
+       </property>
+        
+       <property name="suffix">
+           <value>.jsp</value>
+       </property>       
+        
+   </bean>
+    
+</beans>
+```
+
+root-context.xml
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans.xsd">
+     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">    
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />    
+        <property name="url" value="jdbc:mysql://localhost:3306/new_schema" />    
+        <property name="username" value="root" />    
+        <property name="password" value="root"/>    
+    </bean>
+        <bean id="jdbcTemplate"
+        class="org.springframework.jdbc.core.JdbcTemplate" abstract="false" lazy-init="false" autowire="default">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+</beans>
+
+
 ```
 
 
@@ -153,6 +305,20 @@ org.springframework.web.filter.CharacterEncodingFilter
 `@PathVariable` `@RequestParam` 
 
 
+
+```java
+@Controller
+public class HelloController {
+    @RequestMapping("/hello")
+    public String hello(Model model) {
+        model.addAttribute("hello");
+        
+        return "helloworld";
+         
+    }
+ 
+}
+```
 
 
 
@@ -181,7 +347,7 @@ class Data{
 
 
 
-#### JdbcTemplate 
+#### JdbcTemplate * 
 
 ```xml
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -327,6 +493,12 @@ pom.xml
   + `delete where id=?`
 
 ### Transaction
+
+Tools
+
+Navicat Premium
+
+
 
 ## MyBatis
 
