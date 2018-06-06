@@ -40,11 +40,50 @@ Configuration
 
 ## JDBC
 
-
+Connection
 
 DataSource
 
 ResultSet
+
+prepareStatement executeUpdate
+
+```java
+Connection con = DriverManager.getConnection(...);
+try{
+    PreparedStatement pstmt = con.prepareStatement("...");
+    pstmt.setType(1, ...);
+    ResultSet rs = pstmt.executeQuery();; // Cursor
+}finally{
+    if(pstmt!=null)
+        pstmt.close();
+}
+```
+
+
+
+
+```java
+
+pstmt.execute(); //returns true for query and false for update
+ResultSet rs = pstmt.executeQuery();
+pstmt.executeUpdate(); // returns update count
+while(rs.next()){
+    Type value = rs.getType("column_name");
+}
+```
+
+
+
+transaction 
+
+```java
+con.setAutoCommit(false);
+
+con.commit(); // con.rollback(); 
+```
+
+
 
 
 
@@ -367,9 +406,12 @@ class Data{
 
 
 ```java
-update("",);
-queryForList();
-
+jdbcTemplate = new JdbcTemplate(dataSource);
+jdbcTemplate.update("update ", ...);
+jdbcTemplate query();
+jdbcTemplate queryForList("select ...", ...);
+jdbcTemplate queryForObject("select ...", ...);
+//jdbcTemplate queryForMap("select ...", ...);
 ```
 
 
@@ -384,8 +426,8 @@ Data Access Object
 
 
 
-```
-
+```java
+interface DAO{};
 class DAOImpl{
     private DataSource dataSource;
     public insertObject()
@@ -407,9 +449,11 @@ post
 
 view
 
-File
+File upload
 
+### JSON
 
+@ResponseBody
 
 ## Maven
 
@@ -457,7 +501,13 @@ pom.xml
 
 + CREATE TABLE 
   + `create table if not exists table1 (id integer primary key,key, value text)`
+
   + Type
+
+    + 123
+
+    + length
+
   + cons
     + primary key
     + not null
@@ -476,12 +526,13 @@ pom.xml
 + SELECT
   + `select * from where id=?`
   + WHERE
+    + RANGE `bewteen ... and ...`
   + AS `select 1 as name`
   + ORDER  `select * order by id asc` (asc/desc)
   + LIMIT `select * from table1 limit 10 `
   + JOIN `select * from table1 join table2 on table1.id=table2.id` 
     + inner join, left join
-  + arr `select count(*) from table`
+  + Aggregation `select count(*) from table`
   + GROUP `select column1,count(1) group by column1`
     + HAVING
   + distinct `select distinct`, union `select ... union select ...`
@@ -506,17 +557,56 @@ Navicat Premium
 
 对象创建
 
+## IDE
+
+Ecplise
+
+web project
+
+deploy
+
+clean/build
+
+
+
 
 
 ## Tomcat
+
+## Test
+
+## JSON
+
+
+
+JSONArray
+
+
+
+## Bootstrap
+
+layout
+
+content
+
+table
+
+components
+
+utilities
+
+## TCP/IP
 
 
 
 ## References
 
 + https://docs.oracle.com/javase/tutorial/index.html
+  + https://docs.oracle.com/javase/tutorial/jdbc/index.html
 + https://www.tutorialspoint.com/jdbc/index.htm
 + http://spring.io/guides
++ https://docs.spring.io/spring/docs/current/javadoc-api/
++ http://grepcode.com/file/repository.grepcode.com/java/root/jdk/openjdk/6-b14
 
 
 
