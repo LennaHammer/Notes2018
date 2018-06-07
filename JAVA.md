@@ -172,7 +172,7 @@ org.springframework.web.filter.CharacterEncodingFilter
 
 基于 Servlet
 
-
+### Configure
 
 web.xml(servlet)
 
@@ -255,7 +255,7 @@ web.xml(servlet)
 
 
 
-### spring-mvc-servlet.xml(spring-mvc)
+spring-mvc-servlet.xml(spring-mvc)
 
 ```xml
 <context:component-scan base-package="*"/>
@@ -333,15 +333,29 @@ root-context.xml
 
 ### Controller 
 
+
+
+class
+
 `@Controller class ...`
 
-@RequestMapping
+method
 
+`@RequestMapping`
 
+`@RequestMapping(,method=GET)`
 
+`GetMapping`   `@PostMapping`
 
+param
 
 `@PathVariable` `@RequestParam` 
+
+
+
+`@ExceptionHandler`
+
+
 
 
 
@@ -386,34 +400,6 @@ class Data{
 
 
 
-#### JdbcTemplate * 
-
-```xml
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-    	<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
-    	<property name="url" value="jdbc:oracle:thin:@192.168.0.159:1521:orcl" />
-    	<property name="username" value="geologic" />
-    	<property name="password" value="geologic" />
-    </bean>
-    <bean id="jdbcTemplate"
-        class="org.springframework.jdbc.core.JdbcTemplate" abstract="false" lazy-init="false" autowire="default">
-        <property name="dataSource">
-            <ref bean="dataSource" />
-        </property>
-    </bean>
-```
-
-
-
-```java
-jdbcTemplate = new JdbcTemplate(dataSource);
-jdbcTemplate.update("update ", ...);
-jdbcTemplate query();
-jdbcTemplate queryForList("select ...", ...);
-jdbcTemplate queryForObject("select ...", ...);
-//jdbcTemplate queryForMap("select ...", ...);
-```
-
 
 
 
@@ -441,8 +427,6 @@ class DAOImpl{
 
 @Repository
 
-
-
 ### Form
 
 post
@@ -451,9 +435,73 @@ view
 
 File upload
 
+`@RequestParam("file") MultipartFile file`
+
 ### JSON
 
-@ResponseBody
+`@RestController`
+
+= `@Controller @ResponseBody`
+
+
+
+HttpMessageConverter 
+
+MappingJackson2HttpMessageConverter
+
+Content-Type MediaType
+
+`Accept: */*`
+
+library `org.sf.json`
+
+
+
+## Spring Data
+
+### JdbcTemplate
+
+```xml
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    	<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+    	<property name="url" value="jdbc:oracle:thin:@192.168.0.159:1521:orcl" />
+    	<property name="username" value="geologic" />
+    	<property name="password" value="geologic" />
+    </bean>
+    <bean id="jdbcTemplate"
+        class="org.springframework.jdbc.core.JdbcTemplate" abstract="false" lazy-init="false" autowire="default">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+```
+
+
+
+```java
+jdbcTemplate = new JdbcTemplate(dataSource);
+jdbcTemplate.update("update ", ...);
+jdbcTemplate query();
+jdbcTemplate queryForList("select ...", ...); // all rows
+jdbcTemplate queryForObject("select ...", ...); // first row
+//jdbcTemplate queryForMap("select ...", ...);
+```
+
+
+
+### Transactions
+
+`@Transactional`
+
+
+
+### JPA
+
+`@Entity class`
+
+`class CrudRepository`
+
+
 
 ## Maven
 
@@ -515,9 +563,7 @@ pom.xml
 + INDEX
   + =, >, <
 
-
-
-##  
+  
 
 
 
@@ -573,15 +619,56 @@ clean/build
 
 ## Tomcat
 
+`.war` 放入 `webapps`
+
 ## Test
 
 ## JSON
 
+```java
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+```
 
 
-JSONArray
+
+```
+JSONObject.fromObject(...).toString();
+```
 
 
+
+## HTML
+
+
+
+整体
+
+```html
+<html>
+    <head>
+        <title>...</title>
+    </head>
+    <body>
+        
+    </body>
+</html>
+```
+
+
+
+功能
+
++ heading `<h1>...</h1>`
++ list `<></>` 
++ link `<a href="...">...</a>`
++ image `<img src="..." alt="...">`
++ table `<table></table>`
+
+块
+
++ div `<div class="...">...</div>`
++ span `<span class="...">...</span>`
 
 ## Bootstrap
 
@@ -595,9 +682,42 @@ components
 
 utilities
 
+
+
+layout
+
++ row
++ column
+
+元素
+
++ table
++ button
+
+
+
 ## TCP/IP
 
 
+
+
+
+## Spring Boot
+
+
+
+```java
+@SpringBootApplication
+public class Application {
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
+}
+```
+
+## Back-end
+
+role
 
 ## References
 
@@ -607,6 +727,8 @@ utilities
 + http://spring.io/guides
 + https://docs.spring.io/spring/docs/current/javadoc-api/
 + http://grepcode.com/file/repository.grepcode.com/java/root/jdk/openjdk/6-b14
++ https://docs.oracle.com/javaee/6/tutorial/doc/bnafd.html
++ https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html
 
 
 

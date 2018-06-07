@@ -16,7 +16,7 @@ end
 
 
 
-open http://127.0.0.1:4567
+open http://127.0.0.1:4567/
 
 
 
@@ -81,6 +81,16 @@ __END__
 presence present?
 ```
 
+### Step 3 More
+
+
+
+```ruby
+
+```
+
+
+
 ## Day 2 Rails
 
 ### Step 1 Start
@@ -103,7 +113,9 @@ rails db:migrate
 
 open http://127.0.0.1:3000/posts/
 
-type int
+type 
+
++ integer string text
 
 ### Step 3 Associations
 
@@ -113,7 +125,7 @@ Model
 # add to models/post.rb
 has_many :comments
 # add to model/comment.rb
-has_one :post
+belogs_to :post
 ```
 
 View
