@@ -379,7 +379,7 @@ public class HelloController {
 
 
 
-@Component: @Controller -> @Service -> @Repository
+@Component: @Controller -->> (@Service -> @Repository）
 
 
 
@@ -553,8 +553,10 @@ pom.xml
   + Type
 
     + 123
-
     + length
+    + Numeric
+    + String
+    + Date and Time     
 
   + cons
     + primary key
@@ -660,7 +662,7 @@ JSONObject.fromObject(...).toString();
 功能
 
 + heading `<h1>...</h1>`
-+ list `<></>` 
++ list `<ul><li>...</li><li>...</li></ul>` 
 + link `<a href="...">...</a>`
 + image `<img src="..." alt="...">`
 + table `<table></table>`
@@ -728,7 +730,9 @@ role
 + https://docs.spring.io/spring/docs/current/javadoc-api/
 + http://grepcode.com/file/repository.grepcode.com/java/root/jdk/openjdk/6-b14
 + https://docs.oracle.com/javaee/6/tutorial/doc/bnafd.html
++ https://docs.spring.io/spring/docs/current/spring-framework-reference/
 + https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html
++ https://dev.mysql.com/doc/refman/8.0/en/data-types.html
 
 
 

@@ -81,7 +81,7 @@ __END__
 presence present?
 ```
 
-### Step 3 More
+### Step 3 Guest Book
 
 
 
@@ -90,6 +90,8 @@ presence present?
 ```
 
 
+
+flash + redirect
 
 ## Day 2 Rails
 
@@ -107,7 +109,7 @@ open http://127.0.0.1:3000/
 
 ```bash
 rails generate scaffold Post title:string body:text
-rails generate scaffold Comment name:string body:text post_id:integer
+rails generate scaffold Comment name:string body:text post:references
 rails db:migrate
 ```
 
@@ -125,13 +127,20 @@ Model
 # add to models/post.rb
 has_many :comments
 # add to model/comment.rb
-belogs_to :post
+belongs_to :post
 ```
 
 View
 
 ```ruby
 # add to
+    <% if @user.microposts.any? %>
+      <h3>Microposts (<%= @user.microposts.count %>)</h3>
+      <ol class="microposts">
+        <%= render @microposts %>
+      </ol>
+      <%= will_paginate @microposts %>
+    <% end %>
 ```
 
 C
@@ -146,15 +155,29 @@ C
 
 ### Step 4 Session
 
-
+session
 
 before_action
+
+```ruby
+before_action :logged_in_user
+```
+
+
 
 Validation
 
 ### Step 5 pagination
 
+will_paginate
+
 bundle install 
+
+```ruby
+@microposts = @user.microposts.paginate(page: params[:page])
+```
+
+
 
 ### Step 6 bootstrap
 
