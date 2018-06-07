@@ -1,4 +1,4 @@
-# JAVA Notes
+# Java Notes
 
 ## Spring
 
@@ -492,6 +492,18 @@ jdbcTemplate queryForObject("select ...", ...); // first row
 ### Transactions
 
 `@Transactional`
+
+```xml
+<tx:annotation-driven transaction-manager="txManager"/><!-- a PlatformTransactionManager is still required -->
+<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+<!-- (this dependency is defined somewhere else) -->
+<property name="dataSource" ref="dataSource"/>
+</bean>
+```
+
+
+
+
 
 
 

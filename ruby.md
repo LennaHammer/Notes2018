@@ -109,15 +109,22 @@ open http://127.0.0.1:3000/
 
 ```bash
 rails generate scaffold Post title:string body:text
-rails generate scaffold Comment name:string body:text post:references
+rails generate scaffold Comment name:string body:text post_id:integer
 rails db:migrate
 ```
 
 open http://127.0.0.1:3000/posts/
 
-type 
 
-+ integer string text
+
+type
+
++ `string`, `text`, `binary`
++ `integer`, `float`, `decimal`, `boolean`
++ `datetime`, `date`,  `time`
++ `timestamp` equals `created_at:datetime updated_at:datetime`
++ `references` `_id`
+
 
 ### Step 3 Associations
 
@@ -132,7 +139,7 @@ belongs_to :post
 
 View
 
-```ruby
+```erb
 # add to
     <% if @user.microposts.any? %>
       <h3>Microposts (<%= @user.microposts.count %>)</h3>
@@ -143,7 +150,20 @@ View
     <% end %>
 ```
 
+
+
+```erb
+<%= render @comments %>
+```
+
+
+
 C
+
+```ruby
+# controllers/posts_controller.rb
+@comments = @post.comments
+```
 
 
 
