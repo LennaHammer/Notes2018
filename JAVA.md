@@ -147,6 +147,8 @@ org.springframework.web.filter.CharacterEncodingFilter
 </filter-mapping>
 ```
 
+有序
+
 ### .jsp
 
 ```jsp
@@ -331,7 +333,7 @@ root-context.xml
 
 
 
-### Controller 
+### Controller * 
 
 
 
@@ -347,13 +349,21 @@ method
 
 `GetMapping`   `@PostMapping`
 
-param
+param 参数
 
 `@PathVariable` `@RequestParam` 
 
+异常
 
++ `@ExceptionHandler(RuntimeException.class)  `
 
-`@ExceptionHandler`
++ `@ResponseStatus class Exception `
+
++ 全局 `**@ControllerAdvice** `
+
+返回
+
++ `@ResponseBody`
 
 
 
@@ -376,6 +386,14 @@ public class HelloController {
 
 
 
+
+```java
+@ExceptionHandler({ NullPointerException.class })
+@ResponseStatus(value=HttpStatus.NOT_FOUND)
+public void handleNullPointerException(Exception e) {
+    e.printStackTrace();
+}
+```
 
 
 
@@ -443,7 +461,7 @@ File upload
 
 = `@Controller @ResponseBody`
 
-
+`@RequestBody`
 
 HttpMessageConverter 
 
@@ -459,7 +477,7 @@ library `org.sf.json`
 
 ## Spring Data
 
-### JdbcTemplate
+### JdbcTemplate *
 
 ```xml
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -555,25 +573,30 @@ pom.xml
 
 
 
-## MySQL
+## MySQL *
 
 ### Create
 
 + CREATE TABLE 
-  + `create table if not exists table1 (id integer primary key,key, value text)`
+  + `create table if not exists table1 (id integer primary key, data text)`
 
-  + Type
+  + Type(Length)
 
-    + 123
-    + length
-    + Numeric
-    + String
+    + Numeric `int`
+    + String `varchar(255)` `text` 
     + Date and Time     
 
+  + INDEX
+
+    + 
+
   + cons
+
     + primary key
     + not null
+    + uniq
     + foreigner key
+
 + INDEX
   + =, >, <
 
@@ -587,13 +610,15 @@ pom.xml
   + `select * from where id=?`
   + WHERE
     + RANGE `bewteen ... and ...`
+    + LIST `in`
   + AS `select 1 as name`
   + ORDER  `select * order by id asc` (asc/desc)
   + LIMIT `select * from table1 limit 10 `
   + JOIN `select * from table1 join table2 on table1.id=table2.id` 
     + inner join, left join
   + Aggregation `select count(*) from table`
-  + GROUP `select column1,count(1) group by column1`
+    + `count,sum` 
+  + GROUP `select column1, count(1) group by column1`
     + HAVING
   + distinct `select distinct`, union `select ... union select ...`
 + INSERT
@@ -605,7 +630,9 @@ pom.xml
 
 ### Transaction
 
-Tools
+### Tools
+
+MySQL Workbench
 
 Navicat Premium
 
@@ -635,6 +662,8 @@ clean/build
 
 `.war` 放入 `webapps`
 
+
+
 ## Test
 
 ## JSON
@@ -659,9 +688,13 @@ JSONObject.fromObject(...).toString();
 整体
 
 ```html
+<!DOCTYPE html>
 <html>
     <head>
+        <meta charset="UTF-8">
         <title>...</title>
+        <link href="***.css" rel="stylesheet"/>
+        <script type="text/javascript" src="***.js"></script>
     </head>
     <body>
         
@@ -678,6 +711,8 @@ JSONObject.fromObject(...).toString();
 + link `<a href="...">...</a>`
 + image `<img src="..." alt="...">`
 + table `<table></table>`
++ Blockquote `<blockquote></blockquote>`
++ `<p></p>` 
 
 块
 
@@ -698,15 +733,63 @@ utilities
 
 
 
-layout
+layout 布局
 
-+ row
-+ column
++ container `.container `  ` container-fluid` 顶层一个
++ row `.row` 
+  + header
+    +  `.navbar ` 属性 `navbar-dark`  `.navbar-expand `
+  + footer
++ column `.col-sm` 列，手持设备可以转成行 一共 12 列
+  + `xs 576px sm 768px md 992px lg 1200px`
 
-元素
+样式
+
++ 对齐
++ 标记
+
+功能元素
+
++ nav `.navbar` 
 
 + table
-+ button
+
++ button `.btn` 属性 ``
+
+  + `.dropdown` 
+
++ Pagination
+
+  ```html
+  <ul class="pagination">
+    <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">&laquo;</a></li>
+    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+    <li class="page-item "><a class="page-link" href="#">2</a></li>
+    <li class="page-item"><a class="page-link" href="#">3</a></li>
+    <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+  </ul>
+  ```
+
+  
+
+状态
+
++ callback
++ Modal 遮罩窗体
+
+## Angular
+
+## JS
+
+PLAIN Javascript
+
+## Jquery
+
+AJAX
+
+DOM
+
+## require.js
 
 
 
@@ -733,6 +816,10 @@ public class Application {
 
 role
 
+## Security 
+
+
+
 ## References
 
 + https://docs.oracle.com/javase/tutorial/index.html
@@ -745,6 +832,10 @@ role
 + https://docs.spring.io/spring/docs/current/spring-framework-reference/
 + https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html
 + https://dev.mysql.com/doc/refman/8.0/en/data-types.html
++ http://jsfiddle.net
++ https://www.tutorialspoint.com/online_bootstrap_editor.php
++ https://www.runoob.com/try/bootstrap
++ https://www.layoutit.com/build
 
 
 

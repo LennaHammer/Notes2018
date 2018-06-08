@@ -25,3 +25,9 @@ now, today
 
 
 what when where how
+
+
+
+right
+
++ appropriate

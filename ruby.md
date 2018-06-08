@@ -109,7 +109,6 @@ open http://127.0.0.1:3000/
 
 ```bash
 rails generate scaffold Post title:string body:text
-rails generate scaffold Comment name:string body:text post_id:integer
 rails db:migrate
 ```
 
@@ -123,10 +122,17 @@ type
 + `integer`, `float`, `decimal`, `boolean`
 + `datetime`, `date`,  `time`
 + `timestamp` equals `created_at:datetime updated_at:datetime`
-+ `references` `_id`
-
++ `references` equals  `model_id:integer`
 
 ### Step 3 Associations
+
+
+
+```sh
+rails generate scaffold Comment name:string body:text post_id:integer
+```
+
+
 
 Model
 
@@ -222,7 +228,7 @@ gem install rails rails-bootstrap
 
 ## Ref
 
-+ http://sinatrarb.com/
++ http://sinatrarb.com/ 
 + http://sinatrarb.com/intro.html
 + http://www.screencasts.org/episodes/activerecord-with-sinatra
 + http://guides.rubyonrails.org/
