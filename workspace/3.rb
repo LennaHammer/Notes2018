@@ -13,7 +13,9 @@ ActiveRecord::Base.establish_connection(
 ActiveRecord::Base.connection.execute("
   create table if not exists posts (
     id integer primary key,
-    body text not null
+    name string not null,
+    body text not null,
+    created_at datetime not null
   )
 ")
 
@@ -26,16 +28,24 @@ set :sessions, :expire_after => 2592000
 set :session_store, Rack::Session::Pool
 
 get '/' do
-  @posts = Post.last(10).reverse
-  @total= Post.count
+  @page = params[:page]&.to_i || 1 #.to_i || 1 #.present?
+  #@page = @page&.to_i || 1
+  @posts = Post.order(id: :desc).offset((@page-1)*10).limit(10)
+  @total = Post.count
   haml :index,layout: :layout
 end
 
 post '/add' do
   body = params[:body]
+  if body.blank?
+    session[:flash] = "留言不能为空"
+    return redirect to '/'
+    
+  end
   x = Post.new
+  x.name = request.ip
   x.body = body
-  x.save
+  x.save!
   session[:flash] = "留言成功"
   redirect to '/'
 end
@@ -46,10 +56,10 @@ post 'admin/clear' do
   redirect to '/'
 end
 
-post 'admin/delete' do
-    id = params[:body]
+post '/admin/delete' do
+    id = params[:id]
     session[:flash] = "删除成功"
-    Post.find(id).destory
+    Post.find(id).destroy
     redirect to '/'
 end
 
@@ -91,7 +101,6 @@ helpers do
     end
   end
   def login?
-    p  session[:user]
     session[:user] == :admin
   end
 end
@@ -123,33 +132,68 @@ __END__
 @@ index
 - notice do |text|
   %div.alert.alert-primary= text
-%form{method:'post', action:'/add'}
-  %p 留言栏
-  %div.form-group
-    %textarea.form-control{type:'text', name:'body'}
-  %input.btn.btn-primary{type:'submit', value:'留言'}
-= "有 #{@total} 条留言"
+%div.card
+  %div.card-header 留言框
+  %div.card-body
+    %form{method:'post', action:'/add'}
+      %div.form-group
+        %textarea.form-control{type:'text', name:'body'}
+      %input.btn.btn-primary{type:'submit', value:'留言'}
+%p= "第#{@page}页 共有 #{@total} 条留言"
 %div
   - @posts.each do |post|
-    %div.media
-      %pre.media-body
-        &= post.body
-      - if login?
-        %a{href:"#" data-toggle="modal" data-target="#conform"} 删除
-    %br
-%form{method:'post', action:'/clear'}
-  %input{type:'submit', value:'清除'}
-%div.modal#conform
+    %p
+      %div.card
+        %div.card-header 用户 #{post.name} 时间 #{post.created_at}
+        %pre.card-body
+          &= post.body
+        - if login?
+          %button.btn(href="" data-toggle="modal" data-target="#conform" data-whatever="#{post.id}") 删除
+%ul.pagination
+  - if @page>1
+    %li.page-item
+      %a.page-link{href:"/?page=#{@page-1}"} 上一页
+  - else
+    %li.page-item.disabled
+      %a.page-link 上一页
+  - (1..(@total/10.0).ceil).each do |i|
+    - if @page==i
+      %li.page-item.active
+        %a.page-link{href:"/?page=#{i}"} #{i}
+    - else
+      %li.page-item
+        %a.page-link{href:"/?page=#{i}"} #{i}
+  - if @page*10<@total
+    %li.page-item
+      %a.page-link{href:"/?page=#{@page+1}"} 下一页
+  - else
+    %li.page-item.disabled
+      %a.page-link 下一页   
+  
+
+%div.modal.fade(tabindex="-1" role="dialog" id="conform")
   %div.modal-dialog
-    %div.modal-header
-      %h5.modal-title 确认删除？
-      %button(type="button" class="close" data-dismiss="modal")
-        %span &times;
-    %div.modal-body
-      确认要删除该条留言么？一旦删除不可恢复。
-    %div.modal-footer
-      %button(type="button" class="btn btn-secondary" data-dismiss="modal") 关闭
-      %button(type="button" class="btn btn-primary") 删除
+    %div.modal-content
+      %div.modal-header
+        %div.modal-title 确认删除？
+        %button(type="button" class="close" data-dismiss="modal")
+          %span &times;
+      %div.modal-body
+        确认要删除该条留言么？删除不可恢复。
+      %div.modal-footer
+        %form{action:"/admin/delete",method:"post"}
+          %button(type="button" class="btn btn-secondary" data-dismiss="modal") 关闭
+          %input{id:"delete_button",name:'id',type:'hidden'}
+          %button(type="submit" class="btn btn-primary") 确认删除
+:javascript
+    $('#conform').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var recipient = button.data('whatever') // Extract info from data-* attributes
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        var modal = $(this)
+        modal.find('#delete_button').val(recipient)
+    })
 
 
 @@ login
