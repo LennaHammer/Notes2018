@@ -124,12 +124,53 @@ type
 + `timestamp` equals `created_at:datetime updated_at:datetime`
 + `references` equals  `model_id:integer`
 
+Controller
+
++ redirect_to
++ render
++ rescue_from
+
+Action
+
++ index `@posts = Post.all` 
++ new, create `@post = Post.new` 
++ show, edit, update, destroy `@post = Post.find(params[:id])` `before_action` 
++ create, update `params` `Post.new(params) `  `@post.update(params)` 
++ request
+  + index, new, show, edit `view` get
+  + create, update, destroy post redirect
+  + new -> create, edit -> update
+
+routes
+
++ `/config/routes.rbs` `resources :posts ` `root 'posts#index' `
++ `rails routes`
++ `get '...'` `get '...', to: 'posts#show'` 
+
+view
+
++ helper 
++ layout
++ flash C `redirect_to`  V `notice`
++ redirect_to redirect_back
++ form 
+  + `_form` 
+  + `new` `edit`
+  +   `params[:post]` Hash permit
++ render Partial
+
+test
+
++ 
+
+
+
 ### Step 3 Associations
 
 
 
 ```sh
-rails generate scaffold Comment name:string body:text post_id:integer
+rails generate scaffold Comment name:string body:text post:references
 ```
 
 
@@ -171,11 +212,20 @@ C
 @comments = @post.comments
 ```
 
+R
+
+```ruby
+# Nested Resources
+
+```
 
 
- 
 
+ Re
 
++ one2one
++ one2many
++ many2many
 
 
 
@@ -197,13 +247,18 @@ Validation
 
 will_paginate
 
+
+
 bundle install 
 
 ```ruby
 @microposts = @user.microposts.paginate(page: params[:page])
+@posts =  Post.paginate(:page => params[:page])
+
+<%= will_paginate @posts %>
 ```
 
-
+will_paginate-bootstrap
 
 ### Step 6 bootstrap
 
@@ -214,6 +269,11 @@ https://github.com/seyhunak/twitter-bootstrap-rails
 ### Step 7 Ajax
 
 s
+
+rails3 rjs
+
+
+
 ## w
 
 

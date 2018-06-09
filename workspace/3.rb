@@ -12,7 +12,7 @@ ActiveRecord::Base.establish_connection(
 
 ActiveRecord::Base.connection.execute("
   create table if not exists posts (
-    id integer primary key,
+    id integer primary key autoincrement,
     name string not null,
     body text not null,
     created_at datetime not null
@@ -104,9 +104,16 @@ helpers do
     session[:user] == :admin
   end
 end
+before '/admin/*' do
+  session[:user] == :admin or fail
+end
 
+not_found do
+    'This is nowhere to be found.'
+end
 __END__
 @@ layout
+-# coding: utf-8
 !!! 5
 %html
   %head
@@ -144,7 +151,7 @@ __END__
   - @posts.each do |post|
     %p
       %div.card
-        %div.card-header 用户 #{post.name} 时间 #{post.created_at}
+        %div.card-header 用户 #{post.name} 时间 #{post.created_at.strftime '%Y-%m-%d %H:%M:%S' }
         %pre.card-body
           &= post.body
         - if login?

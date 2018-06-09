@@ -412,13 +412,9 @@ getter seter
 
 ```
 class Data{
-    
+   
 }
 ```
-
-
-
-
 
 
 
@@ -431,8 +427,8 @@ Data Access Object
 
 
 ```java
-interface DAO{};
-class DAOImpl{
+interface DAO1{};
+class DAO1Impl{
     private DataSource dataSource;
     public insertObject()
     public updateObject()
@@ -444,6 +440,10 @@ class DAOImpl{
 ```
 
 @Repository
+
+
+
+Service 
 
 ### Form
 
@@ -515,11 +515,13 @@ jdbcTemplate queryForObject("select ...", ...); // first row
 <tx:annotation-driven transaction-manager="txManager"/><!-- a PlatformTransactionManager is still required -->
 <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 <!-- (this dependency is defined somewhere else) -->
-<property name="dataSource" ref="dataSource"/>
+    <property name="dataSource" ref="dataSource"/>
 </bean>
 ```
 
 
+
+`@ExceptionHandler`
 
 
 
@@ -574,6 +576,10 @@ pom.xml
 
 
 ## MySQL *
+
+### Install
+
+
 
 ### Create
 
@@ -643,6 +649,8 @@ Navicat Premium
 ## Design Pattern
 
 对象创建
+
+
 
 ## IDE
 
@@ -719,6 +727,13 @@ JSONObject.fromObject(...).toString();
 + div `<div class="...">...</div>`
 + span `<span class="...">...</span>`
 
+表单
+
++ form action method
++ input
+
++ check_box `<input type="checkbox" id="article_validated" name="article[validated]" value="1" />`
+
 ## Bootstrap
 
 layout
@@ -732,6 +747,11 @@ components
 utilities
 
 
+
+Platform
+
++ mobile
++ desktop
 
 layout 布局
 
@@ -770,18 +790,46 @@ layout 布局
   </ul>
   ```
 
-  
++ card
 
 状态
 
 + callback
+
 + Modal 遮罩窗体
+
+   ```html
+  <div>
+      
+  </div>
+  
+  <script>
+  
+  </script>
+   ```
+
+  
 
 ## Angular
 
 ## JS
 
-PLAIN Javascript
+
+
+## Vanilla
+
+plain javascript
+
++ select `document.querySelectorAll`
++ document.createElement .appendChild
++ ajax `var xhr = new XMLHttpRequest(); ` ` xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');`
+  + xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+
+
+setTimeout
+
+
 
 ## Jquery
 
@@ -793,9 +841,26 @@ DOM
 
 
 
+## HTTP
+
+header
+
++ `Content-Type` 
+
+get
+
+post
+
++ form
++ `application/x-www-form-urlencoded` 
++ upload file `multipart/form-data`
++ `application/json` 
+
 ## TCP/IP
 
+socket
 
+frame
 
 
 
@@ -836,6 +901,7 @@ role
 + https://www.tutorialspoint.com/online_bootstrap_editor.php
 + https://www.runoob.com/try/bootstrap
 + https://www.layoutit.com/build
++ https://bootstrapstudio.io/
 
 
 

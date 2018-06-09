@@ -16,7 +16,9 @@ of
 
 give
 
-`give somebody something`
++ `give somebody something`
+
+
 
 time
 
@@ -31,3 +33,13 @@ what when where how
 right
 
 + appropriate
+
+have
+
++ include
++ involve
+
+介词
+
++ 时间 at on in for
++ between among
