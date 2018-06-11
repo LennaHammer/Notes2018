@@ -128,7 +128,9 @@ Controller
 
 + redirect_to
 + render
-+ rescue_from
++ `def rescue_from`
++ `if save rediredt to else render end`
++ `def before_action` 
 
 Action
 
@@ -145,13 +147,14 @@ routes
 
 + `/config/routes.rbs` `resources :posts ` `root 'posts#index' `
 + `rails routes`
++ resources
 + `get '...'` `get '...', to: 'posts#show'` 
 
 view
 
 + helper 
 + layout
-+ flash C `redirect_to`  V `notice`
++ flash C `redirect_to`  V `notice` `redirect_to @post, notice: '...' `
 + redirect_to redirect_back
 + form 
   + `_form` 
@@ -221,11 +224,11 @@ R
 
 
 
- Re
+ Relation `belongs_to`
 
-+ one2one
-+ one2many
-+ many2many
++ one 2 many `has_many`
++ many 2 many `has_many`
++ one 2 one `has_one`
 
 
 
@@ -272,7 +275,7 @@ s
 
 rails3 rjs
 
-
+## Day 3 Micro Blog
 
 ## w
 

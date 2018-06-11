@@ -548,8 +548,9 @@ Controller
 = `@Controller @ResponseBody`
 
 + `@RequestBody`
-
 + `@ResponseBody`
++ `produces="application/json"` 
++ `@RequestMapping(value = "/all/{pageNum}/{pageSize}", produces = {"application/json;charset=UTF-8"})`
 
 HttpMessageConverter
 
@@ -643,6 +644,7 @@ jdbcTemplate queryForObject("select ...", ...); // first row
 + `pom.xml`
 + `mvn clean install`
 + `war` 
++ `dependency:purge-local-repository` 
 
 pom.xml
 
@@ -761,6 +763,8 @@ pom.xml
   + GROUP `select column1, count(1) group by column1`
     + HAVING
   + distinct `select distinct`, union `select ... union select ...`
+  + 嵌套 nested 
+    + in (select ...)
 + INSERT
   + `insert table(columns) values (?)`
   + `insert into table1(columns) values (select columns from table2)` 
@@ -878,7 +882,9 @@ import net.sf.json.JSONObject;
 JSONObject.fromObject(...).toString();
 ```
 
+Map.of
 
+Arrays.asList
 
 ## HTML
 
@@ -964,17 +970,20 @@ utilities
 
 Platform
 
-+ mobile first
 + desktop
++ mobile
 
-layout 布局
+layout 网格布局
 
 + container `.container `  ` container-fluid` 顶层一个
+
 + row `.row` 
-  + header
-    +  `.navbar ` 属性 `navbar-dark`  `.navbar-expand `
   + footer
-+ column `.col-sm` 列，手持设备可以转成行 一共 12 列
+
++ column `.col-*` 列， 一共 12 列 
+
+  + 手持设备可以转成行Stack  `.col-sm-*` 
+
   + `xs 576px sm 768px md 992px lg 1200px`
   + 网格 固定 流动 按比例
   + 响应性
@@ -988,6 +997,12 @@ layout 布局
 功能元素
 
 + nav `.navbar` 
+
++ header
+
+  - `.navbar ` 属性 `navbar-dark`  `.navbar-expand `
+
++ footer
 
 + table
 
@@ -1015,7 +1030,9 @@ layout 布局
 
 + Modal 遮罩窗体
 
+mobile
 
++ break
 
 CSS 样式
 
@@ -1111,16 +1128,46 @@ frame
 
 ## Spring Boot
 
+`Web devtools MySQL JDBC JPA`
 
 
-​```java
+
+```java
 @SpringBootApplication
 public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
 }
-   ```
+```
+
+
+
+pom.xml
+
+```xml
+<dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-tomcat</artifactId>
+        <scope>provided</scope>
+</dependency>
+```
+
+执行 `dependency:purge-local-repository` 
+
+```ini
+spring.jpa.hibernate.ddl-auto=create
+spring.datasource.url=jdbc:mysql://localhost:3306/database1
+spring.datasource.username=root
+spring.datasource.password=root
+spring.jpa.database-platform=org.hibernate.dialect.MySQL5Dialect  
+```
+
+
+
+@Transactional @EnableTransactionManagement
+
+
 
 ## Back-end
 
@@ -1154,5 +1201,7 @@ role
 
 
 
+
+   ```
 
    ```
