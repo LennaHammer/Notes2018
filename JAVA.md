@@ -264,9 +264,11 @@ web.xml(servlet)
 
 spring-mvc-servlet.xml(spring-mvc)
 
-+ context:component-scan
-+ context:annotation-config
++ component-scan `<context:component-scan base-package="*" />`
++ annotation-config `context:annotation-config`
++ `<mvc:annotation-driven />` 
 + InternalResourceViewResolver
++ mvc:resources
 
 ```xml
 <context:component-scan base-package="*"/>
@@ -360,7 +362,7 @@ RUN
 
 + 
 
-### Controller * 
+### Controller 
 
 
 
@@ -382,6 +384,9 @@ param
 + `"/{name}"` -> `@PathVariable("name")`
 + HttpServletRequest
 + HttpServletResponse
++ `@ModelAttribute` 
+  + every request `@ModelAttribute("person")`   before @RequestMapping
+  + from form 
 
 异常
 
@@ -395,7 +400,9 @@ param
 
 + `Model model` `model.addAttribute("...","...")` ->  `"view"`
 + `"redirect:/path"` 
++ ModelAndView `new ModelAndView("view", "command", new Item());`
 + `@ResponseBody` 返回 String 或 Bean
++ new ResponseEntity(obj,  HttpStatus.OK)
 
 
 
@@ -435,10 +442,19 @@ public void handleNullPointerException(Exception e) {
 
 ### View
 
-+ `<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>`
++ `<%@ page contentType="text/html; charset=UTF-8" %>` 
++ `<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>`
 + `<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">` 
 + `${...}`
 + `foreach`
++ `request.getAttribute`
+
+```jsp
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+```
+
+
 
 ### Model
 
@@ -484,6 +500,37 @@ Service
 
 ### Form
 
+C
+
++ ModelAndView 
+
++ `@ModelAttribute("SpringWeb")` 
+
+View
++ `<form:form method="POST" action="/...">`
+
++ `path="..."`
+  + `<form:label path="name1">Name 1</form:label>`
+  + `<form:input path="name1" />`
+
+表单验证
+  + @Validated
+  + form:errors 
+  + BindingResult 
+
+File 文件上传
+
+  + class MultipartFile
+
+   `<form:form method="POST" modelAttribute="fileUpload"
+          enctype="multipart/form-data">`
+
+  `<input type="file" name="file" />`
+
+  
+
+  
+
 post
 
 view
@@ -494,23 +541,38 @@ File upload
 
 ### JSON
 
+Controller
+
 `@RestController`
 
 = `@Controller @ResponseBody`
 
-`@RequestBody`
++ `@RequestBody`
 
-HttpMessageConverter 
++ `@ResponseBody`
+
+HttpMessageConverter
 
 MappingJackson2HttpMessageConverter
 
-Content-Type MediaType
 
-`Accept: */*`
+
+
+
+MediaType
+
++ `Accept: */*`
++ Content-Type 
 
 library `org.sf.json`
 
+Jackson
 
+format
+
+pdf
+
+excel
 
 ## Spring Data
 
@@ -570,7 +632,7 @@ jdbcTemplate queryForObject("select ...", ...); // first row
 
 `class CrudRepository`
 
-### MyB
+### MyBatis
 
 
 
@@ -740,9 +802,40 @@ MySQL Workbench
 
 Navicat Premium
 
+复杂查询
+
 
 
 ## MyBatis
+
+
+
+SqlSessionFactoryBuilder  XML 
+
+SqlSessionFactory Singleton pattern
+
+SqlSession session = sqlSessionFactory.openSession();
+
+SqlSession Each thread 
+
+Mapper
+
+
+
+session.selectOne
+
+session.getMapper
+
+```java
+public interface BlogMapper {
+  @Select("SELECT * FROM blog WHERE id = #{id}")
+  Blog selectBlog(int id);
+}
+```
+
+
+
+
 
 ## Design Pattern
 
@@ -820,6 +913,12 @@ JSONObject.fromObject(...).toString();
 + Blockquote `<blockquote></blockquote>`
 + `<p></p>` 
 
+表格
+
++ table
++ tr
++ td
+
 块
 
 + div `<div class="...">...</div>`
@@ -828,9 +927,26 @@ JSONObject.fromObject(...).toString();
 表单
 
 + form action method
+
++ label
+
 + input
 
+  + `<input type="hidden" name="..." value="..."/>`
+
+  + `<input type="" value="Submit"/>`
+
+  + `<input type="submit" value="Submit"/>`
+  + checkbox
+  + radio `<input name="..." type="radio" value="..." checked="checked"/>`
+
++ textarea rows cols
+
 + check_box `<input type="checkbox" id="article_validated" name="article[validated]" value="1" />`
+
+样式 Style
+
++ 
 
 ## Bootstrap
 
@@ -848,7 +964,7 @@ utilities
 
 Platform
 
-+ mobile
++ mobile first
 + desktop
 
 layout 布局
@@ -860,6 +976,9 @@ layout 布局
   + footer
 + column `.col-sm` 列，手持设备可以转成行 一共 12 列
   + `xs 576px sm 768px md 992px lg 1200px`
+  + 网格 固定 流动 按比例
+  + 响应性
+  + 堆栈 浮动
 
 样式
 
@@ -896,18 +1015,30 @@ layout 布局
 
 + Modal 遮罩窗体
 
-   ```html
-     <div>
-      
-   ```
-    </div>
 
-  <script>
 
-  </script>
-   ```
+CSS 样式
 
-  
+
+
+CSS 实现
+
+
+
+```css
+body {
+    margin: 0;
+}
+.container {
+    margin-right: auto;
+    margin-left: auto;
+}
+.clear{
+    clear: both;
+}
+```
+
+float:left
 
 ## Angular
 
@@ -946,14 +1077,29 @@ header
 
 + `Content-Type` 
 
+
+
+request
+
+response
+
++ status code 2 3 4 5
+
 get
 
 post
 
 + form
-+ `application/x-www-form-urlencoded` 
-+ upload file `multipart/form-data`
-+ `application/json` 
+  + `application/x-www-form-urlencoded` 
+  + upload file `multipart/form-data`
++ TEXT 
+  + `application/json` 
+
+
+
+URLConnection
+
+
 
 ## TCP/IP
 
@@ -1008,3 +1154,5 @@ role
 
 
 
+
+   ```
