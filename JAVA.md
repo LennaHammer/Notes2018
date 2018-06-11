@@ -178,6 +178,9 @@ org.springframework.web.filter.CharacterEncodingFilter
 
 web.xml(servlet)
 
++ DispatcherServlet
++ ContextLoaderListener
+
 ```xml
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -257,7 +260,13 @@ web.xml(servlet)
 
 
 
+
+
 spring-mvc-servlet.xml(spring-mvc)
+
++ context:component-scan
++ context:annotation-config
++ InternalResourceViewResolver
 
 ```xml
 <context:component-scan base-package="*"/>
@@ -306,7 +315,9 @@ spring-mvc-servlet.xml(spring-mvc)
 </beans>
 ```
 
-root-context.xml
+root-context.xml(Spring)
+
+
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -331,7 +342,23 @@ root-context.xml
 
 ```
 
+pom.xml(Maven)
 
++ spring-webmvc
++ jstl
+
+```xml
+
+
+```
+
+手动 new
+
++ AnnotationConfigWebApplicationContext
+
+RUN
+
++ 
 
 ### Controller * 
 
@@ -339,19 +366,22 @@ root-context.xml
 
 class
 
-`@Controller class ...`
++ `@Controller class ...`
 
 method
 
-`@RequestMapping`
++ `@RequestMapping("/...")`
 
-`@RequestMapping(,method=GET)`
+`@RequestMapping(value="/...",methodRequestMethod.=GET)`
 
 `GetMapping`   `@PostMapping`
 
-param 参数
+param
 
-`@PathVariable` `@RequestParam` 
++ `@RequestParam("name")` 
++ `"/{name}"` -> `@PathVariable("name")`
++ HttpServletRequest
++ HttpServletResponse
 
 异常
 
@@ -359,11 +389,13 @@ param 参数
 
 + `@ResponseStatus class Exception `
 
-+ 全局 `**@ControllerAdvice** `
++ 全局 `@ControllerAdvice` 
 
 返回
 
-+ `@ResponseBody`
++ `Model model` `model.addAttribute("...","...")` ->  `"view"`
++ `"redirect:/path"` 
++ `@ResponseBody` 返回 String 或 Bean
 
 
 
@@ -401,9 +433,14 @@ public void handleNullPointerException(Exception e) {
 
 
 
+### View
 
++ `<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>`
++ `<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">` 
++ `${...}`
++ `foreach`
 
-### Database
+### Model
 
 基于 jdbc
 
@@ -533,11 +570,17 @@ jdbcTemplate queryForObject("select ...", ...); // first row
 
 `class CrudRepository`
 
+### MyB
+
 
 
 ## Maven
 
 管理依赖
+
++ `pom.xml`
++ `mvn clean install`
++ `war` 
 
 pom.xml
 
@@ -584,13 +627,24 @@ pom.xml
 ### Create
 
 + CREATE TABLE 
-  + `create table if not exists table1 (id integer primary key, data text)`
+  + `create table if not exists table1 (id integer primary key , data text not null)`
+
+  + ```sql
+    CREATE TABLE IF NOT EXISTS `table1` (
+        id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+        data TEXT NOT NULL,
+        
+    )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    ```
+
+  + 
 
   + Type(Length)
 
-    + Numeric `int`
+    + Numeric `INT` `FLOAT` `DOUBLE` `DECIMAL` 
     + String `varchar(255)` `text` 
-    + Date and Time     
+    + Date and Time  `DATETIME ` 
+    + `BLOB` 
 
   + INDEX
 
@@ -598,13 +652,28 @@ pom.xml
 
   + cons
 
-    + primary key
-    + not null
-    + uniq
+    + PRIMARY KEY AUTO_INCREMENT
+    + NOT NULL
+    + UNIQUE 
     + foreigner key
+    + DEFAULT
 
 + INDEX
-  + =, >, <
+
+  + CREATE INDEX `CREATE INDEX index_name ON table_name(column_name(length)); `
+
+  + =, >, <, FK, UN
+  + UNIQUE
+
++ DROP TABLE `DROP TABLE table_name;`
+
++ ALTER TABLE 
+
+  + ADD ... AFTER ...
+  + DROP
+  + RENAME
+  + MODIFY 
+  + CHANGE 
 
   
 
@@ -615,8 +684,11 @@ pom.xml
 + SELECT
   + `select * from where id=?`
   + WHERE
+    + EQUAL `=` `!=` 
     + RANGE `bewteen ... and ...`
     + LIST `in`
+    + NULL `is null` `is not null` 
+    + LIKE `colnum like "prefix%"` 
   + AS `select 1 as name`
   + ORDER  `select * order by id asc` (asc/desc)
   + LIMIT `select * from table1 limit 10 `
@@ -629,6 +701,7 @@ pom.xml
   + distinct `select distinct`, union `select ... union select ...`
 + INSERT
   + `insert table(columns) values (?)`
+  + `insert into table1(columns) values (select columns from table2)` 
 + UPDATE 
   + `update table set value=? where key=?`
 + DELETE
@@ -636,7 +709,32 @@ pom.xml
 
 ### Transaction
 
+ACID 
+
++ Atomicity  Rollback
++ Consistency  
++ Isolation  Read uncommitted
++ Durability
+
+BEGIN或START TRANSACTION
+
++ BEGIN
++ COMMIT
++ ROLLBACK
+
+function
+
+LEFT
+
+注意
+
+避免类型转换
+
+加索引
+
 ### Tools
+
+CLI
 
 MySQL Workbench
 
@@ -799,12 +897,13 @@ layout 布局
 + Modal 遮罩窗体
 
    ```html
-  <div>
+     <div>
       
-  </div>
-  
+   ```
+    </div>
+
   <script>
-  
+
   </script>
    ```
 
@@ -868,14 +967,14 @@ frame
 
 
 
-```java
+​```java
 @SpringBootApplication
 public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
 }
-```
+   ```
 
 ## Back-end
 
