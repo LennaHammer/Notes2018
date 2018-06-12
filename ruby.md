@@ -93,6 +93,12 @@ presence present?
 
 flash + redirect
 
+### Step 4 File
+
+
+
+
+
 ## Day 2 Rails
 
 ### Step 1 Start
@@ -275,7 +281,7 @@ s
 
 rails3 rjs
 
-## Day 3 Micro Blog
+## Day 3 Users
 
 ## w
 
@@ -287,6 +293,10 @@ gem install rails rails-bootstrap
 ```
 
 'require.js'
+
+haml
+
+
 
 
 ## Ref
