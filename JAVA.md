@@ -38,6 +38,49 @@ Configuration
 
 
 
+
+
+AOP
+
+`<aop:aspectj-autoproxy/>` 
+
++ Aspect
+
++ pointcut the pointcut expression String or @Pointcut
+  + `execution` `@annotation` 
+  + `&& this && target(...) && args(..., ...)`
++ Advice `@Before` `@After` `@Around` 
+
+```java
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface LogExecutionTime{
+    
+};
+@Aspect
+@Component
+public class ExampleAspect {
+	@Around("@annotation(LogExecutionTime)")
+    public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
+    	return joinPoint.proceed();
+	}
+}
+
+```
+
+ `@Around("execution(@com.stevenlanders.annotation.LogDuration * *(..)) && @annotation(logDurationAnnotation)")`
+
+`@Around("@annotation(YourAnnotation) && execution(* *(..))")` 
+
+Inteceptor
+
+Annotation
+
++ @Target
++ @Retention
+
+
+
 ## JDBC
 
 Connection
@@ -362,6 +405,18 @@ RUN
 
 + 
 
+
+
+### Component
+
+@Component 被扫描
+
++ 
+
++ @Controller -->> (@Service -> @Repository）
+
+
+
 ### Controller 
 
 
@@ -435,8 +490,6 @@ public void handleNullPointerException(Exception e) {
 ```
 
 
-
-@Component: @Controller -->> (@Service -> @Repository）
 
 
 
@@ -574,6 +627,10 @@ format
 pdf
 
 excel
+
+### LOGGER
+
+
 
 ## Spring Data
 
@@ -790,13 +847,23 @@ BEGIN或START TRANSACTION
 
 function
 
-LEFT
+内置 LEFT
+
+定义
 
 注意
 
 避免类型转换
 
 加索引
+
+必须指定 Innodb 支持事务 编码 utf-8
+
+not null
+
+isolation_level value is None, and permitted values are 'READ UNCOMMITTED', 'READ COMMITTED', 'REPEATABLE READ', and 'SERIALIZABLE'
+
+分表
 
 ### Tools
 
@@ -844,6 +911,14 @@ public interface BlogMapper {
 ## Design Pattern
 
 对象创建
+
+
+
+
+
+
+
+## Datetime 
 
 
 
@@ -1193,7 +1268,9 @@ role
 + https://www.tutorialspoint.com/online_bootstrap_editor.php
 + https://www.runoob.com/try/bootstrap
 + https://www.layoutit.com/build
++ 
 + https://bootstrapstudio.io/
++ https://www.tutorialspoint.com/springaop/
 
 
 
