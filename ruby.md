@@ -176,10 +176,41 @@ test
 
 ### Step 3 Associations
 
-
+shell
 
 ```sh
 rails generate scaffold Comment name:string body:text post:references
+rails db:migrate
+```
+
+ruby
+
+```ruby
+# models/post.rb
+has_many :comments
+# config/routes.rb
+resources :posts do
+  resources :comments
+end
+```
+
+html
+
+```erb
+<%= link_to 'Comments', post_comments_path(@post) %>
+```
+
+
+
+```
+sed -i 's/_comment/_post_comment/g;s/comments_path/post_comments_path/g' ./app/views/comments/*.html.erb
+
+new_comment_path
+new_post_comment_path
+Comment
+@post = Post.find(params[:post_id])
+
+@post.comments.build
 ```
 
 
@@ -281,6 +312,10 @@ s
 
 rails3 rjs
 
+ call insert_html, replace_html, remove, show, hide, visual_effect
+
+ActionView::Helpers::PrototypeHelper::JavaScriptGenerator::GeneratorMethods	
+
 ## Day 3 Users
 
 ## w
@@ -307,3 +342,4 @@ haml
 + http://guides.rubyonrails.org/
 + http://api.rubyonrails.org/
 + https://www.railstutorial.org/
++ https://sqlitestudio.pl/index.rvt

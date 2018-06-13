@@ -771,13 +771,14 @@ pom.xml
 
     + 
 
-  + cons
+  + constraint
 
     + PRIMARY KEY AUTO_INCREMENT
     + NOT NULL
     + UNIQUE 
     + foreigner key
     + DEFAULT
+    + CHECK
 
 + INDEX
 
@@ -1030,6 +1031,32 @@ Arrays.asList
 样式 Style
 
 + 
+
+## CSS
+
+Style 样式
+
+width width:100%;
+
+margin 外边距
+
+图片
+
+`float: left;` 图像和文本的关系
+
+空元素 `<div stype="clear: both;"></div>`
+
+margin 边距 padding border
+
+居中
+
+文本 font-size  
+
+line-height
+
+background-color
+
+display:inline
 
 ## Bootstrap
 
