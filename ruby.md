@@ -267,7 +267,9 @@ R
 + many 2 many `has_many`
 + one 2 one `has_one`
 
+关联视图
 
+subform
 
 ### Step 4 Session
 
@@ -317,6 +319,28 @@ rails3 rjs
 ActionView::Helpers::PrototypeHelper::JavaScriptGenerator::GeneratorMethods	
 
 ## Day 3 Users
+
+```bash
+rails generate scaffold User name:string password:string 
+rails generate model Group name:string
+rails generate model UserGroup user:integer group:integer
+```
+
+用户系统
+
+权限系统
+
+
+
+Day 4 CMS
+
+
+
+Drupal
+
+
+
+
 
 ## w
 

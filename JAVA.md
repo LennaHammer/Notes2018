@@ -2,6 +2,8 @@
 
 ## Spring
 
+IoC
+
 用于运行时单实例对象的创建
 
 
@@ -628,7 +630,43 @@ pdf
 
 excel
 
+
+
+@RestController
+@RequestMapping("/{userId}/bookmarks")
+
+@ResponseStatus(HttpStatus.NOT_FOUND)
+class UserNotFoundException extends RuntimeException {
+
+	public UserNotFoundException(String userId) {
+		super("could not find user '" + userId + "'.");
+	}
+}
+
 ### LOGGER
+
+### validation 
+
+### Sec
+
+interceptor+
+
+HandlerInterceptorAdapter 
+
+	public boolean preHandle(HttpServletRequest request, 
+		HttpServletResponse response, Object handler)
+	    throws Exception {
+		
+		long startTime = System.currentTimeMillis();
+		request.setAttribute("startTime", startTime);
+		
+		return true;
+	}
+authenticate
+
+PreAuthorize
+
+@PreAuthorize("hasRole('ADMIN') AND hasRole('DBA')")
 
 
 
@@ -689,6 +727,30 @@ jdbcTemplate queryForObject("select ...", ...); // first row
 `@Entity class`
 
 `class CrudRepository`
+
+JpaRepository
+
+JpaRepository extends PagingAndSortingRepository which in turn extends CrudRepository.
+
+@Data
+
+@Entity
+
+@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+
+@ManyToOne
+    @JoinColumn(name = "book_category_id")
+
+@OneToMany(mappedBy = "bookCategory", cascade = CascadeType.ALL)
+
+@ManyToMany
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    
+
+@ManyToMany(mappedBy = "roles")
+
+
 
 ### MyBatis
 
@@ -907,7 +969,9 @@ public interface BlogMapper {
 
 
 
+MyBatis Generator
 
+generatorConfig.xml
 
 ## Design Pattern
 
@@ -964,7 +1028,7 @@ Map.of
 
 Arrays.asList
 
-## HTML
+## HTML *
 
 
 
@@ -1057,6 +1121,12 @@ line-height
 background-color
 
 display:inline
+
+布局
+
+position: absolute;
+
+border-radius: 5px; */
 
 ## Bootstrap
 
@@ -1163,11 +1233,13 @@ float:left
 
 ## Angular
 
-## JS
+Vue 
+
+## JavaScript
 
 
 
-## Vanilla
+### Vanilla
 
 plain javascript
 
@@ -1182,13 +1254,25 @@ setTimeout
 
 
 
-## Jquery
+### JQuery
 
 AJAX
 
-DOM
+DOM 事件
 
-## require.js
+```javascript
+$("...").html(...);
+              
+$("...").click(function(){
+    ...
+});
+   
+$.get("...", ...)
+```
+
+
+
+### require.js
 
 
 
@@ -1277,6 +1361,10 @@ spring.jpa.database-platform=org.hibernate.dialect.MySQL5Dialect
 
 role
 
++ Customer
++ Project Manager
++   FE BE 
+
 ## Security 
 
 
@@ -1300,6 +1388,9 @@ role
 + 
 + https://bootstrapstudio.io/
 + https://www.tutorialspoint.com/springaop/
++ https://hellokoding.com/registration-and-login-example-with-spring-security-spring-boot-spring-data-jpa-hsql-jsp/
++ http://stateless.co/hal_specification.html
++ http://phlyrestfully.readthedocs.io/en/latest/halprimer.html
 
 
 

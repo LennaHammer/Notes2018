@@ -30,6 +30,8 @@ END
 select Name as Employee  from Employee e where Salary > (select Salary from Employee where Id=e.ManagerId)
 ```
 
+or
+
 ```mysql
 select employee.Name as Employee from Employee employee join Employee manager on employee.ManagerId=manager.Id where employee.Salary > manager.Salary
 ```
