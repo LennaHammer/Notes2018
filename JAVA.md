@@ -815,8 +815,8 @@ pom.xml
   + ```sql
     CREATE TABLE IF NOT EXISTS `table1` (
         id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-        data TEXT NOT NULL,
-        
+        key VARCHAR(255) NOT NULL,
+        value TEXT NOT NULL
     )ENGINE=InnoDB DEFAULT CHARSET=utf8;
     ```
 
@@ -827,18 +827,18 @@ pom.xml
     + Numeric `INT` `FLOAT` `DOUBLE` `DECIMAL` 
     + String `varchar(255)` `text` 
     + Date and Time  `DATETIME ` 
-    + `BLOB` 
+    + Bytes `BLOB` 
 
   + INDEX
 
-    + 
+    + `CREATE INDEX` `ADD` 
 
-  + constraint
+  + Constraint
 
     + PRIMARY KEY AUTO_INCREMENT
     + NOT NULL
     + UNIQUE 
-    + foreigner key
+    + Foreigner Key
     + DEFAULT
     + CHECK
 
@@ -851,13 +851,16 @@ pom.xml
 
 + DROP TABLE `DROP TABLE table_name;`
 
-+ ALTER TABLE 
++ ALTER TABLE 修改 column
 
   + ADD ... AFTER ...
   + DROP
   + RENAME
   + MODIFY 
   + CHANGE 
++ trigger
+
+  
 
   
 
@@ -928,6 +931,14 @@ isolation_level value is None, and permitted values are 'READ UNCOMMITTED', 'REA
 
 分表
 
+explain
+
+lock
+
+复杂查询
+
+cursor
+
 ### Tools
 
 CLI
@@ -936,7 +947,7 @@ MySQL Workbench
 
 Navicat Premium
 
-复杂查询
+
 
 
 
@@ -1367,7 +1378,26 @@ role
 
 ## Security 
 
+system
 
+user
+
++ role/group
++ login
++ logout
++ permission
+
+Work Flow
+
++ Process
++ State
++ Transition
++ Action approve(next) deny(back) cancel restart resolve
++ Request
++ Activities activity
++ User
++ Group
++ Permission 发起的权限
 
 ## References
 
@@ -1391,8 +1421,7 @@ role
 + https://hellokoding.com/registration-and-login-example-with-spring-security-spring-boot-spring-data-jpa-hsql-jsp/
 + http://stateless.co/hal_specification.html
 + http://phlyrestfully.readthedocs.io/en/latest/halprimer.html
-
-
++ https://www.drupal.org/docs/8/core/modules/workflows/overview
 
 
 
@@ -1400,5 +1429,10 @@ role
 
 
    ```
+Permissions for an Action
+
+Workflows
+States
+Transitions
 
    ```
