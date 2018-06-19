@@ -165,8 +165,12 @@ view
 + form 
   + `_form` 
   + `new` `edit`
-  +   `params[:post]` Hash permit
+  + `params[:post]` Hash permit
+  + form helper
+  + `form.label :name; form.text_field :name`
+  + `form.text_area` `form.submit`
 + render Partial
++ render ""
 
 test
 
@@ -241,6 +245,7 @@ View
 
 ```erb
 <%= render @comments %>
+<%= form_for [comment.post, comment] do |form| %>
 ```
 
 
@@ -278,7 +283,7 @@ session
 before_action
 
 ```ruby
-before_action :logged_in_user
+before_action :logged_in_user only except
 ```
 
 

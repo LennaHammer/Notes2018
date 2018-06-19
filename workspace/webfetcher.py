@@ -1,4 +1,3 @@
-#!python3
 ## see https://github.com/kennethreitz/requests-html/blob/master/requests_html.py
 
 import sys
@@ -14,7 +13,9 @@ import w3lib.encoding
 import collections
 import functools
 import typing
-#import selenium
+
+
+# import selenium
 
 
 class Response:
@@ -59,17 +60,16 @@ class WebSession:
         'Connection': 'keep-alive'
     }
 
-    def __init__(self, encoding=None,headers=None,cookies=None):
+    def __init__(self, encoding=None, headers=None, cookies=None):
         self._session = s = requests_html.HTMLSession()
-        # self._session.mount()
         s.mount('http://', requests.adapters.HTTPAdapter(max_retries=5))
         s.mount('https://', requests.adapters.HTTPAdapter(max_retries=5))
+        self._encoding = encoding
         if headers:
             self.session.headers.update(headers)
         if cookies:
             pass
-        # HTTPAdapter(max_retries=retries))
-        # self.session.headers.update(self.HEADERS)
+
         # print(self.session.headers)
 
     def __del__(self):
@@ -81,27 +81,31 @@ class WebSession:
         assert r.status_code == 200
         return Response(r)
 
-    def set_cookies(self, obj):
-        pass
+
+class BrowserSession:
+    def __init__(self):
+        self._driver = selenium.webdriver.Chrome()
 
 
 session = WebSession()
 
 
 def expand_url(urls):
+    raise NotImplementedError
     return []
 
 
 def escape_filename(filename, max_length=None):
     if max_length:
         filename = filename[:max_length]
+    raise NotImplementedError
     filename = re.sub(r'', lambda m: '1', filename)
     return filename
 
 
 def safe_write(filename: str, data: bytes):
     path = os.path.dirname(filename)
-    temp = tempfile.NamedTemporaryFile("wb", dir=path,delete=False,suffix=".tmp")
+    temp = tempfile.NamedTemporaryFile("wb", dir=path, delete=False, suffix=".tmp")
     temp.write(data)
     os.fsync(temp.fileno())
     temp.close()
@@ -123,8 +127,10 @@ def retry(foo, times=3, ignore=None):
 def http_get(url):
     return retry(lambda: session.get(url))
 
+
 def log(s):
     print(s)
+
 
 def download_file(url, out, overwrite=None):
     if not overwrite and os.path.exists(out):
@@ -138,7 +144,8 @@ def download_file(url, out, overwrite=None):
 class Utils:
     @staticmethod
     def append_line(filename: str, line: str):
-        raise NotImplementedError
+        with open(filename, 'at', encoding='utf-8', newline="\n") as f:
+            print(line, file=f)
 
     @staticmethod
     def unique(xs):
@@ -149,8 +156,31 @@ class Utils:
         return f()
 
     @staticmethod
-    def partial(*args, **keywords):
-        return functools.partial(*args, **keywords)
+    def expand_url(urls):
+        """
+        see man curl
+        """
+        raise NotImplementedError
+        return Utils.unique([])
+
+    @staticmethod
+    def read_lines(filename, tab=None):
+        lines = []
+        with open(filename, 'r', encoding='utf-8') as f:
+            for line in f:
+                line = line.rstrip("\n")
+                if not line:
+                    continue
+                if tab:
+                    line = line.split("\t")
+                lines.append(line)
+        return lines
+
+    @staticmethod
+    def write_lines(filename, xs):
+        with open(filename, 'w', encoding='utf-8', newline="\n") as f:
+            for x in xs:
+                print(x, file=f)
 
 
 class Table:
@@ -203,8 +233,29 @@ class Table:
         return self._rows
 
 
+def read_items(urls, output_file, extractor):
+    if os.path.exists(output_file):
+        log(f"{output_file} exists.")
+        return
+    items = []
+    s = WebSession()
+    for url in Utils.unique(Utils.expand_url(urls)):
+        r = s.get(url)
+        items += extractor(r)
+    if output_file:
+        Utils.write_lines(output_file, items)
+    else:
+        log(items)
+        return items
+
+
+class WebItemPage:
+    def __init__(self):
+        pass
+
+
 class WebTask:
-    def __init__(self, urls:typing.List[str], name, skip_error=None):
+    def __init__(self, urls: typing.List[str], name, skip_error=None):
         self._urls = collections.deque(urls)
         self._name = name
         self._table = Table(name)
@@ -216,8 +267,8 @@ class WebTask:
     def put_url(self, url):
         self._urls.append(url)
 
-    def run(self, callback):
-        s = WebSession()
+    def run(self, callback, cookies=None, headers=None):
+        s = WebSession(cookies=cookies, headers=headers)
         while self._urls:
             url = self._urls.popleft()
             if url in self._table:
@@ -229,30 +280,29 @@ class WebTask:
         cached = self._table.cached_rows
         return cached
 
+    #    @classmethod
+    #    def run_task(cls, urls, out, callback, cookies=None, headers=None):
+    #        if isinstance(urls, str):
+    #            urls = expand_url(urls)
+    #        o = cls(urls, out)
+    #        return o.run(callback,cookies=cookies,headers=headers)
+
+    #    @classmethod
+    #    def decorator(cls, urls, out=None, **kwargs):
+    #        return lambda f: lambda: cls.run_task(urls, out, f, **kwargs)
+
     @classmethod
-    def run_task(cls, urls, out, callback, cookies=None):
+    def decorator(cls, urls, out, cookies=None, headers=None):
         if isinstance(urls, str):
             urls = expand_url(urls)
-        o = cls(urls, out)
-        return o.run(callback)
-
-    @classmethod
-    def build(cls, urls, out):
-        return Utils.partial(cls.run_task, urls, out)
-
-    @classmethod
-    def decorator(cls, urls, out=None):
-        def d(f):
-            return lambda: cls.run_task(urls, out, f)
-
-        return d
+        task = cls(urls, out)
+        return lambda callback: lambda: task.run(callback, cookies=cookies, headers=headers)
 
 
 # @Utils.apply
 @WebTask.decorator(["http://www.baidu.com"], None)
-def dd(task, response):
+def ddd(task, response):
     return [response.title, "1\t2\n3"]
-
 
 
 class Test(unittest.TestCase):
@@ -266,9 +316,10 @@ class Test(unittest.TestCase):
         self.assertEqual(http_get("https://www.baidu.com").title, "百度一下，你就知道")
 
     def test_c(self):
-        os.remove("baidu.html")
-        download_file("http://www.baidu.com","baidu.html")
-        self.assertTrue(os.path.getsize("baidu.html")>0)
+        if os.path.exists("baidu.html"):
+            os.remove("baidu.html")
+        download_file("http://www.baidu.com", "baidu.html")
+        self.assertTrue(os.path.getsize("baidu.html") > 0)
 
     def test_d(self):
         @WebTask.decorator(["http://www.baidu.com"], None)

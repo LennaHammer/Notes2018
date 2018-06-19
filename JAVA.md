@@ -445,7 +445,7 @@ param
   + every request `@ModelAttribute("person")`   before @RequestMapping
   + from form 
 
-异常
+Exception
 
 + `@ExceptionHandler(RuntimeException.class)  `
 
@@ -453,7 +453,7 @@ param
 
 + 全局 `@ControllerAdvice` 
 
-返回
+返回 Response
 
 + `Model model` `model.addAttribute("...","...")` ->  `"view"`
 + `"redirect:/path"` 
@@ -1086,7 +1086,7 @@ Arrays.asList
 + div `<div class="...">...</div>` block
 + span `<span class="...">...</span>` inline
 
-表单
+FORM
 
 + form action method `<form method="..." action="...">...</form>`
 
@@ -1140,11 +1140,18 @@ position: absolute;
 
 border-radius: 5px; */
 
-### layout
+### Layout
 
-多栏布局
+空间
 
++ 居中
++ 间距
 
+分栏布局
+
+`<div style="float: left; width=30%;"></div>`
+
+`<div style="clear: both;"></div>`
 
 绝对布局
 
