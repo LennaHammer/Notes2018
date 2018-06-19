@@ -12,13 +12,13 @@ of
 
 `the ... of ...`
 
-
+动作
 
 give
 
 + `give somebody something`
 
-
+get
 
 time
 

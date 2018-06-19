@@ -939,6 +939,8 @@ lock
 
 cursor
 
+explain
+
 ### Tools
 
 CLI
@@ -1133,11 +1135,21 @@ background-color
 
 display:inline
 
-布局
-
 position: absolute;
 
 border-radius: 5px; */
+
+### layout
+
+多栏布局
+
+绝对布局
+
+
+
+
+
+
 
 ## Bootstrap
 
