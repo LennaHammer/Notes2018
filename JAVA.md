@@ -1071,8 +1071,9 @@ Arrays.asList
 + link `<a href="...">...</a>`
 + image `<img src="..." alt="...">`
 + table `<table></table>`
-+ Blockquote `<blockquote></blockquote>`
-+ `<p></p>` 
+  + tr td
++ blockquote `<blockquote></blockquote>`
++ Paragraph `<p></p>` 
 
 表格
 
@@ -1082,12 +1083,12 @@ Arrays.asList
 
 块
 
-+ div `<div class="...">...</div>`
-+ span `<span class="...">...</span>`
++ div `<div class="...">...</div>` block
++ span `<span class="...">...</span>` inline
 
 表单
 
-+ form action method
++ form action method `<form method="..." action="...">...</form>`
 
 + label
 
@@ -1143,7 +1144,11 @@ border-radius: 5px; */
 
 多栏布局
 
+
+
 绝对布局
+
+position: absolute;
 
 
 
