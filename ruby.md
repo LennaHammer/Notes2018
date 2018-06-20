@@ -250,7 +250,7 @@ View
 
 
 
-C
+Controllers
 
 ```ruby
 # controllers/posts_controller.rb
@@ -276,7 +276,103 @@ R
 
 subform
 
-### Step 4 Session
+### Step 3 Home 
+
+shell
+
+```bash
+rails g controller blogs index show
+```
+
+blogs_controller.rb
+
+```ruby
+class BlogsController < ApplicationController
+  def index
+    @posts = Post.all
+  end
+  def show
+    @post = Post.find(params[:id])
+  end
+end
+```
+
+routes.rb
+
+```ruby
+root 'blogs#index'
+get 'blogs/:id',to: 'blogs#show'
+```
+
+application.html.erb
+
+```html
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+```
+
+
+
+### Step 4 Login
+
+shell
+
+```
+rails g controller session login logout user_login
+```
+
+session_controller.rb
+
+```erb
+class SessionController < ApplicationController
+  
+  def login
+
+  end
+
+  def logout
+
+  end
+
+  def user_login
+    name = params[:name]
+    password = params[:password]
+    if name=="1" and password==""
+      session[:user] = :admin
+      redirect_to "/"
+    end
+  end
+
+  def check_login
+    session[:user] == :admin
+  end
+end
+
+```
+
+
+
+login.html.erb
+
+```erb
+<%= form_tag controller: "session", action: "user_login", method: "post" do |form| %>
+  <div class="field">
+    <%= label_tag :name %>
+    <%= text_field_tag :name %>
+  </div>
+  <div class="field">
+    <%= label_tag :password %>
+    <%= text_area_tag :password %>
+  </div>
+  <div class="actions">
+    <%= submit_tag %>
+  </div>
+<% end %>
+```
+
+
 
 session
 
@@ -286,15 +382,19 @@ before_action
 before_action :logged_in_user only except
 ```
 
+helper
+
 
 
 Validation
 
-### Step 5 pagination
+### Step 5 Pagination
+
+用插件
 
 will_paginate
 
-
+kaminari
 
 bundle install 
 
@@ -307,11 +407,43 @@ bundle install
 
 will_paginate-bootstrap
 
-### Step 6 bootstrap
+```erb
+@users = User.order(:name).page params[:page]
+<%= paginate @users %>
+```
+
+
+
+### Step 6 Bootstrap
 
 rails generate bootstrap:install
 
 https://github.com/seyhunak/twitter-bootstrap-rails
+
+application.scss
+
+```scss
+@import "bootstrap";
+```
+
+application.js 
+
+```js
+// = require jquery3 
+// = require popper 
+// = require bootstrap
+```
+
+application.html.erb
+
+```html
+
+
+```
+
+restarted the server
+
+
 
 ### Step 7 Ajax
 
@@ -334,6 +466,10 @@ rails generate model UserGroup user:integer group:integer
 用户系统
 
 权限系统
+
+关注 Follow
+
+
 
 
 

@@ -2,7 +2,7 @@
 
 ## Spring
 
-IoC
+### IoC
 
 用于运行时单实例对象的创建
 
@@ -42,7 +42,7 @@ Configuration
 
 
 
-AOP
+### AOP
 
 `<aop:aspectj-autoproxy/>` 
 
@@ -80,6 +80,8 @@ Annotation
 
 + @Target
 + @Retention
+
+servlet 的 filter 和 spring mvc 的拦截器 都都可以起到类似的功能
 
 
 
@@ -194,7 +196,7 @@ org.springframework.web.filter.CharacterEncodingFilter
 
 有序
 
-### .jsp
+### jsp
 
 ```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
@@ -213,7 +215,9 @@ org.springframework.web.filter.CharacterEncodingFilter
 
 
 
- 
+ request 对象
+
+
 
 ## Spring MVC
 
@@ -594,7 +598,7 @@ File upload
 
 `@RequestParam("file") MultipartFile file`
 
-### JSON
+### Json
 
 Controller
 
@@ -643,11 +647,11 @@ class UserNotFoundException extends RuntimeException {
 	}
 }
 
-### LOGGER
+### Logger
 
 ### validation 
 
-### Sec
+### Security
 
 interceptor+
 
@@ -672,7 +676,7 @@ PreAuthorize
 
 ## Spring Data
 
-### JdbcTemplate *
+### JdbcTemplate
 
 ```xml
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -758,7 +762,7 @@ JpaRepository extends PagingAndSortingRepository which in turn extends CrudRepos
 
 ## Maven
 
-管理依赖
+管理项目依赖
 
 + `pom.xml`
 + `mvn clean install`
@@ -801,7 +805,7 @@ pom.xml
 
 
 
-## MySQL *
+## MySQL
 
 ### Install
 
@@ -817,7 +821,7 @@ pom.xml
         id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
         key VARCHAR(255) NOT NULL,
         value TEXT NOT NULL
-    )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
     ```
 
   + 
@@ -845,9 +849,10 @@ pom.xml
 + INDEX
 
   + CREATE INDEX `CREATE INDEX index_name ON table_name(column_name(length)); `
-
   + =, >, <, FK, UN
   + UNIQUE
+  + 用于 select 中 where 和 order，配合 explain 查看
+  + 对 NULL 无效
 
 + DROP TABLE `DROP TABLE table_name;`
 
@@ -905,25 +910,27 @@ ACID
 + Isolation  Read uncommitted
 + Durability
 
-BEGIN或START TRANSACTION
+BEGIN 或 START TRANSACTION
 
 + BEGIN
 + COMMIT
 + ROLLBACK
 
-function
+### Function
 
 内置 LEFT
 
+字符串
+
 定义
 
-注意
+### 注意
 
 避免类型转换
 
 加索引
 
-必须指定 Innodb 支持事务 编码 utf-8
+必须指定 Innodb 支持事务 编码用 utf-8mb4 （名称是历史原因）
 
 not null
 
@@ -990,13 +997,32 @@ generatorConfig.xml
 
 对象创建
 
+行为
+
+组合
 
 
 
+## Date time 
 
+## JSON
 
+```java
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+```
 
-## Datetime 
+85570979
+
+```
+JSONObject.fromObject(...).toString();
+```
+
+Map.of
+
+Arrays.asList
+
+Jackson
 
 
 
@@ -1009,6 +1035,10 @@ web project
 deploy
 
 clean/build
+
+jetbrains
+
+vscode
 
 
 
@@ -1023,145 +1053,6 @@ clean/build
 
 
 ## Test
-
-## JSON
-
-```java
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-```
-
-
-
-```
-JSONObject.fromObject(...).toString();
-```
-
-Map.of
-
-Arrays.asList
-
-## HTML *
-
-
-
-整体
-
-```html
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>...</title>
-        <link href="***.css" rel="stylesheet"/>
-        <script type="text/javascript" src="***.js"></script>
-    </head>
-    <body>
-        
-    </body>
-</html>
-```
-
-
-
-功能
-
-+ heading `<h1>...</h1>`
-+ list `<ul><li>...</li><li>...</li></ul>` 
-+ link `<a href="...">...</a>`
-+ image `<img src="..." alt="...">`
-+ table `<table></table>`
-  + tr td
-+ blockquote `<blockquote></blockquote>`
-+ Paragraph `<p></p>` 
-
-表格
-
-+ table
-+ tr
-+ td
-
-块
-
-+ div `<div class="...">...</div>` block
-+ span `<span class="...">...</span>` inline
-
-FORM
-
-+ form action method `<form method="..." action="...">...</form>`
-
-+ label
-
-+ input
-
-  + `<input type="hidden" name="..." value="..."/>`
-
-  + `<input type="" value="Submit"/>`
-
-  + `<input type="submit" value="Submit"/>`
-  + checkbox
-  + radio `<input name="..." type="radio" value="..." checked="checked"/>`
-
-+ textarea rows cols
-
-+ check_box `<input type="checkbox" id="article_validated" name="article[validated]" value="1" />`
-
-样式 Style
-
-+ 
-
-## CSS
-
-Style 样式
-
-width width:100%;
-
-margin 外边距
-
-图片
-
-`float: left;` 图像和文本的关系
-
-空元素 `<div stype="clear: both;"></div>`
-
-margin 边距 padding border
-
-居中
-
-文本 font-size  
-
-line-height
-
-background-color
-
-display:inline
-
-position: absolute;
-
-border-radius: 5px; */
-
-### Layout
-
-空间
-
-+ 居中
-+ 间距
-
-分栏布局
-
-`<div style="float: left; width=30%;"></div>`
-
-`<div style="clear: both;"></div>`
-
-绝对布局
-
-position: absolute;
-
-
-
-
-
-
 
 ## Bootstrap
 
@@ -1266,9 +1157,145 @@ body {
 
 float:left
 
+有一些可视化的布局工具
+
+
+
 ## Angular
 
-Vue 
+Vue
+
+## HTML
+
+
+
+整体
+
+```html
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>...</title>
+        <link href="***.css" rel="stylesheet"/>
+        <script type="text/javascript" src="***.js"></script>
+    </head>
+    <body>
+        ...
+    </body>
+</html>
+```
+
+
+
+功能
+
++ heading `<h1>...</h1>`
++ list `<ul><li>...</li><li>...</li></ul>` 
++ link `<a href="...">...</a>`
++ image `<img src="..." alt="...">`
++ table `<table>...</table>`
+  + 行 tr 列 td
++ blockquote `<blockquote>...</blockquote>`
++ paragraph `<p>...</p>` 
++ text `<b>...</b>` `<i>...</i>` 
+
+块
+
++ div `<div class="...">...</div>` block
++ span `<span class="...">...</span>` inline
+
+FORM 表单
+
++ form action method `<form method="..." action="...">...</form>`
+
++ label
+
++ input
+
+  + `<input type="hidden" name="..." value="..."/>`
+
+  + `<input type="" value="Submit"/>`
+
+  + `<input type="submit" value="Submit"/>`
+  + checkbox
+  + radio `<input name="..." type="radio" value="..." checked="checked"/>`
+
++ textarea rows cols
+
++ check_box `<input type="checkbox" id="article_validated" name="article[validated]" value="1" />`
+
+样式 Style
+
++ 
+
+HTML 4
+
++ `<font>...</font>`
++ `<b>...</b>` `<i>...</i>`
++ 表格布局
+
+
+
+## CSS
+
+### Style
+
+width width:100%;
+
+margin 外边距
+
+图片
+
++ `float: left;` 图像和文本的关系
+
+空元素 `<div stype="clear: both;"></div>`
+
+margin 边距 padding border
+
+居中
+
+文本
+
++ font-size 行高  
++ line-height
+
+background-color
+
+display:inline
+
+display:block
+
+position: absolute;
+
+border-radius: 5px; */
+
+### Layout
+
+空间
+
++ 背景 background 颜色 图片
++ 边框
++ 大小 width height 单位 px %
++ 间距 外边距 内边距
++ 居中
+
+分栏布局
+
++ 浮动 `<div style="float: left; width=30%;"></div>`
++ 清除浮动`<div style="clear: both;"></div>`
+
+绝对布局
+
+position: absolute;
+
+
+
+
+
+
+
+
 
 ## JavaScript
 
@@ -1309,7 +1336,7 @@ $.get("...", ...)
 
 ### require.js
 
-
+单网页应用管理多 js 文件
 
 ## HTTP
 
@@ -1319,17 +1346,19 @@ header
 
 
 
-request
+Request
 
-response
++ `Keep-Alive`
 
-+ status code 2 3 4 5
+Response
 
-get
++ Status Code 200 3 404 500
 
-post
+Get
 
-+ form
+Post
+
++ Form
   + `application/x-www-form-urlencoded` 
   + upload file `multipart/form-data`
 + TEXT 
@@ -1394,13 +1423,13 @@ spring.jpa.database-platform=org.hibernate.dialect.MySQL5Dialect
 
 ## Back-end
 
-role
+role 团队分工
 
 + Customer
 + Project Manager
-+   FE BE 
++   前端 后端
 
-## Security 
+## Domain 
 
 system
 
@@ -1422,6 +1451,16 @@ Work Flow
 + User
 + Group
 + Permission 发起的权限
+
+
+
+## Advance
+
+提高
+
+
+
+
 
 ## References
 
