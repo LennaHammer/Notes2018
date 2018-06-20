@@ -41,12 +41,17 @@ class Response:
     def data(self) -> bytes:
         return self._r.content
 
+    
+
     def __str__(self):
         return str(self._r)
 
     def extract_attrs(self, selector, attr_name):
         xs = self.document.select(selector)
         return [x[attr_name] for x in xs]
+
+    def findall(self,regex):
+        pass
 
     def next_page(self):
         return None
@@ -60,7 +65,7 @@ class WebSession:
         'Connection': 'keep-alive'
     }
 
-    def __init__(self, encoding=None, headers=None, cookies=None):
+    def __init__(self, encoding:str=None, headers=None, cookies:str=None):
         self._session = s = requests_html.HTMLSession()
         s.mount('http://', requests.adapters.HTTPAdapter(max_retries=5))
         s.mount('https://', requests.adapters.HTTPAdapter(max_retries=5))
@@ -68,7 +73,11 @@ class WebSession:
         if headers:
             self.session.headers.update(headers)
         if cookies:
-            pass
+            cs = {}
+            for item in cookies.split(';'):
+                key, value = item.split('=',1)
+                cs[key] = value
+            session.cookies = requests.cookies.cookiejar_from_dict(Cookies)
 
         # print(self.session.headers)
 
@@ -84,23 +93,25 @@ class WebSession:
 
 class BrowserSession:
     def __init__(self):
-        self._driver = selenium.webdriver.Chrome()
-
+                self._driver = selenium.webdriver.Chrome()
+                browser.get(url)
+                button = browser.find_element_by_css_selector('.l-detail-no-right-to-see__btn')
+                button.click()
 
 session = WebSession()
 
 
-def expand_url(urls):
-    raise NotImplementedError
-    return []
-
-
-def escape_filename(filename, max_length=None):
-    if max_length:
-        filename = filename[:max_length]
-    raise NotImplementedError
-    filename = re.sub(r'', lambda m: '1', filename)
-    return filename
+##def expand_url(urls):
+##    raise NotImplementedError
+##    return []
+##
+##
+##def escape_filename(filename, max_length=None):
+##    if max_length:
+##        filename = filename[:max_length]
+##    raise NotImplementedError
+##    filename = re.sub(r'', lambda m: '1', filename)
+##    return filename
 
 
 def safe_write(filename: str, data: bytes):
@@ -156,12 +167,29 @@ class Utils:
         return f()
 
     @staticmethod
-    def expand_url(urls):
-        """
-        see man curl
-        """
-        raise NotImplementedError
-        return Utils.unique([])
+    def expand_url(url):
+        """see curl"""
+        urls = []
+        for x in url.split(","):
+            x = x.strip()
+            m = re.search(r'\[(\d+)-(\d+)\]', x)
+            if m:
+                for i in range(int(m[1]), int(m[2]) + 1):
+                    if m[1].startswith('0'):
+                        pass
+                    y = f"{x[:m.start()]}{i}{x[m.end():]}"
+                    urls += Utils.expand_url(y)
+            else:
+                urls.append(x)
+        return urls
+    
+    @staticmethod
+    def escape_filename(filename):
+        return re.sub(r'[<>|\\/:"*?\s]', lambda x: f"%{ord(x[0]):X}", filename)
+
+    @staticmethod
+    def extname(filename):
+        return os.path.splitext(filename)[1]
 
     @staticmethod
     def read_lines(filename, tab=None):
@@ -181,8 +209,9 @@ class Utils:
         with open(filename, 'w', encoding='utf-8', newline="\n") as f:
             for x in xs:
                 print(x, file=f)
-
-
+    @staticmethod
+    def find_files(path):
+        return glob.glob(path, recursive=True)
 class Table:
     def __init__(self, filename: str):
         self._filename = filename
@@ -219,6 +248,7 @@ class Table:
     def put(self, key, values):
         key = self._escape(key)
         row = [key, *map(self._escape, values)]
+        assert all("\n" not in x for x in row)
         line = ("\t".join(row)) + "\n"
         assert key not in self._keys
         self._keys[key] = True
@@ -310,8 +340,13 @@ class Test(unittest.TestCase):
         self.assertEqual(Table._escape("1\t2\n3"), r"1\t2\n3")
 
     def test_utils(self):
-        pass
-
+        xs = [
+        ("a,b,c[1-2]",['a', 'b', 'c1', 'c2']),
+        ("a[1-3]b",['a1b', 'a2b', 'a3b']),
+        ("a[1-2]b[2-3]c",['a1b2c', 'a1b3c', 'a2b2c', 'a2b3c']),
+            ]
+        for k, v in xs:
+            self.assertEqual(Utils.expand_url(k),v)
     def test_b(self):
         self.assertEqual(http_get("https://www.baidu.com").title, "百度一下，你就知道")
 
