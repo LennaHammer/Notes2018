@@ -1,5 +1,9 @@
 # Java Notes
 
+
+
+
+
 ## Spring
 
 ### IoC
@@ -559,9 +563,9 @@ Service
 
 ### Form
 
-C
+Controller
 
-+ ModelAndView 
++ `ModelAndView` 
 
 + `@ModelAttribute("SpringWeb")` 
 
@@ -997,9 +1001,17 @@ generatorConfig.xml
 
 对象创建
 
++ Factory
++ Builder  例如 `StringBuilder`
++ Single Instance 实现 全局对象
+
 行为
 
++ Command 实现 undo
+
 组合
+
++ 实现 Sum Type
 
 
 
@@ -1456,9 +1468,35 @@ Work Flow
 
 ## Advance
 
-提高
+提高补充
 
 
+
+spring
+
+
+
+mysql
+
+外键 引用 枚举项可变
+
+数据库范式 
+
+Database Normalization
+
+ Normal Form 
+
+函数依赖
+
+传递依赖
+
+1NF
+
+2NF 依赖于主键
+
+3NF
+
+读写事务隔离
 
 
 
@@ -1485,6 +1523,9 @@ Work Flow
 + http://stateless.co/hal_specification.html
 + http://phlyrestfully.readthedocs.io/en/latest/halprimer.html
 + https://www.drupal.org/docs/8/core/modules/workflows/overview
++ https://www.google.com
++ https://www.bing.com
++ 
 
 
 

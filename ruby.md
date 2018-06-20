@@ -75,6 +75,8 @@ __END__
 
 默认映射规则类名 Post 是 表名 posts 的单数形式。
 
+通过 find(id) find_by() 查找对象
+
 
 
 ```
@@ -120,9 +122,9 @@ rails db:migrate
 
 open http://127.0.0.1:3000/posts/
 
+说明
 
-
-type
+Type
 
 + `string`, `text`, `binary`
 + `integer`, `float`, `decimal`, `boolean`
@@ -130,7 +132,7 @@ type
 + `timestamp` equals `created_at:datetime updated_at:datetime`
 + `references` equals  `model_id:integer`
 
-Controller
+#### Controller
 
 + redirect_to
 + render
@@ -148,6 +150,7 @@ Action
   + index, new, show, edit `view` get
   + create, update, destroy post redirect
   + new -> create, edit -> update
++ render "..."
 
 routes
 
@@ -156,7 +159,7 @@ routes
 + resources
 + `get '...'` `get '...', to: 'posts#show'` 
 
-view
+#### View
 
 + helper 
 + layout
@@ -169,10 +172,61 @@ view
   + form helper
   + `form.label :name; form.text_field :name`
   + `form.text_area` `form.submit`
-+ render Partial
-+ render ""
++ render Partial 文件名 `_****.html.erb`
 
-test
+#### Validation
+
++ model `Validation`
++ controller
+  + create `@model.save`
+  + update `@model.update(params[:model])` 
++ view `model.errors` `model.errors.full_messages`
+
+
+
+controller
+
+```ruby
+def create
+  @post = Post.new(params[:post])
+  if @post.save
+    redirect_to @post
+  else 
+    render :new 
+  end
+end
+
+def update
+  if @post.update(params[:post])
+    redirect_to @post
+  else
+    render :edit
+  end
+end
+```
+
+view
+
+`_form.html.erb`
+
+```erb
+<% if post.errors.any? %>
+  <div id="error_explanation">
+    <h2>
+      <%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:
+    </h2>
+    <ul>
+      <% post.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+```
+
+
+
+#### Test
 
 + 
 
@@ -257,20 +311,29 @@ Controllers
 @comments = @post.comments
 ```
 
-R
+Routes
 
 ```ruby
 # Nested Resources
-
+resources :posts do
+  resources :comments
+end
 ```
 
 
 
- Relation `belongs_to`
+Relation `belongs_to` 外键
+
+belongs to class_name foreigner_key
+
+
 
 + one 2 many `has_many`
-+ many 2 many `has_many`
++ many 2 many `has_many :throgh`
+  + join table 不一定要用
 + one 2 one `has_one`
+
+
 
 关联视图
 
@@ -315,56 +378,72 @@ application.html.erb
 
 
 
-### Step 4 Login
+### Step 4 Session
 
 shell
 
 ```
-rails g controller session login logout user_login
+rails g controller session new create destory
 ```
 
 session_controller.rb
 
-```erb
+```ruby
 class SessionController < ApplicationController
   
-  def login
+  def new
 
   end
 
-  def logout
-
+  def destory
+    session[:user] = nil
+    redirect_to root_path
   end
 
-  def user_login
+  def create
     name = params[:name]
     password = params[:password]
     if name=="1" and password==""
-      session[:user] = :admin
+      session[:user] = "admin"
       redirect_to "/"
+    else
+      render "new"
     end
-  end
-
-  def check_login
-    session[:user] == :admin
   end
 end
 
 ```
+Helper
+
+```ruby
+module SessionHelper
+    def login?
+        session[:user] == "admin"
+    end
+end
+```
+
+r
+
+```ruby
+get 'login', to: 'session#new'
+post 'login', to: 'session#create'
+get 'logout', to: 'session#destory'
+```
 
 
 
-login.html.erb
+new.html.erb
 
 ```erb
-<%= form_tag controller: "session", action: "user_login", method: "post" do |form| %>
+<%= form_tag controller: "session", action: "create", method: "post" do |form| %>
   <div class="field">
     <%= label_tag :name %>
     <%= text_field_tag :name %>
   </div>
   <div class="field">
     <%= label_tag :password %>
-    <%= text_area_tag :password %>
+    <%= password_field_tag :password %>
   </div>
   <div class="actions">
     <%= submit_tag %>
@@ -372,21 +451,34 @@ login.html.erb
 <% end %>
 ```
 
+routes
 
+```erb
+<% unless login? %>
+  <%=link_to "login", login_path%>
+<% else %>
+  <%=link_to "logout", logout_path%>
+<% end %>
+```
 
 session
 
 before_action
 
+Filter
+
 ```ruby
-before_action :logged_in_user only except
+class ApplicationController < ActionController::Base
+  before_action :authenticate_user!
+end
+class SessionController < ApplicationController
+  skip_before_action :authenticate_user!, only: [:new, :create]
+end
 ```
 
-helper
 
 
 
-Validation
 
 ### Step 5 Pagination
 
@@ -394,13 +486,58 @@ Validation
 
 will_paginate
 
-kaminari
+gem `Gemfile`
+
+```ruby
+gem 'will_paginate'
+```
+
+shell
+
+```shell
+bundle install 
+```
+
+Controller 
+
+```ruby
+def index
+  @posts = Post.order(created_at: :desc).paginate(page: params[:page], per_page: 10)
+end
+```
+
+View `index.htm.erb`
+
+```erb
+<%= will_paginate @posts %>
+```
+
+restart the server
+
+```shell
+rails server
+```
+
+说明
+
+网址中有 `?page=1` 参数
+
+
+
+kaminari 功能和主题多一些
+
+```ruby
+@users = User.order(:name).page params[:page]
+<%= paginate @users %>
+```
+
+
 
 bundle install 
 
 ```ruby
 @microposts = @user.microposts.paginate(page: params[:page])
-@posts =  Post.paginate(:page => params[:page])
+@posts =  Post.paginate(page: params[:page])
 
 <%= will_paginate @posts %>
 ```
@@ -445,6 +582,10 @@ restarted the server
 
 
 
+用到 assert pipeline
+
+
+
 ### Step 7 Ajax
 
 s
@@ -455,7 +596,15 @@ rails3 rjs
 
 ActionView::Helpers::PrototypeHelper::JavaScriptGenerator::GeneratorMethods	
 
+button_to
+
+link_to
+
 ## Day 3 Users
+
+
+
+### 用户
 
 ```bash
 rails generate scaffold User name:string password:string 
@@ -467,7 +616,19 @@ rails generate model UserGroup user:integer group:integer
 
 权限系统
 
-关注 Follow
+### 关注 Follow
+
+shell
+
+```shell
+rails generate model Follow from:integer to:integer
+```
+
+m.
+
+```ruby
+
+```
 
 
 
@@ -495,6 +656,14 @@ gem install rails rails-bootstrap
 'require.js'
 
 haml
+
+
+
+## 附录
+
+sqlite
+
+类型
 
 
 
