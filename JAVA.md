@@ -1466,6 +1466,24 @@ Work Flow
 
 
 
+
+
+Excel
+
++ 输入有效性
+
++ 汇总
+
++ 图表
+
+Access
+
++ 表格
+
++ 表单
+
++ 报表
+
 ## Advance
 
 提高补充
@@ -1486,15 +1504,21 @@ Database Normalization
 
  Normal Form 
 
-函数依赖
+dependencies
 
-传递依赖
+Functional dependency
 
-1NF
+函数依赖 x->y eg. id->name
 
-2NF 依赖于主键
+传递依赖 x->y /\ y->z => x->z
 
-3NF
+1NF Atomic columns
+
+2NF 依赖于主键 No partial dependencies
+
+3NF 不存在传递依赖 No transitive dependencies
+
+BCNF 
 
 读写事务隔离
 
@@ -1529,14 +1553,12 @@ Database Normalization
 
 
 
+补充
 
 
-
-   ```
+```
 Permissions for an Action
-
 Workflows
 States
 Transitions
-
-   ```
+```

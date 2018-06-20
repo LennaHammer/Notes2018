@@ -1,4 +1,4 @@
-# Ruby
+# Learn Ruby
 
 ## Day 1 Sinatra
 
@@ -16,7 +16,7 @@ end
 
 
 
-open http://127.0.0.1:4567/
+open http://127.0.0.1:4567/ in browser
 
 
 
@@ -77,6 +77,13 @@ __END__
 
 通过 find(id) find_by() 查找对象
 
+执行 sql
+
++ execute
++ exc_query
++ Model.select_all
++ add_table
+
 
 
 ```
@@ -124,6 +131,8 @@ open http://127.0.0.1:3000/posts/
 
 说明
 
+#### Model
+
 Type
 
 + `string`, `text`, `binary`
@@ -132,10 +141,19 @@ Type
 + `timestamp` equals `created_at:datetime updated_at:datetime`
 + `references` equals  `model_id:integer`
 
+Query
+
++ find
++ find_by
++ find_or_initialize_by
+
 #### Controller
 
+Method
+
 + redirect_to
-+ render
++ render :action
++ redirect_to :back 
 + `def rescue_from`
 + `if save rediredt to else render end`
 + `def before_action` 
@@ -151,20 +169,29 @@ Action
   + create, update, destroy post redirect
   + new -> create, edit -> update
 + render "..."
++ redirect_to redirect_back
 
-routes
+Routes
 
-+ `/config/routes.rbs` `resources :posts ` `root 'posts#index' `
++ `/config/routes.rb` `resources :posts ` `root 'posts#index' `
 + `rails routes`
 + resources
 + `get '...'` `get '...', to: 'posts#show'` 
++ `***_path`
+
 
 #### View
 
 + helper 
-+ layout
-+ flash C `redirect_to`  V `notice` `redirect_to @post, notice: '...' `
-+ redirect_to redirect_back
++ Layout `application.html.erb` `<div><%= yield %></div>`
++ Flash
+  + controller  `redirect_to ..., notice: '...' `
+
+    +  `flash[:notice] = ...; redirect_to ...`
+
+    + `flash.now[:notice] = ...; render ...`
+
+  + view  `<p id="notice"><%= notice %></p>` 
 + form 
   + `_form` 
   + `new` `edit`
@@ -173,6 +200,8 @@ routes
   + `form.label :name; form.text_field :name`
   + `form.text_area` `form.submit`
 + render Partial 文件名 `_****.html.erb`
++ helper
+  + `<%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %>` 
 
 #### Validation
 
@@ -181,6 +210,16 @@ routes
   + create `@model.save`
   + update `@model.update(params[:model])` 
 + view `model.errors` `model.errors.full_messages`
+
+
+
+model
+
+```ruby
+class Post< ApplicationRecord
+  validates :title, presence: true
+end
+```
 
 
 
@@ -205,9 +244,7 @@ def update
 end
 ```
 
-view
-
-`_form.html.erb`
+view `_form.html.erb`
 
 ```erb
 <% if post.errors.any? %>
@@ -376,6 +413,26 @@ application.html.erb
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 ```
 
+show.htm.erb
+
+```erb
+<h1><%= @post.title %></h1>
+<p id="notice"><%= notice %></p>
+<p>
+  <%= @post.body %>
+</p>
+<ul>
+  <% @post.comments.each do |comment| %>
+    <li>
+      (<%=comment.name%>)
+        <%=comment.body%>
+    </li>
+  <% end %>
+</ul>
+
+<%= render 'comments/form', comment: @post.comments.build %>
+```
+
 
 
 ### Step 4 Session
@@ -386,7 +443,13 @@ shell
 rails g controller session new create destory
 ```
 
-session_controller.rb
+session
+
+```ruby
+session[:key] = 'value'
+```
+
+controller `session_controller.rb`
 
 ```ruby
 class SessionController < ApplicationController
@@ -413,17 +476,17 @@ class SessionController < ApplicationController
 end
 
 ```
-Helper
+helper
 
 ```ruby
 module SessionHelper
-    def login?
-        session[:user] == "admin"
-    end
+  def login?
+    session[:user] == "admin"
+  end
 end
 ```
 
-r
+routes
 
 ```ruby
 get 'login', to: 'session#new'
@@ -431,9 +494,7 @@ post 'login', to: 'session#create'
 get 'logout', to: 'session#destory'
 ```
 
-
-
-new.html.erb
+view `new.html.erb`
 
 ```erb
 <%= form_tag controller: "session", action: "create", method: "post" do |form| %>
@@ -451,7 +512,7 @@ new.html.erb
 <% end %>
 ```
 
-routes
+view `application.html.erb`
 
 ```erb
 <% unless login? %>
@@ -461,18 +522,28 @@ routes
 <% end %>
 ```
 
-session
-
-before_action
-
-Filter
+controller `before_action` filter
 
 ```ruby
 class ApplicationController < ActionController::Base
-  before_action :authenticate_user!
+  before_action :authenticate!
+  def authenticate!
+    if session[:user] != 'admin'
+      redirect_to root_path
+    end
+  end
 end
+
+class BlogsController < ApplicationController
+  skip_before_action :authenticate!
+end
+
 class SessionController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:new, :create]
+  skip_before_action :authenticate!
+end
+
+class CommentsController < ApplicationController
+  skip_before_action :authenticate!, only: [:create, :show]
 end
 ```
 
@@ -482,7 +553,7 @@ end
 
 ### Step 5 Pagination
 
-用插件
+use third-party gem will_paginate
 
 will_paginate
 
@@ -527,7 +598,7 @@ rails server
 kaminari 功能和主题多一些
 
 ```ruby
-@users = User.order(:name).page params[:page]
+@users = User.order(:name).page(params[:page]) #.per(10)
 <%= paginate @users %>
 ```
 
@@ -578,7 +649,7 @@ application.html.erb
 
 ```
 
-restarted the server
+restart the server
 
 
 
@@ -604,37 +675,140 @@ link_to
 
 
 
-### 用户
-
-```bash
-rails generate scaffold User name:string password:string 
-rails generate model Group name:string
-rails generate model UserGroup user:integer group:integer
-```
+### Step 1 Users
 
 用户系统
 
 权限系统
 
-### 关注 Follow
+shell
+
+```sh
+rails generate scaffold User name:string password:string 
+rails generate model Group name:string
+rails generate model UserGroup user:references group:references
+rails generate controller session new create destory
+```
+
+model
+
+```ruby
+class User < ApplicationRecord
+  has_many :group_users
+  has_many :groups, through: :user_groups
+end
+
+class Group < ApplicationRecord
+  has_many :group_users
+  has_many :users, through: :user_groups
+end
+
+class UserGroup < ApplicationRecord
+  belongs_to :user
+  belongs_to :group
+end
+```
+
+controller
+
+```ruby
+# User
+
+
+# Session
+```
+
+
+
+routes
+
+```ruby
+get 'signup', to: 'users#new'
+get 'login', to: 'session#new'
+post 'login', to: 'session#post'
+get 'logout', to: 'session#destory'
+```
+
+
+
+### Step 2 Follow
 
 shell
 
 ```shell
-rails generate model Follow from:integer to:integer
+rails generate model Follow from_id:integer to_id:integer
 ```
 
-m.
+Migration
 
 ```ruby
+add_index :follows, :from_id
+add_index :follows, :to_id
+add_index :follows, [:from_id, :to_id], unique: true
+```
 
+model
+
+
+```ruby
+class Follow
+  belongs_to :from, foreign_key: 'from_id', class_name: 'User'
+  belongs_to :to, foreign_key: 'to_id', class_name: 'User'
+end
+
+class User < ApplicationRecord
+  has_many :following_relationships, class_name: "Follow", foreign_key: "from_id"
+  has_many :following, through: :following_relationships,  source: :from
+  has_many :follower_relationships, class_name: "Follow", foreign_key: "to_id"
+  has_many :followers, through: :follower_relationships, source: :to
+end
+```
+
+### Step 3 Timeline
+
+shell
+
+```sh
+rails generate scaffold Post body:string user:references 
+```
+
+model
+
+```ruby
+class User < ApplicationRecord
+  has_many :posts, dependent: :destroy
+end
+```
+
+controller
+
+```ruby
+def timeline
+  sql = "SELECT * FROM posts WHERE user_id IN (SELECT to_id FROM relationships WHERE from_id = :id) OR user_id = :id ORDER BY created_at DESC LIMIT 10"
+  @posts = Post.find_by_sql(sql, {id:params[:id]})
+end
+```
+
+view `timeline.htm.erb`
+
+```erb
+<% @posts.each do |post| %>
+  <%= post.user.name %>
+  <%= post.user.body %>
+<% end %>
 ```
 
 
 
+### Step 4 Theme
 
+bootstrap
 
-Day 4 CMS
+### Step 5 Namespace 
+
+### controller
+
+## Day 4 CMS
 
 
 
@@ -650,16 +824,19 @@ Drupal
 
 ```bash
 gem install sinatra sinatra-contrib activerecord sqlite3
+gem install rails
 gem install rails rails-bootstrap
 ```
 
 'require.js'
 
-haml
+haml / slim
 
 
 
 ## 附录
+
+rails m 使用
 
 sqlite
 
@@ -668,12 +845,19 @@ sqlite
 
 
 
-## Ref
+## References
 
 + http://sinatrarb.com/ 
-+ http://sinatrarb.com/intro.html
-+ http://www.screencasts.org/episodes/activerecord-with-sinatra
-+ http://guides.rubyonrails.org/
-+ http://api.rubyonrails.org/
+  + http://sinatrarb.com/intro.html
+  + http://www.screencasts.org/episodes/activerecord-with-sinatra
++ https://rubyonrails.org 
+  + http://guides.rubyonrails.org/
+  + http://api.rubyonrails.org/
 + https://www.railstutorial.org/
-+ https://sqlitestudio.pl/index.rvt
++ https://sqlitestudio.pl/
++ 
++ https://www.devwalks.com/lets-build-instagram-with-ruby-on-rails-part-6-follow-all-the-people/
++ https://ihower.tw/rails/index-cn.html
+
+
+
