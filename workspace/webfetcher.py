@@ -13,7 +13,7 @@ import w3lib.encoding
 import collections
 import functools
 import typing
-
+import json
 
 # import selenium
 
@@ -48,9 +48,10 @@ class Response:
 
     def extract_attrs(self, selector, attr_name):
         xs = self.document.select(selector)
+        keys = attr_names.split(" ")
         return [x[attr_name] for x in xs]
 
-    def findall(self,regex):
+    def scan(self,regex):
         pass
 
     def next_page(self):
@@ -285,6 +286,7 @@ class WebItemPage:
 
 
 class WebTask:
+    
     def __init__(self, urls: typing.List[str], name, skip_error=None):
         self._urls = collections.deque(urls)
         self._name = name
@@ -334,8 +336,156 @@ class WebTask:
 def ddd(task, response):
     return [response.title, "1\t2\n3"]
 
+def task_read_list(out, url, pat):
+    if out and file_exists(out):
+        return
+    items = []
+    urls = expand_url(url)
+    for item in urls:
+        r = retry(lambda: http_get(item), 3)
+        items += pat(r)
+    items = uniq(items)
+    if out:
+        write_lines(out, items)
+    else:
+        print(items)
+
+
+def find_next_url(html):
+    path = os.path.dirname(html.url)
+    xs = [y for x in html.find('a', containing='下一页') for y in x.absolute_links]
+    xs = [x for x in xs if x.startswith(path)]
+    if xs:
+        assert len(xs) == 1
+        return xs[-1]
+    return None
+def user_foo1(html):
+    base = html.url
+    prefix = os.path.splitext(base)[0] + '_'
+    xs = [x for x in html.absolute_links if x.startswith(prefix)]
+    if not xs:
+        assert '下一页' not in html.text, [html.text, prefix, xs]
+        return []
+    foo = lambda x: int(re.search(r'_(\d+)\.s?html?', x)[1])
+    last_page = max([foo(x) for x in xs])
+    xs = [base]
+    xs += [re.sub(r'(\.s?html?)', f'_{i}\\1', base) for i in range(2, last_page + 1)]
+    xs = uniq(xs)
+    assert len(xs) >= 2, xs
+    xs.remove(base)
+    return xs
+
+
+def read_page_items(url, selector, attr, find_next_urls, empty=False, cookie=None):
+    r = http_get2(url, cookie=cookie)
+    title = r.html.find('title', first=1).text
+    print(f"TITLE: {title}")
+    # xs = [x.attrs[attr] for x in r.html.find(selector)]
+    if '|' in attr:
+        xs = html_select2(r.html, selector, attr)
+    else:
+        xs = html_select(r.html, selector, attr)
+    # assert xs,[url,selector,r.html.find(selector)]
+    if find_next_urls == "auto":
+        # assert None,f"no,{find_next_urls}"
+        next_page = find_next_url(r.html)
+        if next_page:
+            xs += read_page_items(next_page, selector, attr, 'auto')['items']
+            assert xs if next_page else 1
+    elif find_next_urls == 'ignore':
+        pass
+    elif find_next_urls:
+        # nexts = re.findall('href', r.html, find_next_urls)
+        nexts = find_next_urls(r)
+        # print(nexts)
+        for k, x in enumerate(nexts):
+            xs += read_page_items(x, selector, attr, 'ignore', empty=k == len(nexts) - 1)[2].split(',')
+    else:
+        assert find_next_urls is None, find_next_urls
+        assert '下一页' not in r.html.text, ['下一页', r.html.text]
+    # print(xs)
+    if not empty:
+        assert xs, f"EMPTY {url}"
+    assert xs or empty, f"EMPTY {url}"
+    print(xs)
+    assert '\t' not in title
+    return [url, title, ','.join(uniq(xs))]
+    # return dict(key=url, title=title, items=uniq(xs))
+
+
+def run_task(out, pages, callback):
+    # filename = f"[TABLE]{datafile}.tsv.txt"
+    h = {}
+    if os.path.exists(out):
+        with open(out, 'r', encoding='utf-8') as f:
+            for line in f:
+                key = line.split("\t", 1)[0]
+                h[key] = 1
+    print(f'{len(h)} items')
+    with open(out, 'a', encoding='utf-8') as f:
+        for url in uniq(pages):
+            if url in h:
+                continue
+            print(url)
+            row = None
+            import requests
+            try:
+                row = callback(url)
+            except requests.exceptions.HTTPError as e:
+                print(e)
+            except Exception as e:
+                print(str(e).encode('gbk','ignore').decode('gbk','ignore'))
+                print("SKIP")
+                if DEBUG:
+                    traceback.print_exc()
+            if row:
+                print(row)
+                print('\t'.join(row), end="\n", file=f)
+                f.flush()
+
+
+import urllib
+import urllib.parse
+
+
+def task_download_task(filename):
+    xs = read_lines(filename, tab=True)
+    prefix = os.path.dirname(filename)
+    dirname = f"[{os.path.splitext(os.path.basename(filename))[0]}]"
+    dirname = os.path.join(prefix, dirname)
+    print(dirname)
+    if not os.path.exists(dirname):
+        os.makedirs(dirname)
+    for row in xs:
+        if not len(row) == 3:
+            print(row)
+            continue
+        key = row[0]
+        key = urllib.parse.urlparse(key).path
+        pid = ''.join(re.findall(r'\d+', key))
+        title = row[1]
+        images = row[2].split(",")
+        # print(title,images)
+        for i, v in enumerate(images, 1):
+            filename = escape_filename(f"[{pid}]{title}_{i:02d}") + extname(v)
+            # print(filename)
+            download_images([(v, f"{dirname}/{filename}")])
+def cnu_get(url):
+    r = http_get(url)
+    # user_id = re.search(r'''www.cnu.cc\/users\/([^/"\']*)''',html).group(1)
+    # user_name = doc.find('div',id="name").strip()
+    # title = doc.title.string
+    # print(doc)
+    # print(doc.find('div',id='imgs_json').text)
+    title = html_title(r.html)
+    images = ['http://img.cnu.cc/uploads/images/920/' + x['img'] for x in json.loads(r.html.find('div#imgs_json').text)]
+    # .map{|x|'http://img.cnu.cc/uploads/images/920/'+x['img']}
+    # print(['CNU',title,user_id,post_id,images])
+    # download_url(url_file,f"CNU.{user_id}.{post_id}",title,images)
+    return [url, title, ','.join(images)]
 
 class Test(unittest.TestCase):
+    
     def test_a(self):
         self.assertEqual(Table._escape("1\t2\n3"), r"1\t2\n3")
 
