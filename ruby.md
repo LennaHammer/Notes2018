@@ -565,7 +565,7 @@ gem 'will_paginate'
 
 shell
 
-```shell
+```sh
 bundle install 
 ```
 
@@ -806,17 +806,39 @@ bootstrap
 
 ### Step 5 Namespace 
 
-### controller
+
+
+shell
+
+```
+rails g controller admin/session
+```
+
+routes
+
+```
+namespace :admin do
+  resources :cs
+end
+```
+
+
+
+collection
+
+member
+
+### Step 6 Module
 
 ## Day 4 CMS
 
 
 
-Drupal
+Drupal+XAMPP
 
 
 
-
+## Day 5
 
 ## w
 
@@ -832,7 +854,25 @@ gem install rails rails-bootstrap
 
 haml / slim
 
+simple_form
 
+Paperclip Carrierwave 和 Paperclip
+
+WiceGrid
+
+CanCanCan
+
+Devise 
+
+Nokogiri
+
+Whenever Sidekiq Grape
+
+lazy_high_charts
+
+RuCaptcha
+
+https://ruby-china.org/wiki/gems
 
 ## 附录
 
@@ -856,6 +896,7 @@ sqlite
 + https://www.railstutorial.org/
 + https://sqlitestudio.pl/
 + 
++ https://www.devwalks.com/lets-build-instagram-in-rails-part-1/
 + https://www.devwalks.com/lets-build-instagram-with-ruby-on-rails-part-6-follow-all-the-people/
 + https://ihower.tw/rails/index-cn.html
 
