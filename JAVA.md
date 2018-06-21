@@ -2,13 +2,15 @@
 
 
 
-
-
 ## Spring
 
 ### IoC
 
 用于运行时单实例对象的创建
+
+
+
+在配置文件中构造对象，通过注入获取对象
 
 
 
@@ -934,7 +936,7 @@ BEGIN 或 START TRANSACTION
 
 加索引
 
-必须指定 Innodb 支持事务 编码用 utf-8mb4 （名称是历史原因）
+引擎必须指定 Innodb 支持事务 编码用 `utf8mb4` （不用名称 utf8 是历史兼容原因）
 
 not null
 
@@ -1056,13 +1058,17 @@ vscode
 
 ## Deploy
 
+### MySQL
+
 
 
 ## Tomcat
 
 `.war` 放入 `webapps`
 
+## Nginx
 
+反向代理
 
 ## Test
 
@@ -1500,6 +1506,24 @@ Work Flow
 
 
 
+结构
+
+博客 浏览博文 评论（发送，显示） 后台管理（登录，编辑博文，删除评论）
+
+论坛
+
+购物 查询 购买
+
+
+
+页面设计 
+
+tab栏目
+
+
+
+
+
 Excel
 
 + 输入有效性
@@ -1518,6 +1542,8 @@ Access
 + 报表
 
 ## Advance
+
+进阶
 
 提高补充
 
@@ -1554,6 +1580,18 @@ Functional dependency
 BCNF 
 
 读写事务隔离
+
+
+
+
+
+cesrum 地球3d显示
+
+无人机自动 3d 建模
+
+
+
+
 
 
 

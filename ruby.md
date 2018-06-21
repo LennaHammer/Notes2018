@@ -120,6 +120,10 @@ rails server
 
 open http://127.0.0.1:3000/
 
+约定over配置
+
+restful
+
 ### Step 2 Scaffold
 
 ```bash
@@ -731,29 +735,78 @@ get 'logout', to: 'session#destory'
 
 
 
+belongs_to 对应数据库的外键
+
+`has_many :items` 用于 一对多关系，约定 存在 类 Item 有属性 post_id 
+
+`has_many :items,through: relationship` 用于 many-to-many 关系，约定 类 Relationship 存在
+
+`has_many :groups, through: :user_groups` 等价于
+
+`has_many :groups, through: :user_groups, class_name: 'Group', source: :user`
+
+```ruby
+class Group < ApplicationRecord
+  has_many :group_users
+  has_many :users, through: :user_groups
+  has_many :users, through: :user_groups, class_name: 'Group', source:
+end
+```
+
+
+
 ### Step 2 Follow
 
 shell
 
-```shell
-rails generate model Follow from_id:integer to_id:integer
+```sh
+rails generate model Friendships user:references following_id:integer
 ```
 
 Migration
 
 ```ruby
-add_index :follows, :from_id
-add_index :follows, :to_id
-add_index :follows, [:from_id, :to_id], unique: true
+add_index :friendships, :following_id
+add_index :friendships, [:user_id, :following_id], unique: true
 ```
 
 model
 
 
 ```ruby
-class Follow
-  belongs_to :from, foreign_key: 'from_id', class_name: 'User'
-  belongs_to :to, foreign_key: 'to_id', class_name: 'User'
+class Friendship
+
+  belongs_to :user
+
+  belongs_to :following, class_name: 'User'
+
+end
+
+class User < ApplicationRecord
+  
+  has_many :friendships
+  has_many :following, through: :friendships
+  
+  has_many :friendships_v, class_name: 'Friendship', foreign_key: 'following_id'
+  has_many :followers, through: :friendships_v, source: :user
+
+end
+```
+
+
+
+
+```ruby
+class User < ApplicationRecord
+  def following
+    User.exc_query(
+        'select user.* from users join follows on users.id==follows.to_id where follows.from_id=?',
+        self.id
+    )
+  end
+  def followers
+    Follow.find_by_to(self.id)
+  end
 end
 
 class User < ApplicationRecord
@@ -763,6 +816,10 @@ class User < ApplicationRecord
   has_many :followers, through: :follower_relationships, source: :to
 end
 ```
+
+
+
+得到的sql语句是
 
 ### Step 3 Timeline
 
@@ -838,7 +895,7 @@ Drupal+XAMPP
 
 
 
-## Day 5
+## Day 5 Buy
 
 ## w
 
