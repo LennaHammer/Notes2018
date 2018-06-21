@@ -15,6 +15,7 @@ import functools
 import typing
 import json
 
+
 # import selenium
 
 
@@ -23,14 +24,23 @@ class Response:
         r.raise_for_status()
         self._r = r
         self._doc = None
+        self._source = None
+
+    @property
+    def source(self):
+        if self._source is None:
+            data: bytes = self._r.content
+            source: str = w3lib.encoding.html_to_unicode(None, data)[1]
+            self._source = source
+        return self._source
 
     @property
     def document(self):
         if self._doc is None:
-            data: bytes = self._r.content
-            # w3lib.encoding.http_content_type_encoding
-            source: str = w3lib.encoding.html_to_unicode(None, data)[1]
-            self._doc = BeautifulSoup(source, 'lxml')
+            #data: bytes = self._r.content
+            ## w3lib.encoding.http_content_type_encoding
+            #source: str = w3lib.encoding.html_to_unicode(None, data)[1]
+            self._doc = BeautifulSoup(self.source, 'lxml')
         return self._doc
 
     @property
@@ -41,18 +51,16 @@ class Response:
     def data(self) -> bytes:
         return self._r.content
 
-    
-
     def __str__(self):
         return str(self._r)
 
     def extract_attrs(self, selector, attr_name):
         xs = self.document.select(selector)
-        keys = attr_names.split(" ")
+        #keys = attr_names.split(" ")
         return [x[attr_name] for x in xs]
 
-    def scan(self,regex):
-        pass
+    def scan(self, regex):
+        return re.findall(regex, self.source)
 
     def next_page(self):
         return None
@@ -66,7 +74,7 @@ class WebSession:
         'Connection': 'keep-alive'
     }
 
-    def __init__(self, encoding:str=None, headers=None, cookies:str=None):
+    def __init__(self, encoding: str = None, headers=None, cookies: str = None):
         self._session = s = requests_html.HTMLSession()
         s.mount('http://', requests.adapters.HTTPAdapter(max_retries=5))
         s.mount('https://', requests.adapters.HTTPAdapter(max_retries=5))
@@ -76,7 +84,7 @@ class WebSession:
         if cookies:
             cs = {}
             for item in cookies.split(';'):
-                key, value = item.split('=',1)
+                key, value = item.split('=', 1)
                 cs[key] = value
             session.cookies = requests.cookies.cookiejar_from_dict(Cookies)
 
@@ -93,20 +101,26 @@ class WebSession:
 
 
 class BrowserSession:
+
     def __init__(self):
-                self._driver = selenium.webdriver.Chrome()
-                browser.get(url)
-                button = browser.find_element_by_css_selector('.l-detail-no-right-to-see__btn')
-                button.click()
+        self._browser = selenium.webdriver.Chrome()
+        self._element = None
+
+    def get(self, url):
+        self._browser.get(url)
+
+    def select(self, selector):
+        element = self._browser.find_element_by_css_selector(selector)
+        self._element = element
+        return element
+
+    def click(self):
+        if self._element is not None:
+            self._element.click()
+
 
 session = WebSession()
 
-
-##def expand_url(urls):
-##    raise NotImplementedError
-##    return []
-##
-##
 ##def escape_filename(filename, max_length=None):
 ##    if max_length:
 ##        filename = filename[:max_length]
@@ -183,7 +197,7 @@ class Utils:
             else:
                 urls.append(x)
         return urls
-    
+
     @staticmethod
     def escape_filename(filename):
         return re.sub(r'[<>|\\/:"*?\s]', lambda x: f"%{ord(x[0]):X}", filename)
@@ -210,9 +224,12 @@ class Utils:
         with open(filename, 'w', encoding='utf-8', newline="\n") as f:
             for x in xs:
                 print(x, file=f)
+
     @staticmethod
     def find_files(path):
         return glob.glob(path, recursive=True)
+
+
 class Table:
     def __init__(self, filename: str):
         self._filename = filename
@@ -286,12 +303,14 @@ class WebItemPage:
 
 
 class WebTask:
-    
-    def __init__(self, urls: typing.List[str], name, skip_error=None):
+
+    def __init__(self, urls: typing.List[str], name, skip_error=None,cookies=None,headers=None):
         self._urls = collections.deque(urls)
         self._name = name
         self._table = Table(name)
         self._skip_error = skip_error
+        self._cookies = cookies
+        self._headers = headers
 
     def put_item(self, key, values):
         self._table.put(key, values)
@@ -336,6 +355,7 @@ class WebTask:
 def ddd(task, response):
     return [response.title, "1\t2\n3"]
 
+
 def task_read_list(out, url, pat):
     if out and file_exists(out):
         return
@@ -359,6 +379,8 @@ def find_next_url(html):
         assert len(xs) == 1
         return xs[-1]
     return None
+
+
 def user_foo1(html):
     base = html.url
     prefix = os.path.splitext(base)[0] + '_'
@@ -434,7 +456,7 @@ def run_task(out, pages, callback):
             except requests.exceptions.HTTPError as e:
                 print(e)
             except Exception as e:
-                print(str(e).encode('gbk','ignore').decode('gbk','ignore'))
+                print(str(e).encode('gbk', 'ignore').decode('gbk', 'ignore'))
                 print("SKIP")
                 if DEBUG:
                     traceback.print_exc()
@@ -470,6 +492,8 @@ def task_download_task(filename):
             filename = escape_filename(f"[{pid}]{title}_{i:02d}") + extname(v)
             # print(filename)
             download_images([(v, f"{dirname}/{filename}")])
+
+
 def cnu_get(url):
     r = http_get(url)
     # user_id = re.search(r'''www.cnu.cc\/users\/([^/"\']*)''',html).group(1)
@@ -484,19 +508,21 @@ def cnu_get(url):
     # download_url(url_file,f"CNU.{user_id}.{post_id}",title,images)
     return [url, title, ','.join(images)]
 
+
 class Test(unittest.TestCase):
-    
+
     def test_a(self):
         self.assertEqual(Table._escape("1\t2\n3"), r"1\t2\n3")
 
     def test_utils(self):
         xs = [
-        ("a,b,c[1-2]",['a', 'b', 'c1', 'c2']),
-        ("a[1-3]b",['a1b', 'a2b', 'a3b']),
-        ("a[1-2]b[2-3]c",['a1b2c', 'a1b3c', 'a2b2c', 'a2b3c']),
-            ]
+            ("a,b,c[1-2]", ['a', 'b', 'c1', 'c2']),
+            ("a[1-3]b", ['a1b', 'a2b', 'a3b']),
+            ("a[1-2]b[2-3]c", ['a1b2c', 'a1b3c', 'a2b2c', 'a2b3c']),
+        ]
         for k, v in xs:
-            self.assertEqual(Utils.expand_url(k),v)
+            self.assertEqual(Utils.expand_url(k), v)
+
     def test_b(self):
         self.assertEqual(http_get("https://www.baidu.com").title, "百度一下，你就知道")
 
@@ -516,4 +542,3 @@ class Test(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-

@@ -100,15 +100,54 @@ presence present?
 
 
 
+```ruby
+class Paginator
+end
+```
+
+
+
 flash + redirect
 
-### Step 4 File
+### Step 4 File Upload
+
+定时删除
+
+```ruby
+require 'sinatra'
+require 'sinatra/reloader'
+require 'active_record'
+
+
+ActiveRecord::Base.establish_connection(
+  adapter: 'sqlite3',
+  database: 'datebase.sqlite3'
+)
+
+ActiveRecord::Base.connection.execute("
+  create table if not exists files (
+    id integer primary key,
+    filename varchar(255) not null
+    created_at datetime not null
+  )
+")
+
+class Post < ActiveRecord::Base
+end
+
+get '/' do
+  @posts = Post.all
+  erb :index
+end
+
+
+```
 
 
 
 
 
-## Day 2 Rails
+## Day 2 Posts
 
 ### Step 1 Start
 
@@ -365,14 +404,14 @@ end
 
 Relation `belongs_to` 外键
 
-belongs to class_name foreigner_key
+belongs_to class_name foreigner_key
 
 
 
-+ one 2 many `has_many`
-+ many 2 many `has_many :throgh`
++ one-to-many `has_many`
++ many-to-many `has_many :throgh`
   + join table 不一定要用
-+ one 2 one `has_one`
++ one-to-one `has_one`
 
 
 
@@ -428,8 +467,7 @@ show.htm.erb
 <ul>
   <% @post.comments.each do |comment| %>
     <li>
-      (<%=comment.name%>)
-        <%=comment.body%>
+      (<%= comment.name %>)<%= comment.body %>
     </li>
   <% end %>
 </ul>
@@ -443,7 +481,7 @@ show.htm.erb
 
 shell
 
-```
+```sh
 rails g controller session new create destory
 ```
 
@@ -692,18 +730,19 @@ rails generate scaffold User name:string password:string
 rails generate model Group name:string
 rails generate model UserGroup user:references group:references
 rails generate controller session new create destory
+rails db:migrate
 ```
 
 model
 
 ```ruby
 class User < ApplicationRecord
-  has_many :group_users
+  has_many :user_groups
   has_many :groups, through: :user_groups
 end
 
 class Group < ApplicationRecord
-  has_many :group_users
+  has_many :user_groups
   has_many :users, through: :user_groups
 end
 
@@ -717,9 +756,14 @@ controller
 
 ```ruby
 # User
-
+class UserController
+  
+end
 
 # Session
+class SessionController
+  
+end
 ```
 
 
@@ -728,6 +772,8 @@ routes
 
 ```ruby
 get 'signup', to: 'users#new'
+post 'signup', to 'user#create'
+
 get 'login', to: 'session#new'
 post 'login', to: 'session#post'
 get 'logout', to: 'session#destory'
@@ -735,23 +781,19 @@ get 'logout', to: 'session#destory'
 
 
 
-belongs_to 对应数据库的外键
+`belongs_to` 对应数据库的外键
 
-`has_many :items` 用于 一对多关系，约定 存在 类 Item 有属性 post_id 
++ `bolongs_to :parent` 约定 外键为 `parent_id` 
 
-`has_many :items,through: relationship` 用于 many-to-many 关系，约定 类 Relationship 存在
+`has_many` 用于 一对多关系，约定 存在 类 Item 有属性 post_id 
 
-`has_many :groups, through: :user_groups` 等价于
++ `has_many :items`
++ 等价于 `has_many :items, class_name: 'Item', source: item`
 
-`has_many :groups, through: :user_groups, class_name: 'Group', source: :user`
+`has_many :through` 用于 many-to-many 关系
 
-```ruby
-class Group < ApplicationRecord
-  has_many :group_users
-  has_many :users, through: :user_groups
-  has_many :users, through: :user_groups, class_name: 'Group', source:
-end
-```
++  `has_many :users, through: :user_groups`
++ 等价于 `has_many :users, through: :user_groups, class_name: 'User', source: :user`
 
 
 
@@ -775,11 +817,8 @@ model
 
 ```ruby
 class Friendship
-
   belongs_to :user
-
   belongs_to :following, class_name: 'User'
-
 end
 
 class User < ApplicationRecord
@@ -787,8 +826,12 @@ class User < ApplicationRecord
   has_many :friendships
   has_many :following, through: :friendships
   
-  has_many :friendships_v, class_name: 'Friendship', foreign_key: 'following_id'
-  has_many :followers, through: :friendships_v, source: :user
+#  has_many :friendships_v, class_name: 'Friendship', foreign_key: 'following_id'
+#  has_many :followers, through: :friendships_v, source: :user
+    
+  def followers
+    Friendship.find_by_following(self.id).users
+  end
 
 end
 ```
@@ -805,15 +848,29 @@ class User < ApplicationRecord
     )
   end
   def followers
-    Follow.find_by_to(self.id)
+    Follow.find(self.id).following
   end
 end
 
+  has_many :follower_relationships, foreign_key: :following_id, class_name: 'Follow'
+  has_many :followers, through: :follower_relationships, source: :follower
+
+  has_many :following_relationships, foreign_key: :follower_id, class_name: 'Follow'
+  has_many :following, through: :following_relationships, source: :following
+
 class User < ApplicationRecord
-  has_many :following_relationships, class_name: "Follow", foreign_key: "from_id"
-  has_many :following, through: :following_relationships,  source: :from
-  has_many :follower_relationships, class_name: "Follow", foreign_key: "to_id"
-  has_many :followers, through: :follower_relationships, source: :to
+  has_many :microposts, dependent: :destroy
+  has_many :active_relationships,  class_name:  "Relationship",
+                                   foreign_key: "follower_id",
+                                   dependent:   :destroy
+  has_many :passive_relationships, class_name:  "Relationship",
+                                   foreign_key: "followed_id",
+                                   dependent:   :destroy
+  has_many :following, through: :active_relationships,  source: :followed
+  has_many :followers, through: :passive_relationships, source: :follower
+  .
+  .
+  .
 end
 ```
 
@@ -891,11 +948,44 @@ member
 
 
 
+自定义表格类型，栏目。
+
 Drupal+XAMPP
 
+查询优化
+
+timestamp
+
+counter cache
+
+1+n
+
+后台任务
 
 
-## Day 5 Buy
+
+## Day 5 Shop
+
+shell
+
+```sh
+rails generate scaffold User name:string password:string 
+rails generate controller session new create destory
+
+rails generate scaffold Goods name:string desc:string pic:string
+rails generate scaffold Cart name:string password:string
+
+rails generate scaffold Order name:string password:string
+rails generate model GoodsOrder name:string password:string
+
+rails generate scaffold Index name:string password:string
+```
+
+
+
+work flow
+
+
 
 ## w
 
@@ -904,6 +994,7 @@ Drupal+XAMPP
 ```bash
 gem install sinatra sinatra-contrib activerecord sqlite3
 gem install rails
+gem install nokogiri
 gem install rails rails-bootstrap
 ```
 

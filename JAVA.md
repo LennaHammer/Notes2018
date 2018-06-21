@@ -1056,19 +1056,31 @@ vscode
 
 
 
+git
+
+git add
+
+git commit
+
+git push
+
+git pull git fetch followed by a git merge.
+
 ## Deploy
 
 ### MySQL
 
+### Nginx
 
+负载均衡
+
+反向代理
 
 ## Tomcat
 
 `.war` 放入 `webapps`
 
-## Nginx
 
-反向代理
 
 ## Test
 
@@ -1510,11 +1522,28 @@ Work Flow
 
 博客 浏览博文 评论（发送，显示） 后台管理（登录，编辑博文，删除评论）
 
++ 文章
++ 评论
++ 后台 新建文章 编辑文章 删除评论
++ 辅助 搜索
+
 论坛
+
++ 用户
++ 帖子
++ 板块
 
 购物 查询 购买
 
+电商
 
++ 用户 User 顾客
++ 购物车 Cart
++ 订单 Order 订单商品
++ 商品 Goods
++ 搜索 Search
++ 目录 Index
++ 后台 增加商品 处理订单
 
 页面设计 
 
