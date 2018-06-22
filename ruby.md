@@ -177,9 +177,19 @@ open http://127.0.0.1:3000/
 
 restful
 
-对象
+对象资源 
 
-单实例类
+`/resources/1/action` 对应方法
+
+`/resources/action` 对应类方法
+
+单实例类 `/resource/action/`
+
+
+
+agile
+
+敏捷 设计到实现
 
 ### Step 2 Scaffold
 
@@ -194,6 +204,10 @@ open http://127.0.0.1:3000/posts/
 
 ### Step 3 Model
 
+ 用来操作数据库，本身不包含数据库信息。
+
+
+
 Type
 
 - `string`, `text`, `binary`
@@ -206,6 +220,7 @@ Query
 
 + find
 + find_by
++ find_or_initialize_by
 
 Modify
 
@@ -441,6 +456,8 @@ def destroy
 end
 ```
 
+根据 form 是否含 id 调用 new->create, edit->update
+
 
 
 Member `show, edit, update, destroy` `params[:id]` 
@@ -454,7 +471,7 @@ def set_post
 end
 ```
 
-white list `params[:post]`
+params white list `params[:post]`
 
 ```ruby
 # params[:post]
@@ -462,6 +479,8 @@ def post_params
   params.require(:post).permit(:title, :body)
 end
 ```
+
+
 
 ### Step 6 Validation
 
@@ -1140,6 +1159,8 @@ button_to
 
 link_to
 
+Prototype-rails
+
 ## Day 3 Users
 
 
@@ -1156,7 +1177,7 @@ shell
 rails generate scaffold User name:string password:string 
 rails generate model Group name:string
 rails generate model UserGroup user:references group:references
-rails generate controller session new create destory
+rails generate controller Sessions new create destory
 rails db:migrate
 ```
 
@@ -1187,9 +1208,35 @@ class UserController
   
 end
 
-# Session
-class SessionController
-  
+class SessionsController < ApplicationController
+  def new
+  end
+
+  def create
+    name = params[:name]
+    password = params[:password]
+    user = User.find_by(name: name, password: password)
+    if user
+      session[:user_id] = user.id
+      redirect_to root_path
+    else
+      render :new
+    end
+  end
+
+  def destroy
+    session[:user_id] = nil
+    redirect_to root_path
+  end
+end
+
+module SessionsHelper
+    def login?
+        session[:user_id] != nil
+    end   
+    def current_user
+        User.find(session[:user_id])
+    end
 end
 ```
 
@@ -1198,13 +1245,41 @@ end
 routes
 
 ```ruby
-get 'signup', to: 'users#new'
-post 'signup', to 'user#create'
-
-get 'login', to: 'session#new'
-post 'login', to: 'session#post'
-get 'logout', to: 'session#destory'
+resources :users
+resource :session
 ```
+
+session.new.html.erb
+
+```erb
+<%= form_tag controller: "sessions", action: "create", method: "post" do |form| %>
+  <div class="field">
+    <%= label_tag :name %>
+    <%= text_field_tag :name %>
+  </div>
+  <div class="field">
+    <%= label_tag :password %>
+    <%= password_field_tag :password %>
+  </div>
+  <div class="actions">
+    <%= submit_tag "Login" %>
+  </div>
+<% end %>
+```
+
+application.html.erb
+
+```erb
+  <% unless login? %>
+  <%=link_to "login", new_session_path%>
+<% else %>
+  <%= current_user.name %><%=link_to "logout", session_path, method: :delete %>
+<% end %>
+```
+
+
+
+
 
 
 
@@ -1229,7 +1304,7 @@ get 'logout', to: 'session#destory'
 shell
 
 ```sh
-rails generate model Friendships user:references following_id:integer
+rails generate scaffold Friendship user:references following_id:integer
 ```
 
 Migration
@@ -1303,7 +1378,7 @@ end
 
 
 
-得到的sql语句是
+得到的 sql 语句是
 
 ### Step 3 Timeline
 
@@ -1311,6 +1386,7 @@ shell
 
 ```sh
 rails generate scaffold Post body:string user:references 
+rails generate controller Home timeline
 ```
 
 model
@@ -1318,6 +1394,10 @@ model
 ```ruby
 class User < ApplicationRecord
   has_many :posts, dependent: :destroy
+  def messages
+    sql = "SELECT * FROM posts WHERE user_id IN (SELECT following_id FROM friendships WHERE user_id = ?) OR user_id = ? ORDER BY created_at DESC LIMIT 10"
+    Post.find_by_sql([sql, self.id, self.id])
+  end
 end
 ```
 
@@ -1330,13 +1410,66 @@ def timeline
 end
 ```
 
-view `timeline.htm.erb`
+view
+
+ `timeline.htm.erb`
 
 ```erb
-<% @posts.each do |post| %>
-  <%= post.user.name %>
-  <%= post.user.body %>
+<ul>
+  <% @posts.each do  |post| %>
+  <li>(<%= post.user.name %>)<%= post.body%></li>
+  <% end %>
+</ul>
+```
+
+`users.html.erb`
+
+```erb
+<ul><% @users.each do  |user|  %>
+<li> <%= user.id %> <%= user.name %>
+<% unless Friendship.find_by(user_id:current_user.id, following_id: user.id)  %>
+ <%= button_to 'Follow', action: "create", controller: "friendships", params: {friendship: {user_id:current_user.id, following_id: user.id}} %></li>
+ <% else %>
+ <%= button_to 'Unfollow', Friendship.find_by(user_id:current_user.id, following_id: user.id),method: :delete %></li>
 <% end %>
+<% end %>
+</ul>
+```
+
+```erb
+  <% unless login? %>
+  <%=link_to "login", new_session_path%>
+<% else %>
+  <%= current_user.name %> <%=link_to "logout", session_path, method: :delete %>
+<% end %>
+```
+
+
+
+c
+
+```ruby
+class HomeController < ApplicationController
+  def timeline
+    @posts = helpers.current_user.messages
+  end
+
+  def users
+    @users = User.where('id!=?',helpers.current_user.id)
+  end
+
+end
+```
+
+
+
+
+
+### Step 4 Haml
+
+```
+gem 'haml-rails'
+bundle install
 ```
 
 
@@ -1371,11 +1504,30 @@ member
 
 ### Step 6 Module
 
+ `/lib`
+
 ## Day 4 CMS
 
+### Step 1 Haml
+
+```
+gem 'haml-rails'
+bundle install
+```
 
 
-### Step 1 Menu
+
+### Step 1 Table
+
+### Step 1 Form
+
+### Step 2 Menu
+
+多层级导航目录（左侧 layout）
+
+### Step 3 Index
+
+
 
 
 
@@ -1397,26 +1549,40 @@ counter cache
 
 ## Day 5 Shop
 
+
+
 shell
 
 ```sh
 rails generate scaffold User name:string password:string 
 rails generate controller session new create destory
 
-rails generate scaffold Goods name:string desc:string pic:string
-rails generate scaffold Cart name:string password:string
+rails generate scaffold Products name:string desc:string pic:string
+rails generate scaffold CartItems product:references user:references
 
-rails generate scaffold Order name:string password:string
-rails generate model GoodsOrder name:string password:string
+rails generate scaffold Orders user:references
+rails generate model OrderItems product:references
 
-rails generate scaffold Index name:string password:string
+rails generate scaffold Index 
 ```
 
 
 
 work flow
 
-### State
+### Step 1 State Machine
+
+
+
+## Day 6 Bootstrap
+
+
+
+### Step 1 Layout
+
+### Step 2 Button
+
+### Step 3 Modal
 
 
 
