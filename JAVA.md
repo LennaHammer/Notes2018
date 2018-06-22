@@ -200,7 +200,7 @@ org.springframework.web.filter.CharacterEncodingFilter
 </filter-mapping>
 ```
 
-有序
+filter 有序
 
 ### jsp
 
@@ -835,7 +835,7 @@ pom.xml
   + Type(Length)
 
     + Numeric `INT` `FLOAT` `DOUBLE` `DECIMAL` 
-    + String `varchar(255)` `text` 
+    + String `VARCHAR(255)` `TEXT` 
     + Date and Time  `DATETIME ` 
     + Bytes `BLOB` 
 
@@ -896,7 +896,7 @@ pom.xml
     + `count,sum` 
   + GROUP `select column1, count(1) group by column1`
     + HAVING
-  + distinct `select distinct`, union `select ... union select ...`
+  + distinct `select distinct`, union `select ... union select ...`， union all
   + 嵌套 nested 
     + in (select ...)
 + INSERT
@@ -924,11 +924,15 @@ BEGIN 或 START TRANSACTION
 
 ### Function
 
-内置 LEFT
+内置函数
 
-字符串
++ 字符串 LEFT
++ 日期时间 
++ 地理信息
 
-定义
+用户定义函数
+
+
 
 ### 注意
 
@@ -944,9 +948,9 @@ isolation_level value is None, and permitted values are 'READ UNCOMMITTED', 'REA
 
 分表
 
-explain
+explain 查看 扫描的表行树，用的索引
 
-lock
+lock 硬事务，软事务
 
 复杂查询
 
@@ -1068,7 +1072,13 @@ git pull git fetch followed by a git merge.
 
 ## Deploy
 
+上线
+
+### Linux
+
 ### MySQL
+
+
 
 ### Nginx
 
@@ -1450,6 +1460,14 @@ spring.jpa.database-platform=org.hibernate.dialect.MySQL5Dialect
 @Transactional @EnableTransactionManagement
 
 
+
+模块
+
+日志模块
+
+工作流引擎
+
+treeview 模块
 
 ## Back-end
 

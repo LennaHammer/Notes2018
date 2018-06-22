@@ -1,4 +1,4 @@
-# Learn Ruby
+# Learn Ruby In 7 Days
 
 ## Day 1 Sinatra
 
@@ -145,9 +145,439 @@ end
 
 
 
+## Day 2 Rails
+
+### Step 1 Hello
+
+```sh
+rails new project
+cd project
+rails server
+```
+
+open http://127.0.0.1:3000/
 
 
-## Day 2 Posts
+
+约定over配置
+
+优点
+
+学习良好的习惯
+
+合作时增加共识
+
+缺点
+
+采用默认约定时调用规则不明显
+
+需要修改默认配置的时候不方便
+
+
+
+restful
+
+对象
+
+单实例类
+
+### Step 2 Scaffold
+
+```bash
+rails generate scaffold Post title:string body:text
+rails db:migrate
+```
+
+open http://127.0.0.1:3000/posts/
+
+
+
+### Step 3 Model
+
+Type
+
+- `string`, `text`, `binary`
+- `integer`, `float`, `decimal`, `boolean`
+- `datetime`, `date`,  `time`
+- `timestamp` equals `created_at:datetime updated_at:datetime`
+- `model:references` equals  `model_id:integer`
+
+Query
+
++ find
++ find_by
+
+Modify
+
++ `#save`
++ `#update`
++ ...! 
+
+
+
+
+
+### Step 4 View
+
+Form
+
+
+
+form_for
+
+中文
+
+
+
+`_form.html.erb`
+
+```erb
+<%= form_for post do |form| %>
+  <div><%= form.label :title %><%= form.text_field :title %></div>
+  <div><%= form.label :body %><%= form.text_area :body %></div>
+  <div><%= form.submit %></div>
+<% end %>
+```
+
+`new.html.erb` `edit.html.erb`
+
+```erb
+<h1>New/Edit Post</h1>
+<%= render 'form', post: @post %>
+```
+
+
+
+```haml
+%p#notice= notice
+%h1 Posts
+%table
+  %thead
+    %tr
+      %th Title
+      %th Body
+  %tbody
+    - @posts.each do |post|
+      %tr
+        %td= post.title
+        %td= post.body
+```
+
+
+
+
+
+`show.html.erb` 
+
+```erb
+<p id="notice"><%= notice %></p>
+<p>Title:<%= @post.title %></p>
+<p>Body:<%= @post.body %></p>
+```
+
+`_post.html.erb`
+
+```erb
+<p>Title:<%= post.title %></p>
+<p>Body:<%= post.body %></p
+```
+
+
+
+`index.html.erb`
+
+```erb
+<p id="notice"><%= notice %></p>
+<h1>Posts</h1>
+<table>
+  <thead>
+    <tr><th>Title</th><th>Body</th></tr>
+  </thead>
+  <tbody>
+    <% @posts.each do |post| %>
+      <tr><td><%= post.title %></td><td><%= post.body %></td></tr>
+    <% end %>
+  </tbody>
+</table>
+```
+
+
+
+
+
+
+
+form_for
+
+form_tag
+
+
+
+Flash
+
+
+
+`<p id="notice"><%= notice %></p> `
+
+flash.now
+
+params
+
+
+
+url_for
+
++ `url_for controller: 'posts', action: 'recent' `
+
+link_to
+
++ `link_to "Show", @post`
+
++ `link_to "Show", controller: "posts", action: "show", id: @post`
++ `link_to "Show", posts_path`
++ `link_to "List", controller: "posts"`
+
+```erb
+<%= link_to 'New Post', new_post_path %>
+<%= link_to 'Show', post %>
+<%= link_to 'Edit', edit_post_path(post) %>
+<%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %>
+<%= link_to 'Back', posts_path %>
+```
+
+
+
+helper
+
+
+
+### Step 5 Controller
+
+
+
+method
+
+
+
+render
+
++ `render :action`
++ `render 'controller/action'`
+
+redirect_to
+
++ `redirect_to record` show
++ `redirect_to ..._path`
++ `redirect_back`
+
+self.rescue_from
+
+
+
+self.before_action
+
+
+
+
+
+
+
+Action
+
+GET `index, show, new, edit`
+
+```ruby
+# GET /posts
+def index
+  @posts = Post.all
+end
+
+# GET /posts/new
+def new
+  @post = Post.new
+end
+
+# GET /posts/1
+def show
+  # @post = Post.find(params[:id])
+end
+
+# GET /posts/1/edit
+def edit
+  # @post = Post.find(params[:id])
+end
+```
+
+
+
+POST `create, update, destroy`
+
+```ruby
+# POST /posts
+def create
+  @post = Post.new(params[:post])
+  if @post.save
+    redirect_to @post, notice: 'Post was successfully created.'
+  else
+    render :new
+  end
+end
+
+# PATCH/PUT /posts/1
+def update
+  # @post = Post.find(params[:id])
+  if @post.update(params[:post])
+    redirect_to @post, notice: 'Post was successfully updated.'
+  else
+    render :edit
+  end
+end
+
+# DELETE /posts/1
+def destroy
+  # @post = Post.find(params[:id])
+  @post.destroy
+  redirect_to posts_url, notice: 'Post was successfully destroyed.'
+end
+```
+
+
+
+Member `show, edit, update, destroy` `params[:id]` 
+
+```ruby
+before_action :set_post, only: [:show, :edit, :update, :destroy]
+
+private
+def set_post
+  @post = Post.find(params[:id])
+end
+```
+
+white list `params[:post]`
+
+```ruby
+# params[:post]
+def post_params
+  params.require(:post).permit(:title, :body)
+end
+```
+
+### Step 6 Validation
+
+model
+
+`validates :field, presence: true`
+
+```ruby
+class Post< ApplicationRecord
+  validates :title, presence: true
+end
+```
+
+controller
+
+- create `Post.new(params[:model]).save`
+- update `@model.update(params[:model])` 
+
+```ruby
+def create
+  @post = Post.new(params[:post])
+  if @post.save
+    redirect_to @post
+  else 
+    render :new 
+  end
+end
+
+def update
+  @post = Post.find(params[:id])
+  if @post.update(params[:post])
+    redirect_to @post
+  else
+    render :edit
+  end
+end
+```
+
+
+
+view
+
+`record.errors` 
+
+`record.errors.full_messages`
+
+
+
+```erb
+<% if post.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(post.errors.count, "error") %>:</h2>
+    <ul>
+    <% post.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+```
+
+
+
+### Step 6 Routes
+
+
+
+Resource
+
+seven default actions
+
+`get '/posts/:id', to: 'posts#show', as: 'post'`
+
+```ruby
+resources :photos do
+  member do
+    get 'preview'
+  end
+  collection do
+    get 'search'
+  end
+end
+namespace :admin do
+
+end
+```
+
+
+
+Nested Resources
+
+Singular Resources
+
+root
+
+get 
+
+get 'home', to: 'posts#show'
+
+get 'home', action: :show, controller: 'posts'
+
+post
+
+namespace
+
+ Route Globbing and Wildcard Segments
+
+get '/stories', to: redirect('/articles')
+
+
+
+### Step 7 Test
+
+
+
+## Day 3 Posts
 
 ### Step 1 Start
 
@@ -340,7 +770,7 @@ html
 
 
 
-```
+```sh
 sed -i 's/_comment/_post_comment/g;s/comments_path/post_comments_path/g' ./app/views/comments/*.html.erb
 
 new_comment_path
@@ -424,7 +854,7 @@ subform
 shell
 
 ```bash
-rails g controller blogs index show
+rails g controller Blogs index show
 ```
 
 blogs_controller.rb
@@ -444,7 +874,7 @@ routes.rb
 
 ```ruby
 root 'blogs#index'
-get 'blogs/:id',to: 'blogs#show'
+get 'blogs/:id', to: 'blogs#show'
 ```
 
 application.html.erb
@@ -456,24 +886,21 @@ application.html.erb
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 ```
 
-show.htm.erb
+blogs/show.htm.erb
 
 ```erb
 <h1><%= @post.title %></h1>
 <p id="notice"><%= notice %></p>
-<p>
-  <%= @post.body %>
-</p>
+<p><%= @post.body %></p>
 <ul>
   <% @post.comments.each do |comment| %>
-    <li>
-      (<%= comment.name %>)<%= comment.body %>
-    </li>
+    <li>(<%= comment.name %>)<%= comment.body %></li>
   <% end %>
 </ul>
-
 <%= render 'comments/form', comment: @post.comments.build %>
 ```
+
+blogs/index.htm.erb
 
 
 
@@ -482,7 +909,7 @@ show.htm.erb
 shell
 
 ```sh
-rails g controller session new create destory
+rails g controller Session new create destory
 ```
 
 session
@@ -510,9 +937,9 @@ class SessionController < ApplicationController
     password = params[:password]
     if name=="1" and password==""
       session[:user] = "admin"
-      redirect_to "/"
+      redirect_to root_path
     else
-      render "new"
+      render :new
     end
   end
 end
@@ -571,7 +998,7 @@ class ApplicationController < ActionController::Base
   before_action :authenticate!
   def authenticate!
     if session[:user] != 'admin'
-      redirect_to root_path
+      redirect_to login_path
     end
   end
 end
@@ -948,6 +1375,10 @@ member
 
 
 
+### Step 1 Menu
+
+
+
 自定义表格类型，栏目。
 
 Drupal+XAMPP
@@ -984,6 +1415,8 @@ rails generate scaffold Index name:string password:string
 
 
 work flow
+
+### State
 
 
 
@@ -1047,6 +1480,7 @@ sqlite
 + https://www.devwalks.com/lets-build-instagram-in-rails-part-1/
 + https://www.devwalks.com/lets-build-instagram-with-ruby-on-rails-part-6-follow-all-the-people/
 + https://ihower.tw/rails/index-cn.html
++ http://htmltohaml.com/
 
 
 
