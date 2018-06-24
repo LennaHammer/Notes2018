@@ -161,35 +161,39 @@ open http://127.0.0.1:3000/
 
 约定over配置
 
-优点
++ 优点
+  + 学习良好的习惯
+  + 合作时增加共识
 
-学习良好的习惯
++ 缺点
+  + 采用默认约定时调用规则不明显
+  + 需要修改默认配置的时候不方便
 
-合作时增加共识
+Agile
 
-缺点
++ 敏捷 设计到实现
++ 测试驱动，迭代
 
-采用默认约定时调用规则不明显
+MVC Model–view–controller
 
-需要修改默认配置的时候不方便
++ view 不维护状态
++ view 上 action 1 触发 controller 改变 model，或者 2 切换 view
++ model 改变后重新渲渲染 view
++ 可以多个 view 对应 一个 model
+
+Restful
+
++ 对象资源 
+
+  + `/resources/1/action` 对应方法
+
+  + `/resources/action` 对应类方法
+
++ 单实例类 `/resource/action/`
 
 
 
-restful
 
-对象资源 
-
-`/resources/1/action` 对应方法
-
-`/resources/action` 对应类方法
-
-单实例类 `/resource/action/`
-
-
-
-agile
-
-敏捷 设计到实现
 
 ### Step 2 Scaffold
 
@@ -213,8 +217,10 @@ Type
 - `string`, `text`, `binary`
 - `integer`, `float`, `decimal`, `boolean`
 - `datetime`, `date`,  `time`
-- `timestamp` equals `created_at:datetime updated_at:datetime`
+
 - `model:references` equals  `model_id:integer`
+
+- `timestamp` equals `created_at:datetime updated_at:datetime`
 
 Query
 
@@ -240,7 +246,7 @@ Form
 
 form_for
 
-中文
+中文 i18n
 
 
 
@@ -253,6 +259,8 @@ form_for
   <div><%= form.submit %></div>
 <% end %>
 ```
+
+Data Binding
 
 `new.html.erb` `edit.html.erb`
 
@@ -1517,11 +1525,11 @@ bundle install
 
 
 
-### Step 1 Table
+### Step 1 Grid
 
-### Step 1 Form
+### Step 2 Form
 
-### Step 2 Menu
+### Step 3 Tree
 
 多层级导航目录（左侧 layout）
 
@@ -1576,13 +1584,13 @@ work flow
 
 ## Day 6 Bootstrap
 
+后台管理界面，登陆界面，新闻展示界面，
 
+### Step 1 Login
 
-### Step 1 Layout
+### Step 2 Posts
 
-### Step 2 Button
-
-### Step 3 Modal
+### Step 3 Admin
 
 
 
