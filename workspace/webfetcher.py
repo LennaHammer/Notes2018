@@ -14,7 +14,7 @@ import collections
 import functools
 import typing
 import json
-
+import traceback
 
 # import selenium
 
@@ -45,7 +45,10 @@ class Response:
 
     @property
     def title(self) -> str:
-        return self.document.select("title", limit=1)[0].text
+        title = self.document.select("title", limit=1)[0].text.strip()
+        #title = re.sub(r'\n+',' ',title)
+        assert "\n" not in title,title
+        return title
 
     @property
     def data(self) -> bytes:
@@ -53,6 +56,8 @@ class Response:
 
     def __str__(self):
         return str(self._r)
+    def select(self, selector):
+        return self.document.select(selector)
 
     def extract_attrs(self, selector, attr_name):
         xs = self.document.select(selector)
@@ -94,6 +99,7 @@ class WebSession:
         self._session.close()
 
     def get(self, url):
+        log(f"GET {url}")
         r = self._session.get(url, timeout=60)
         r.raise_for_status()
         assert r.status_code == 200
@@ -129,25 +135,10 @@ session = WebSession()
 ##    return filename
 
 
-def safe_write(filename: str, data: bytes):
-    path = os.path.dirname(filename)
-    temp = tempfile.NamedTemporaryFile("wb", dir=path, delete=False, suffix=".tmp")
-    temp.write(data)
-    os.fsync(temp.fileno())
-    temp.close()
-    os.rename(temp.name, filename)
 
 
-def retry(foo, times=3, ignore=None):
-    exc = None
-    for i in range(times):
-        try:
-            return foo()
-        except Exception as e:
-            print(e)
-            exc = e
-    if not ignore and exc:
-        raise exc
+
+
 
 
 def http_get(url):
@@ -168,6 +159,18 @@ def download_file(url, out, overwrite=None):
 
 
 class Utils:
+    @staticmethod
+    def retry(foo, times=3, ignore=None):
+            exc = None
+            for i in range(times):
+                try:
+                    return foo()
+                except Exception as e:
+                    print(e)
+                    exc = e
+            if not ignore and exc:
+                raise exc
+            traceback.print_exc()
     @staticmethod
     def append_line(filename: str, line: str):
         with open(filename, 'at', encoding='utf-8', newline="\n") as f:
@@ -202,12 +205,23 @@ class Utils:
     def escape_filename(filename):
         return re.sub(r'[<>|\\/:"*?\s]', lambda x: f"%{ord(x[0]):X}", filename)
 
+    @staticmethod        
+    def safe_write(filename: str, data: bytes):
+        if isinstance(data,str):
+            data = data.encode('utf-8')
+        path = os.path.dirname(filename)
+        temp = tempfile.NamedTemporaryFile("wb", dir=path, delete=False, suffix=".tmp")
+        temp.write(data)
+        os.fsync(temp.fileno())
+        temp.close()
+        os.rename(temp.name, filename)
+
     @staticmethod
     def extname(filename):
         return os.path.splitext(filename)[1]
 
     @staticmethod
-    def read_lines(filename, tab=None):
+    def read_lines(filename, tab=None,reverse=None):
         lines = []
         with open(filename, 'r', encoding='utf-8') as f:
             for line in f:
@@ -217,13 +231,21 @@ class Utils:
                 if tab:
                     line = line.split("\t")
                 lines.append(line)
+        if reverse:
+            lines.reverse()
         return lines
 
     @staticmethod
     def write_lines(filename, xs):
-        with open(filename, 'w', encoding='utf-8', newline="\n") as f:
-            for x in xs:
-                print(x, file=f)
+        lines = []
+        for x in xs:
+            lines.append(x)
+            lines.append("\n")
+        Utils.safe_write(filename, "".join(lines))
+
+#        with open(filename, 'w', encoding='utf-8', newline="\n") as f:
+#            for x in xs:
+#                print(x, file=f)
 
     @staticmethod
     def find_files(path):
@@ -244,7 +266,7 @@ class Table:
                         if line.isspace():
                             continue
                         key = line.split("\t", 1)[0]
-                        self._keys.add(key)
+                        self._keys[key] = True
             self._out = open(filename, 'a', encoding='utf-8')
 
     def __del__(self):
@@ -304,13 +326,10 @@ class WebItemPage:
 
 class WebTask:
 
-    def __init__(self, urls: typing.List[str], name, skip_error=None,cookies=None,headers=None):
+    def __init__(self, urls: typing.List[str], name):
         self._urls = collections.deque(urls)
         self._name = name
         self._table = Table(name)
-        self._skip_error = skip_error
-        self._cookies = cookies
-        self._headers = headers
 
     def put_item(self, key, values):
         self._table.put(key, values)
@@ -318,19 +337,27 @@ class WebTask:
     def put_url(self, url):
         self._urls.append(url)
 
-    def run(self, callback, cookies=None, headers=None):
-        s = WebSession(cookies=cookies, headers=headers)
+    def run(self, callback):
+        s = WebSession()
         while self._urls:
             url = self._urls.popleft()
             if url in self._table:
                 continue
-            response = retry(lambda: s.get(url), ignore=self._skip_error)
+            response = Utils.retry(lambda: s.get(url),ignore=True)
             values = callback(self, response)
+            assert all(x for x in values), values
+            assert values is not None, None
             if values:
                 self.put_item(url, values)
         cached = self._table.cached_rows
+        if cached:
+            print(cached)
         return cached
-
+    
+    @classmethod
+    def run_task(cls, out, urls, callback):
+        return cls(urls,out).run(callback)
+        
     #    @classmethod
     #    def run_task(cls, urls, out, callback, cookies=None, headers=None):
     #        if isinstance(urls, str):
@@ -346,8 +373,11 @@ class WebTask:
     def decorator(cls, urls, out, cookies=None, headers=None):
         if isinstance(urls, str):
             urls = expand_url(urls)
-        task = cls(urls, out)
-        return lambda callback: lambda: task.run(callback, cookies=cookies, headers=headers)
+        return lambda callback: lambda: cls(urls, out).run(callback)
+
+    @classmethod
+    def task(cls, out, urls,run=None):
+        return lambda callback: cls(urls, out).run(callback)
 
 
 # @Utils.apply
@@ -356,7 +386,7 @@ def ddd(task, response):
     return [response.title, "1\t2\n3"]
 
 
-def task_read_list(out, url, pat):
+def task_read_list0(out, url, pat):
     if out and file_exists(out):
         return
     items = []
@@ -370,6 +400,21 @@ def task_read_list(out, url, pat):
     else:
         print(items)
 
+def task_read_list(out, url, pat):
+    s = WebSession()
+    if out and os.path.exists(out):
+        return
+    items = []
+    urls = Utils.expand_url(url)
+    for item in urls:
+        r = Utils.retry(lambda: s.get(item), 3)
+        items += pat(r)
+    items = Utils.unique(items)
+    if out:
+        Utils.write_lines(out, items)
+    else:
+        print(items)
+    print("ok")
 
 def find_next_url(html):
     path = os.path.dirname(html.url)

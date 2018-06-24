@@ -177,8 +177,8 @@ Agile
 MVC Model–view–controller
 
 + view 不维护状态
-+ view 上 action 1 触发 controller 改变 model，或者 2 切换 view
-+ model 改变后重新渲渲染 view
++ view 上 action 1. 触发 controller 改变 model，或者 2. 切换 view
++ model 改变后重新渲染 view
 + 可以多个 view 对应 一个 model
 
 Restful
