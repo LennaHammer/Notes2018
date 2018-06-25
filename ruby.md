@@ -161,35 +161,39 @@ open http://127.0.0.1:3000/
 
 约定over配置
 
-优点
++ 优点
+  + 学习良好的习惯
+  + 合作时增加共识
 
-学习良好的习惯
++ 缺点
+  + 采用默认约定时调用规则不明显
+  + 需要修改默认配置的时候不方便
 
-合作时增加共识
+Agile
 
-缺点
++ 敏捷 设计到实现
++ 测试驱动，迭代实现
 
-采用默认约定时调用规则不明显
+MVC Model–view–controller
 
-需要修改默认配置的时候不方便
++ view 不维护状态，model 保持状态
++ view 上 action 1. 触发 controller 改变 model，或者 2. 切换 view
++ model 改变后重新渲染新状态下的 view
++ 可以多个 view 对应 一个 model
+
+Restful
+
++ 对象资源 
+
+  + `/resources/1/action` 对应方法
+
+  + `/resources/action` 对应类方法
+
++ 单实例类 `/resource/action/`
 
 
 
-restful
 
-对象资源 
-
-`/resources/1/action` 对应方法
-
-`/resources/action` 对应类方法
-
-单实例类 `/resource/action/`
-
-
-
-agile
-
-敏捷 设计到实现
 
 ### Step 2 Scaffold
 
@@ -213,8 +217,10 @@ Type
 - `string`, `text`, `binary`
 - `integer`, `float`, `decimal`, `boolean`
 - `datetime`, `date`,  `time`
-- `timestamp` equals `created_at:datetime updated_at:datetime`
+
 - `model:references` equals  `model_id:integer`
+
+- `timestamp` equals `created_at:datetime updated_at:datetime`
 
 Query
 
@@ -240,7 +246,7 @@ Form
 
 form_for
 
-中文
+中文 i18n
 
 
 
@@ -253,6 +259,8 @@ form_for
   <div><%= form.submit %></div>
 <% end %>
 ```
+
+Data Binding
 
 `new.html.erb` `edit.html.erb`
 
@@ -342,15 +350,20 @@ params
 
 url_for
 
-+ `url_for controller: 'posts', action: 'recent' `
++ `url_for "Recent" controller: 'posts', action: 'recent' ` 通过 action
 
 link_to
 
-+ `link_to "Show", @post`
++ `link_to "Show", controller: "posts", action: "show", id: @post` 通过 id + action
++ `link_to "Show", posts_path` 通过 routes
++ `link_to "Show", @post` 通过 model 默认 controller#show
++ `link_to "List", controller: "posts"` 默认 #index
 
-+ `link_to "Show", controller: "posts", action: "show", id: @post`
-+ `link_to "Show", posts_path`
-+ `link_to "List", controller: "posts"`
+button_to
+
++ 默认 `method: :post`
+
+对资源的操作会用到
 
 ```erb
 <%= link_to 'New Post', new_post_path %>
@@ -362,7 +375,13 @@ link_to
 
 
 
-helper
+helper 在 view 使用，无状态
+
+返回渲染的字符串
+
+render partial
+
+
 
 
 
@@ -381,8 +400,8 @@ render
 
 redirect_to
 
-+ `redirect_to record` show
-+ `redirect_to ..._path`
++ `redirect_to record` #show
++ `redirect_to ..._path` 通过 routes
 + `redirect_back`
 
 self.rescue_from
@@ -491,13 +510,54 @@ end
 
 ### Step 6 Routes
 
+路由产生 `(路径，controller#action，名称)` 元组
+
+
+
+root
+
+首页
+
+```ruby
+root 'posts#index'
+```
+
+相当于
+
+```ruby
+root to: 'posts#index'
+get '', action: :index, controller: 'posts', as: :root
+```
+
 
 
 Resource
 
+```ruby
+resources :posts
+```
+
+相当于 添加 7 条 默认 actions
+
+```ruby
+get 'posts',          to: 'posts#index',   as: :posts
+get 'posts/:id/new',  to: 'posts#new',     as: :new_posts
+post 'posts',         to: 'posts#create',  as: :posts
+get 'posts/:id',      to: 'posts#show',    as: :post
+get 'posts/:id/edit', to: 'posts#edit',    as: :edit_post
+put 'posts/:id',      to: 'posts#update',  as: :post
+delete 'posts/:id',   to: 'posts#destroy', as: :post
+```
+
+
+
+
+
 seven default actions
 
 `get '/posts/:id', to: 'posts#show', as: 'post'`
+
+可以增加成员方法和类方法
 
 ```ruby
 resources :photos do
@@ -515,9 +575,19 @@ end
 
 
 
-Nested Resources
 
-Singular Resources
+
+Nested Resources 嵌套资源
+
+用于 has_many
+
+name space
+
+
+
+Singular Resources 单数资源
+
+
 
 root
 
@@ -550,8 +620,9 @@ end
 
 controller
 
-- create `Post.new(params[:model]).save`
-- update `@model.update(params[:model])` 
+- save  返回 Boolean 表示是否验证通过
+  + #create `Post.new(params[:model]).save`
+  + #update `Post.find(params[:id]).update(params[:model])` 
 
 ```ruby
 def create
@@ -775,6 +846,72 @@ rails db:migrate
 ```
 
 ruby
+
+自动生成的
+
+```ruby
+class Comment
+  belongs_to :post
+end
+```
+
+相当于
+
+```ruby
+class Comment
+  def post
+    Post.find(self.id)
+  end
+  def post=(record)
+    self.post_id = record.id
+  end
+end
+```
+
+其中
+
++ `bolongs_to` 不影响数据库的结构，仅用来生成了方便使用的 #post，#post= 方法。
+
++ `belongs_to :post`  中的`:post` 为所增加的属性的名称 `attr_accessor :post`
+
++ 按照命名约定 等价于 `belongs_to :post, class_name: 'Post', foreign_key: 'post_id'  ` 
+
++ 即 comments 表中存在列外键 post_id， Comment#post 返回 Post 类型
+
+
+
+对应的可以手工添加
+
+```ruby
+class Post
+  has_many :comments
+end
+```
+
+相当于（不严格）
+
+```ruby
+class Post
+  def comments
+    Comment.where(post_id: self.id)
+  end
+  def comments_build
+    Comment.new(post_id: self.id)
+  end
+  def comments_size
+    comments.count
+  end    
+  def comments=(objects)
+    comments.update_all(post_id: self.id)
+  end
+end
+```
+
+
+
+
+
+
 
 ```ruby
 # models/post.rb
@@ -1537,6 +1674,7 @@ bundle install
 
 
 
+<<<<<<< HEAD
 ### Step 2 Grid
 
 ```sh
@@ -1570,9 +1708,9 @@ end
 
 
 
+### Step 3 Tree
 
 
-### Step 4 Menu
 
 多层级导航目录（左侧 layout）
 
@@ -1631,6 +1769,26 @@ work flow
 
 ### Step 2 State Machine
 
+### Step 3 Transaction
+
+金额精度
+
+Pessimistic Locking
+
+```ruby
+Item.transaction do
+  i = Item.lock.first
+  i.name = 'Jones'
+  i.save!
+end
+```
+
+Optimistic Locking
+
+
+
+a column called lock_version of type integer. 
+
 
 
 ## Day 6 Bootstrap
@@ -1642,6 +1800,21 @@ work flow
 ### Step 3 Button
 
 ### Step 4 Modal
+=======
+后台管理界面，登陆界面，新闻展示界面，
+
+Step 1
+
+html
+
+css
+
+### Step 1 Login
+
+### Step 2 Posts
+
+### Step 3 Admin
+
 
 
 
