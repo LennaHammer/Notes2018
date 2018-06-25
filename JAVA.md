@@ -1328,7 +1328,7 @@ border-radius: 5px; */
 
 分栏布局
 
-+ 浮动 `<div style="float: left; width=30%;"></div>`
++ 分栏浮动 `<div style="float: left; width=30%;"></div>`
 + 清除浮动`<div style="clear: both;"></div>`
 
 绝对布局

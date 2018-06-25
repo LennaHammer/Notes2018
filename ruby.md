@@ -387,9 +387,13 @@ redirect_to
 
 self.rescue_from
 
-
++ `rescue_from` 
 
 self.before_action
+
++ `before_action :method` :only :except
+
+
 
 
 
@@ -482,7 +486,57 @@ end
 
 
 
-### Step 6 Validation
+
+
+
+### Step 6 Routes
+
+
+
+Resource
+
+seven default actions
+
+`get '/posts/:id', to: 'posts#show', as: 'post'`
+
+```ruby
+resources :photos do
+  member do
+    get 'preview'
+  end
+  collection do
+    get 'search'
+  end
+end
+namespace :admin do
+
+end
+```
+
+
+
+Nested Resources
+
+Singular Resources
+
+root
+
+get 
+
+get 'home', to: 'posts#show'
+
+get 'home', action: :show, controller: 'posts'
+
+post
+
+namespace
+
+ Route Globbing and Wildcard Segments
+
+get '/stories', to: redirect('/articles')
+
+
+### Step 7 Validation
 
 model
 
@@ -542,57 +596,7 @@ view
 <% end %>
 ```
 
-
-
-### Step 6 Routes
-
-
-
-Resource
-
-seven default actions
-
-`get '/posts/:id', to: 'posts#show', as: 'post'`
-
-```ruby
-resources :photos do
-  member do
-    get 'preview'
-  end
-  collection do
-    get 'search'
-  end
-end
-namespace :admin do
-
-end
-```
-
-
-
-Nested Resources
-
-Singular Resources
-
-root
-
-get 
-
-get 'home', to: 'posts#show'
-
-get 'home', action: :show, controller: 'posts'
-
-post
-
-namespace
-
- Route Globbing and Wildcard Segments
-
-get '/stories', to: redirect('/articles')
-
-
-
-### Step 7 Test
+### Step 8 Test
 
 
 
@@ -1203,11 +1207,6 @@ end
 controller
 
 ```ruby
-# User
-class UserController
-  
-end
-
 class SessionsController < ApplicationController
   def new
   end
@@ -1235,7 +1234,7 @@ module SessionsHelper
         session[:user_id] != nil
     end   
     def current_user
-        User.find(session[:user_id])
+        User.find_by(session[:user_id])
     end
 end
 ```
@@ -1249,7 +1248,7 @@ resources :users
 resource :session
 ```
 
-session.new.html.erb
+session/new.html.erb
 
 ```erb
 <%= form_tag controller: "sessions", action: "create", method: "post" do |form| %>
@@ -1266,6 +1265,27 @@ session.new.html.erb
   </div>
 <% end %>
 ```
+
+
+
+```erb
+    <%= form_for(:session, url: login_path) do |f| %>
+
+      <%= f.label :email %>
+      <%= f.email_field :email, class: 'form-control' %>
+
+      <%= f.label :password %>
+      <%= f.password_field :password, class: 'form-control' %>
+
+      <%= f.submit "Log in", class: "btn btn-primary" %>
+    <% end %>
+
+    <p>New user? <%= link_to "Sign up now!", signup_path %></p>
+```
+
+
+
+
 
 application.html.erb
 
@@ -1517,17 +1537,56 @@ bundle install
 
 
 
-### Step 1 Table
+### Step 2 Grid
 
-### Step 1 Form
+```sh
+model Tables name:string
+model TableField table:reference name:string type:string
+```
 
-### Step 2 Menu
+
+
+### Step 3 Form
+
+
+
+gen form
+
+```ruby
+def form_field
+
+end
+
+def g_form(model_name, fields)
+  
+  form_for '' do
+    for name, type in fileds
+      f.label name
+      form_field(type,name)
+    end
+  end
+end
+```
+
+
+
+
+
+### Step 4 Menu
 
 多层级导航目录（左侧 layout）
 
-### Step 3 Index
+```sh
+model TreeNode parent_id:integer name:string table:references
+```
 
 
+
+### Step 5 Index
+
+
+
+### Step 6 Chart
 
 
 
@@ -1549,7 +1608,7 @@ counter cache
 
 ## Day 5 Shop
 
-
+### Step 1 Model
 
 shell
 
@@ -1570,19 +1629,19 @@ rails generate scaffold Index
 
 work flow
 
-### Step 1 State Machine
+### Step 2 State Machine
 
 
 
 ## Day 6 Bootstrap
 
+### Step 1 Navbar
 
+### Step 2 Layout
 
-### Step 1 Layout
+### Step 3 Button
 
-### Step 2 Button
-
-### Step 3 Modal
+### Step 4 Modal
 
 
 
