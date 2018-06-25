@@ -1,4 +1,4 @@
-# Learn Ruby In 7 Days
+# Mastering Ruby In 7 Days
 
 ## Day 1 Sinatra
 
@@ -159,7 +159,7 @@ open http://127.0.0.1:3000/
 
 
 
-约定over配置
+约定 over 配置
 
 + 优点
   + 学习良好的习惯
@@ -183,13 +183,12 @@ MVC Model–view–controller
 
 Restful
 
-+ 对象资源 
-
++ Stateless Server
++ Resource Identifier
+  + 对象资源
   + `/resources/1/action` 对应方法
-
   + `/resources/action` 对应类方法
-
-+ 单实例类 `/resource/action/`
+  + 单实例类 `/resource/action/`
 
 
 
@@ -240,7 +239,9 @@ Modify
 
 ### Step 4 View
 
-Form
+
+
+**Form**
 
 
 
@@ -326,27 +327,47 @@ Data Binding
 
 
 
-
-
-
-
 form_for
 
-form_tag
+form_tag 用于不绑定到 model 的表单
 
 
+
+**选项框**
+
+固定选项
+
+不固定，读取选项
+
+单选
+
+多选
+
+
+
+
+
+Layout `application.html.erb` `<div><%= yield %></div>`
 
 Flash
 
+- controller  `redirect_to ..., notice: '...' ` 
 
+  + 用于执行提交成果，转到 #show 或 #index
 
-`<p id="notice"><%= notice %></p> `
+  - 等价于 `flash[:notice] = ...; redirect_to ...`
+  - 另一种 `flash.now[:notice] = ...; render ...` 
+  - 用于提交失败可重新提交 用于 #create 或 #update 
 
-flash.now
+- view  `<p id="notice"><%= notice %></p>` 
 
 params
 
++ 可用于 view 保持状态
 
+
+
+**Actions**
 
 url_for
 
@@ -358,10 +379,16 @@ link_to
 + `link_to "Show", posts_path` 通过 routes
 + `link_to "Show", @post` 通过 model 默认 controller#show
 + `link_to "List", controller: "posts"` 默认 #index
++ `link_to "List", {controller: "posts", page: 1}` 加参数
 
 button_to
 
-+ 默认 `method: :post`
++ 默认 `method: :post` 
++ 附加field `params: {...}`
+
+form_tag
+
++ 可以带用户表单作为参数
 
 对资源的操作会用到
 
@@ -375,11 +402,15 @@ button_to
 
 
 
+**Helper** 
+
 helper 在 view 使用，无状态
 
 返回渲染的字符串
 
 render partial
+
+yield block
 
 
 
@@ -394,6 +425,8 @@ method
 
 
 render
+
++ 默认不用显式写出 render
 
 + `render :action`
 + `render 'controller/action'`
@@ -481,6 +514,8 @@ end
 
 根据 form 是否含 id 调用 new->create, edit->update
 
+#new_record?
+
 
 
 Member `show, edit, update, destroy` `params[:id]` 
@@ -541,7 +576,7 @@ resources :posts
 
 ```ruby
 get 'posts',          to: 'posts#index',   as: :posts
-get 'posts/:id/new',  to: 'posts#new',     as: :new_posts
+get 'posts/:id/new',  to: 'posts#new',     as: :new_post
 post 'posts',         to: 'posts#create',  as: :posts
 get 'posts/:id',      to: 'posts#show',    as: :post
 get 'posts/:id/edit', to: 'posts#edit',    as: :edit_post
@@ -648,11 +683,12 @@ end
 
 view
 
-`record.errors` 
+通过 `model.errors` 
 
-`record.errors.full_messages`
++ `model.errors.any?`
++ `model.errors.full_messages`
 
-
+`_form.html.erb`
 
 ```erb
 <% if post.errors.any? %>
@@ -673,46 +709,19 @@ view
 
 ## Day 3 Posts
 
-### Step 1 Start
+### Step 1 New
 
 ```ruby
 rails new myblog
 cd myblog
-rails server
-```
-
-open http://127.0.0.1:3000/
-
-约定over配置
-
-restful
-
-### Step 2 Scaffold
-
-```bash
 rails generate scaffold Post title:string body:text
 rails db:migrate
+rails server
 ```
 
 open http://127.0.0.1:3000/posts/
 
 说明
-
-#### Model
-
-Type
-
-+ `string`, `text`, `binary`
-+ `integer`, `float`, `decimal`, `boolean`
-+ `datetime`, `date`,  `time`
-+ `timestamp` equals `created_at:datetime updated_at:datetime`
-+ `references` equals  `model_id:integer`
-
-Query
-
-+ find
-+ find_by
-+ find_or_initialize_by
 
 #### Controller
 
@@ -770,73 +779,11 @@ Routes
 + helper
   + `<%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %>` 
 
-#### Validation
-
-+ model `Validation`
-+ controller
-  + create `@model.save`
-  + update `@model.update(params[:model])` 
-+ view `model.errors` `model.errors.full_messages`
 
 
 
-model
 
-```ruby
-class Post< ApplicationRecord
-  validates :title, presence: true
-end
-```
-
-
-
-controller
-
-```ruby
-def create
-  @post = Post.new(params[:post])
-  if @post.save
-    redirect_to @post
-  else 
-    render :new 
-  end
-end
-
-def update
-  if @post.update(params[:post])
-    redirect_to @post
-  else
-    render :edit
-  end
-end
-```
-
-view `_form.html.erb`
-
-```erb
-<% if post.errors.any? %>
-  <div id="error_explanation">
-    <h2>
-      <%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:
-    </h2>
-    <ul>
-      <% post.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-    </ul>
-  </div>
-<% end %>
-```
-
-
-
-#### Test
-
-+ 
-
-
-
-### Step 3 Associations
+### Step 2 Associations
 
 shell
 
@@ -907,9 +854,15 @@ class Post
 end
 ```
 
+其中
+
++ has_many 不影响数据库结构，当前表中不需要字段，对应表中存在外键
++ `class Post; has_many :comments; end` 添加 `attr_accessor :comments`
++ 约定为 `has_many :comments, class_name: 'Comment', foreign_key: 'post_id'`
 
 
 
+Routes
 
 
 
@@ -956,13 +909,13 @@ View
 
 ```erb
 # add to
-    <% if @user.microposts.any? %>
-      <h3>Microposts (<%= @user.microposts.count %>)</h3>
-      <ol class="microposts">
+<% if @user.microposts.any? %>
+    <h3>Microposts (<%= @user.microposts.count %>)</h3>
+    <ol class="microposts">
         <%= render @microposts %>
-      </ol>
-      <%= will_paginate @microposts %>
-    <% end %>
+    </ol>
+    <%= will_paginate @microposts %>
+<% end %>
 ```
 
 
@@ -1156,6 +1109,8 @@ controller `before_action` filter
 ```ruby
 class ApplicationController < ActionController::Base
   before_action :authenticate!
+  
+  protected
   def authenticate!
     if session[:user] != 'admin'
       redirect_to login_path
@@ -1176,7 +1131,7 @@ class CommentsController < ApplicationController
 end
 ```
 
-
+ authorize
 
 
 
@@ -1257,7 +1212,7 @@ rails generate bootstrap:install
 
 https://github.com/seyhunak/twitter-bootstrap-rails
 
-application.scss
+application.css.scss
 
 ```scss
 @import "bootstrap";
@@ -1305,7 +1260,6 @@ Prototype-rails
 ## Day 3 Users
 
 
-
 ### Step 1 Users
 
 用户系统
@@ -1326,33 +1280,137 @@ model
 
 ```ruby
 class User < ApplicationRecord
-  has_many :user_groups
-  has_many :groups, through: :user_groups
+  has_many :group_users
+  has_many :groups, through: :group_users
 end
 
 class Group < ApplicationRecord
-  has_many :user_groups
-  has_many :users, through: :user_groups
+  has_many :group_users
+  has_many :users, through: :group_users
 end
 
-class UserGroup < ApplicationRecord
+class GroupUser < ApplicationRecord
   belongs_to :user
   belongs_to :group
 end
 ```
 
+
+
+其中
+
+```ruby
+class Group < ApplicationRecord
+  has_many :group_users
+  has_many :users, through: :group_users
+end
+```
+
+相当于
+
+```ruby
+
+```
+
+根据命名约定等价于
+
+```ruby
+class Group < ApplicationRecord
+  has_many :group_users, class_name: 'UserGroup', foreign_key: 'group_id'
+  has_many :users, through: :group_users, source: ''
+end
+```
+
+相当于
+
+```ruby
+class Group
+  has_many :group_users
+  def users
+    self.group_users
+  end
+end
+```
+
+也相当于
+
+```ruby
+class Group
+  def users
+  end
+end
+```
+
+
+
+
+
+has_many :through 和 join model 配合使用
+
+
+
+
+
+sessions
+
+model
+
+```ruby
+class User
+  def authenticate(password)
+    self.password == password
+  end
+end
+```
+
+view
+
+helper.rb
+
+```ruby
+module SessionsHelper
+  def login?
+    session[:user_id] != nil
+  end   
+  def current_user
+    User.find_by(session[:user_id])
+  end
+end
+```
+
+new.html.erb
+
+```erb
+<html>
+
+</html>
+```
+
+application.html.erb
+
+
+
 controller
 
 ```ruby
+class ApplicationController < ActionController::Base
+  before_action :authorize
+  
+  protected
+  def authorize
+    unless session[:user_id]
+      redirect_to login_path
+    end
+  end
+end
 class SessionsController < ApplicationController
+  skip_before_action :authorize
   def new
   end
 
   def create
-    name = params[:name]
-    password = params[:password]
-    user = User.find_by(name: name, password: password)
-    if user
+    user = User.find_by(name:params[:name])
+    if user && user.authenticate(params[:password])
       session[:user_id] = user.id
       redirect_to root_path
     else
@@ -1364,17 +1422,13 @@ class SessionsController < ApplicationController
     session[:user_id] = nil
     redirect_to root_path
   end
-end
 
-module SessionsHelper
-    def login?
-        session[:user_id] != nil
-    end   
-    def current_user
-        User.find_by(session[:user_id])
-    end
 end
 ```
+
+user.authenticate(password)
+
+
 
 
 
@@ -1391,7 +1445,7 @@ session/new.html.erb
 <%= form_tag controller: "sessions", action: "create", method: "post" do |form| %>
   <div class="field">
     <%= label_tag :name %>
-    <%= text_field_tag :name %>
+    <%= text_field_tag :name, params[:name] %>
   </div>
   <div class="field">
     <%= label_tag :password %>
@@ -1422,7 +1476,7 @@ session/new.html.erb
 
 
 
-
+accounts
 
 application.html.erb
 
@@ -1435,6 +1489,10 @@ application.html.erb
 ```
 
 
+
+```ruby
+
+```
 
 
 
@@ -1769,6 +1827,16 @@ work flow
 
 ### Step 2 State Machine
 
+
+
+
+
+state
+
+Continuations
+
+print and pause
+
 ### Step 3 Transaction
 
 金额精度
@@ -1800,7 +1868,7 @@ a column called lock_version of type integer.
 ### Step 3 Button
 
 ### Step 4 Modal
-=======
+
 后台管理界面，登陆界面，新闻展示界面，
 
 Step 1
