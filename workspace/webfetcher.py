@@ -268,7 +268,7 @@ class Table:
                         key = line.split("\t", 1)[0]
                         self._keys[key] = True
             self._out = open(filename, 'a', encoding='utf-8')
-
+            #fcntl.flock(self._out.fileno());
     def __del__(self):
         if self._out:
             self._out.close()
