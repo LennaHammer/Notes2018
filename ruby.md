@@ -230,7 +230,7 @@ Query
 Modify
 
 + `#save`
-+ `#update`
++ `#create` `#update`
 + ...! 
 
 
@@ -331,6 +331,20 @@ form_for
 
 form_tag 用于不绑定到 model 的表单
 
+new_record? 规则 
+
+path action
+
+path action
+
+
+
+belong_to
+
+collection_select 
+
+collection_check_box
+
 
 
 **选项框**
@@ -363,7 +377,7 @@ Flash
 
 params
 
-+ 可用于 view 保持状态
++ 可用于 view 保持状态，结合 post + render 使用
 
 
 
@@ -547,7 +561,9 @@ end
 
 路由产生 `(路径，controller#action，名称)` 元组
 
+rails routes
 
+http://localhost:3000/rails/info/routes
 
 root
 
@@ -1257,6 +1273,10 @@ link_to
 
 Prototype-rails
 
+局部刷新
+
+
+
 ## Day 3 Users
 
 
@@ -1381,9 +1401,19 @@ end
 new.html.erb
 
 ```erb
-<html>
-
-</html>
+<%= form_tag controller: "sessions", action: "create", method: "post" do |form| %>
+  <div>
+    <%= label_tag :name %>
+    <%= text_field_tag :name, params[:name] %>
+  </div>
+  <div>
+    <%= label_tag :password %>
+    <%= password_field_tag :password %>
+  </div>
+  <div>
+    <%= submit_tag "Login" %>
+  </div>
+<% end %>
 ```
 
 application.html.erb
@@ -1730,14 +1760,60 @@ gem 'haml-rails'
 bundle install
 ```
 
+### Step 2 Role
+
+```
+rails generate scaffold User name:string password:string 
+rails generate scaffold Role name:string
+rails generate model RoleUser user:references role:references
+rails generate controller Sessions new create destory
+rails generate controller Admin/Users new create destory
+rails db:migrate
+```
+
+```ruby
+class User < ApplicationRecord
+  has_many :role_users
+  has_many :groups, through: :role_users
+end
+
+class Role < ApplicationRecord
+  has_many :role_users
+  has_many :users, through: :role_users
+end
+
+class RoleUser < ApplicationRecord
+  belongs_to :user
+  belongs_to :role
+end
+```
 
 
-<<<<<<< HEAD
+
 ### Step 2 Grid
 
 ```sh
-model Tables name:string
-model TableField table:reference name:string type:string
+rails g scaffold Table name:string
+rails g model Field table:references name:string type:string
+rails db:migrate
+rails g controller Rows edit update
+```
+
+
+
+```ruby
+class Table < ApplicationRecord
+  has_many :fields
+  def rows
+    t = Class.new(ApplicationRecord) do
+      def self.name
+        ''
+      end
+    end
+    t.table_name=("_table#{id}")
+    t
+  end
+end
 ```
 
 
@@ -1773,8 +1849,12 @@ end
 多层级导航目录（左侧 layout）
 
 ```sh
-model TreeNode parent_id:integer name:string table:references
+rails add parent_id:integer folder:boolean index:integer
+rails db:migrate
+rails g controller Admin::Trees  
 ```
+
+
 
 
 
@@ -1861,27 +1941,101 @@ a column called lock_version of type integer.
 
 ## Day 6 Bootstrap
 
-### Step 1 Navbar
+### Step 1 HTML
 
-### Step 2 Layout
 
-### Step 3 Button
 
-### Step 4 Modal
++ p `<p>...</p>`
++ link `<a href="...">...</a>`
++ image `<img src="..." alt="...">`
++ list `<ul><li>...</li><li>...</li></ul>`
+
+table `<table></table>`
+
++ header `<th><td>...</td><td>...</td></th>`
+
++ row `<tr><td>...</td><td>...</td></tr>`
+
+form
+
++ input
++ text area
++ select
++ submit
+
+
+
+### Step 2 CSS
+
+block `<div>...</div>`, inline `<span>...</span>`
+
+width height border
+
+color
+
+图文混合排版
+
+文字 背景框
+
+### Step 3 Bootstrap
+
+layout container row col
+
+
+
+### Tree View
+
+
 
 后台管理界面，登陆界面，新闻展示界面，
 
-Step 1
+theme 抽象
+
+### Step 1 Post
 
 html
 
 css
 
+
+
+### Step 2 Layout
+
+
+
 ### Step 1 Login
 
-### Step 2 Posts
+登录界面
+
+### Step 2 News
+
+新闻展示首页，纵向布局，加分栏
 
 ### Step 3 Admin
+
+后台管理界面
+
+头
+
+侧边
+
+内容
+
+ Step 4 Table
+
+Step 5 Form
+
+ Step 1 Navbar
+
+ Step 2 Layout
+
+ Step 3 Button
+
+## Day 7 Admin
+
+### Day 1 Namespace
+
+### Day 2 Layout
 
 
 
@@ -1897,7 +2051,7 @@ gem install nokogiri
 gem install rails rails-bootstrap
 ```
 
-'require.js'
+'require.js' 管理多个 js 文件
 
 haml / slim
 
@@ -1929,7 +2083,26 @@ sqlite
 
 类型
 
+命令
 
+```sh
+rails new project
+cd project
+bundle install
+rails g scaffold Post title:string
+rails g model Post title:string
+rails g controller Posts index show new create edit update destroy
+rails db:migrate
+rails routes
+rails c #console reload!
+rails destroy #destroy
+```
+
+
+
+函数
+
+.present?
 
 
 ## References
