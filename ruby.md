@@ -1804,13 +1804,15 @@ rails g controller Rows edit update
 ```ruby
 class Table < ApplicationRecord
   has_many :fields
-  def rows
+  def data
+    class_name = "Table#{id}"
     t = Class.new(ApplicationRecord) do
-      def self.name
-        ''
-      end
+        def self.name
+          "Row"
+        end
     end
     t.table_name=("_table#{id}")
+    t.reset_column_information
     t
   end
 end
@@ -2103,6 +2105,8 @@ rails destroy #destroy
 函数
 
 .present?
+
+reset_column_information 
 
 
 ## References

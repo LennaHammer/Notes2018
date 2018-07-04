@@ -701,8 +701,15 @@ PreAuthorize
 
 
 
++ execute
++ query
++ update
+
+
+
 ```java
 jdbcTemplate = new JdbcTemplate(dataSource);
+
 jdbcTemplate.update("update ", ...);
 jdbcTemplate query();
 jdbcTemplate queryForList("select ...", ...); // all rows
@@ -710,7 +717,7 @@ jdbcTemplate queryForObject("select ...", ...); // first row
 //jdbcTemplate queryForMap("select ...", ...);
 ```
 
-
+ NamedParameterJdbcTemplate
 
 ### Transactions
 
@@ -763,6 +770,8 @@ JpaRepository extends PagingAndSortingRepository which in turn extends CrudRepos
 
 
 ### MyBatis
+
+优点：方便映射到实体类，省去写 rowmapper，避免直接拼字符串
 
 
 
@@ -927,12 +936,12 @@ BEGIN 或 START TRANSACTION
 内置函数
 
 + 字符串 LEFT
-+ 日期时间 
-+ 地理信息
++ 日期时间 datediff todays
++ 地理信息 
 
 用户定义函数
 
-
+储存过程
 
 ### 注意
 
@@ -958,6 +967,12 @@ cursor
 
 explain
 
+select row_number() over+
+
+CONVERT
+
+DATEDIFF
+
 ### Tools
 
 CLI
@@ -972,7 +987,7 @@ Navicat Premium
 
 ## MyBatis
 
-
+优点：方便映射到实体类，省去写 rowmapper，避免直接拼字符串
 
 SqlSessionFactoryBuilder  XML 
 
@@ -1005,19 +1020,49 @@ generatorConfig.xml
 
 ## Design Pattern
 
-对象创建
+动机
 
-+ Factory
++ 替换
++ 对象
++ 组合
+
+对象创建 Creational patterns
+
++ Factory 创建对象的对象 实现 new 的 多态替换 Abstract factory 实现为 factory 对象 的替换  Factory method 
 + Builder  例如 `StringBuilder`
-+ Single Instance 实现 全局对象
++ Singleton 实现 全局对象
++ Prototype 原型
 
-行为
+行为 Behavioral patterns
 
 + Command 实现 undo
++ 
++ Observer 实现 事件 event 订阅 subscribe ，MVC 中触发视图的变化
++ Iterator 迭代
++ Visitor 复合类型的迭代 Interpreter 迭代时解释运行
 
-组合
+组合 Structural patterns
 
-+ 实现 Sum Type
++ Composite 实现 Sum Type
++ Adapter 改变接口 Decorator 增加功能 Proxy
++ State 不用 switch 语句实现状态机
++ Memento 保存当前状态
++ Chain of responsibility 实现 Filter
+
+Concurrency patterns
+
++ Lock
++ 
+
+## Java 基础
+
+### collections
+
+### 并发
+
+collection
+
+lock
 
 
 
@@ -1058,7 +1103,7 @@ jetbrains
 
 vscode
 
-
+## git
 
 git
 
@@ -1086,7 +1131,7 @@ git pull git fetch followed by a git merge.
 
 反向代理
 
-## Tomcat
+### Tomcat
 
 `.war` 放入 `webapps`
 
@@ -1394,6 +1439,7 @@ header
 
 Request
 
++ method
 + `Keep-Alive`
 
 Response
@@ -1422,11 +1468,17 @@ socket
 
 frame
 
+packet
+
 
 
 ## Spring Boot
 
 `Web devtools MySQL JDBC JPA`
+
+
+
+web devtools mybatis jdbc mysql
 
 
 
@@ -1638,6 +1690,20 @@ BCNF
 
 ## GIS
 
+mysql
+
+sharp
+
+
+
+point
+
+POLYGON((120.152627724 30.312151179, 120.1528202 30.310101329, 120.160247752 30.302236616, 120.161226136 30.295942228, 120.157295087 30.2945869, 120.14327573 30.30942543, 120.150616189 30.313894475, 120.152627724 30.312151179))
+
+MULTIPOLYGON(((120.15302015 30.299728037, 120.157295087 30.2945869, 120.154759368 30.293816328, 120.15390814 30.295835673, 120.149698396 30.29459818, 120.145101432 30.301637696, 120.145511434 30.306987958, 120.15302015 30.299728037)), ((120.166818473 30.347120822, 120.170087744 30.339075233, 120.173948414 30.339344393, 120.152627724 30.312151179, 120.150616189 30.313894475, 120.14327573 30.30942543, 120.141016643 30.327011727, 120.144558281 30.327347644, 120.143775266 30.333254667, 120.132787036 30.333070584, 120.132409346 30.342810367, 120.143129909 30.342728101, 120.142859251 30.345866931, 120.15037414 30.345158958, 120.149370328 30.343615841, 120.150635425 30.342854044, 120.153161203 30.343635488, 120.152889449 30.345879629, 120.155226536 30.345065427, 120.154990106 30.3476505, 120.156930075 30.347246025, 120.157441212 30.345070776, 120.160915423 30.346207469, 120.161816258 30.344771021, 120.166818473 30.347120822)))
+
+
+
 3D
 
 坐标 
@@ -1664,7 +1730,9 @@ leaflet
 
 ## 数据可视化
 
+excel
 
+plot
 
 
 
