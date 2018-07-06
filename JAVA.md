@@ -4,6 +4,8 @@
 
 ## Spring
 
+历史版本3.0
+
 ### IoC
 
 用于运行时单实例对象的创建
@@ -229,6 +231,12 @@ filter 有序
 
 基于 Servlet
 
+https://docs.spring.io/spring/docs/3.1.x/spring-framework-reference/html/mvc.html#mvc-ann-modelattrib-method-args
+
+https://docs.spring.io/spring/docs/3.1.x/spring-framework-reference/html/mvc.html
+
+
+
 ### Configure
 
 web.xml(servlet)
@@ -421,7 +429,7 @@ RUN
 
 ### Component
 
-@Component 被扫描
+@Component 被扫描，才能注入使用
 
 + 
 
@@ -435,15 +443,14 @@ RUN
 
 class
 
-+ `@Controller class ...`
++ `@Controller`
++ `@RequestMapping("/...")`
 
 method
 
 + `@RequestMapping("/...")`
-
-`@RequestMapping(value="/...",methodRequestMethod.=GET)`
-
-`GetMapping`   `@PostMapping`
++ `@RequestMapping(value="/...",method=RequestMethod.GET)`
++ `@GetMapping("...")`   `@PostMapping(...)`
 
 param
 
@@ -451,9 +458,11 @@ param
 + `"/{name}"` -> `@PathVariable("name")`
 + HttpServletRequest
 + HttpServletResponse
-+ `@ModelAttribute` 
++ `@ModelAttribute` Data Binding
   + every request `@ModelAttribute("person")`   before @RequestMapping
   + from form 
++ MultipartFile
++ session
 
 Exception
 
@@ -463,15 +472,17 @@ Exception
 
 + 全局 `@ControllerAdvice` 
 
-返回 Response
+Response
 
-+ `Model model` `model.addAttribute("...","...")` ->  `"view"`
-+ `"redirect:/path"` 
-+ ModelAndView `new ModelAndView("view", "command", new Item());`
-+ `@ResponseBody` 返回 String 或 Bean
-+ new ResponseEntity(obj,  HttpStatus.OK)
++ view `Model model` `model.addAttribute("...","...")` ->  `return "view"`
++ redirect `return "redirect:/path"` 
++ `new ModelAndView("view", "command", new Item());`
++ string `@ResponseBody` 返回 String 或 Bean
++ status `new ResponseEntity(obj,  HttpStatus.OK)`
 
+Interceptor
 
++ 
 
 
 
@@ -489,6 +500,14 @@ public class HelloController {
 }
 ```
 
+https://spring.io/blog/2013/11/01/exception-handling-in-spring-mvc
+
+
+
+
+
+@RestControllerAdvice
+
 
 
 
@@ -503,6 +522,37 @@ public void handleNullPointerException(Exception e) {
 
 
 
+Interceptor
+
+HandlerInterceptorAdapter
+
+```java
+@Component
+public class ApplicationControllerInterceptor extends HandlerInterceptorAdapter {
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+            throws Exception {
+        System.out.println("++++++++++");
+        return super.preHandle(request, response, handler);
+    }
+}
+```
+
+
+
+```java
+@Configuration
+public class InterceptorConfig implements WebMvcConfigurer {
+
+	@Autowired
+	ApplicationControllerInterceptor interceptor;
+
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(interceptor);
+	}
+}
+```
+
 
 
 ### View
@@ -511,7 +561,7 @@ public void handleNullPointerException(Exception e) {
 + `<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>`
 + `<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">` 
 + `${...}`
-+ `foreach`
++ `c:foreach`
 + `request.getAttribute`
 
 ```jsp
@@ -525,7 +575,8 @@ public void handleNullPointerException(Exception e) {
 
 基于 jdbc
 
-POJO
+POJO bean
+
 getter seter
 
 ```
@@ -568,11 +619,12 @@ Service
 Controller
 
 + `ModelAndView` 
-
-+ `@ModelAttribute("SpringWeb")` 
++ `@ModelAttribute("SpringWeb")` params 
++ @ModelAttribute method
++ binding
 
 View
-+ `<form:form method="POST" action="/...">`
++ `<form:form method="POST" action="/..." modelAttribute="...">`
 
 + `path="..."`
   + `<form:label path="name1">Name 1</form:label>`
@@ -604,6 +656,12 @@ File upload
 
 `@RequestParam("file") MultipartFile file`
 
+### Validation
+
+binding results
+
+
+
 ### Json
 
 Controller
@@ -622,6 +680,8 @@ HttpMessageConverter
 MappingJackson2HttpMessageConverter
 
 
+
+response.sendRedirect("some-url");
 
 
 
@@ -653,9 +713,13 @@ class UserNotFoundException extends RuntimeException {
 	}
 }
 
+### 文件上传
+
+
+
 ### Logger
 
-### validation 
+###  
 
 ### Security
 
@@ -663,15 +727,17 @@ interceptor+
 
 HandlerInterceptorAdapter 
 
-	public boolean preHandle(HttpServletRequest request, 
-		HttpServletResponse response, Object handler)
-	    throws Exception {
-		
-		long startTime = System.currentTimeMillis();
-		request.setAttribute("startTime", startTime);
-		
-		return true;
-	}
+```java
+public boolean preHandle(HttpServletRequest request, 
+	HttpServletResponse response, Object handler)
+    throws Exception {
+	
+	long startTime = System.currentTimeMillis();
+	request.setAttribute("startTime", startTime);
+	
+	return true;
+}
+```
 authenticate
 
 PreAuthorize
@@ -681,6 +747,17 @@ PreAuthorize
 
 
 ## Spring Data
+### Transactions
+
+`@Transactional`
+
+```xml
+<tx:annotation-driven transaction-manager="txManager"/><!-- a PlatformTransactionManager is still required -->
+<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+<!-- (this dependency is defined somewhere else) -->
+    <property name="dataSource" ref="dataSource"/>
+</bean>
+```
 
 ### JdbcTemplate
 
@@ -719,17 +796,11 @@ jdbcTemplate queryForObject("select ...", ...); // first row
 
  NamedParameterJdbcTemplate
 
-### Transactions
+BeanPropertyRowMapper
 
-`@Transactional`
 
-```xml
-<tx:annotation-driven transaction-manager="txManager"/><!-- a PlatformTransactionManager is still required -->
-<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-<!-- (this dependency is defined somewhere else) -->
-    <property name="dataSource" ref="dataSource"/>
-</bean>
-```
+
+
 
 
 
@@ -767,13 +838,72 @@ JpaRepository extends PagingAndSortingRepository which in turn extends CrudRepos
 
 @ManyToMany(mappedBy = "roles")
 
+### Spring Data JPA
+
+类
+
++ Repository
++ JpaRepository
+
+类方法 Query
+
++ findById
++ findByNameAndPwd
++ findByIdBetween
++ findByNameNotNull 
++ findByNameLike 
++ findByNameStartingWith 
++ findByIdOrderByXDesc 
++ findByIdIn(Collection<?> c) 
++ findByAaaTrue 
++ findByNameIgnoreCase 
++ existisById
+
+类方法
+
++ save(entity)
++ delete
++ count
++ find
+
+方法 Modifying
+
++ setFixedFirstnameFor
++ 
 
 
-### MyBatis
+## MyBatis
 
 优点：方便映射到实体类，省去写 rowmapper，避免直接拼字符串
 
+SqlSessionFactoryBuilder  XML 
 
+SqlSessionFactory Singleton pattern
+
+SqlSession session = sqlSessionFactory.openSession();
+
+SqlSession Each thread 
+
+Mapper
+
+
+
+session.selectOne
+
+session.getMapper
+
+```java
+public interface BlogMapper {
+  @Select("SELECT * FROM blog WHERE id = #{id}")
+  Blog selectBlog(int id);
+}
+```
+
+
+
+MyBatis Generator
+
+generatorConfig.xml
 
 ## Maven
 
@@ -881,8 +1011,21 @@ pom.xml
 + trigger
 
   
+```mysql
+CREATE TABLE `data` (
+	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`key` VARCHAR(160) NOT NULL,
+	`value` TEXT NOT NULL,
+	PRIMARY KEY (`id`),
+	UNIQUE INDEX `key_unique` (`key`)
+)
+COLLATE='utf8mb4_bin'
+ENGINE=InnoDB
+;
 
-  
+
+
+```
 
 
 
@@ -914,7 +1057,7 @@ pom.xml
 + UPDATE 
   + `update table set value=? where key=?`
 + DELETE
-  + `delete where id=?`
+  + `delete from table where id=?`
 
 ### Transaction
 
@@ -983,40 +1126,106 @@ Navicat Premium
 
 
 
+获得表的信息
 
+SHOW columns FROM table_name
 
-## MyBatis
-
-优点：方便映射到实体类，省去写 rowmapper，避免直接拼字符串
-
-SqlSessionFactoryBuilder  XML 
-
-SqlSessionFactory Singleton pattern
-
-SqlSession session = sqlSessionFactory.openSession();
-
-SqlSession Each thread 
-
-Mapper
+desc table_name
 
 
 
-session.selectOne
-
-session.getMapper
-
-```java
-public interface BlogMapper {
-  @Select("SELECT * FROM blog WHERE id = #{id}")
-  Blog selectBlog(int id);
-}
-```
+备份表
 
 
 
-MyBatis Generator
+DESCRIBE City;
 
-generatorConfig.xml
+{EXPLAIN | DESCRIBE | DESC}
+
+explain select
+
++ type all index range
++ 
+
+https://dev.mysql.com/doc/workbench/en/wb-tutorial-visual-explain-dbt3.html
+
+
+
+SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(time_col))) FROM tbl_name;
+SELECT FROM_DAYS(SUM(TO_DAYS(date_col))) FROM tbl_name;
+
+https://dev.mysql.com/doc/refman/8.0/en/optimize-overview.html
+
+
+
+window functions
+
+COUNT(*) is somewhat different in that it returns a count of the number of rows retrieved, whether or not they contain NULL values.
+
+COUNT(expr) Returns a count of the number of non-NULL values of expr
+
+SELECT
+         year, country, product, profit,
+         SUM(profit) OVER() AS total_profit,
+         SUM(profit) OVER(PARTITION BY country) AS country_profit
+       FROM sales
+       ORDER BY country, year, product, profit;
+
+CUME_DIST()
+DENSE_RANK()
+FIRST_VALUE()
+LAG()
+LAST_VALUE()
+LEAD()
+NTH_VALUE()
+NTILE()
+PERCENT_RANK()
+RANK()
+ROW_NUMBER()
+
+https://dev.mysql.com/doc/refman/8.0/en/mysql-indexes.html
+
+
+
+
+
+sample standard deviation
+
+sample variance
+
+ the population standard variance
+
+
+
+DATEDIFF(expr1,expr2)
+
+TO_DAYS()	Return the date argument converted to days
+TO_SECONDS()
+
+select 1 from tablename where col = 'col' limit 1;
+
+INSERT INTO table (a,b,c) VALUES (1,2,3)  ON DUPLICATE KEY UPDATE c=c+1; 
+
+REPLACE INTO users (id,name,age) VALUES(123, '贾斯丁比伯', 22); 
+
+MATCH() ... AGAINST 
+
+ Full-Text Search Functions
+
+https://dev.mysql.com/doc/refman/8.0/en/select-optimization.html
+
+
+
+
+
+### DateTime
+
+函数
+
+YEAR(o_orderdate) = 1992 AND MONTH(o_orderdate)
+
+
+
 
 ## Design Pattern
 
@@ -1093,6 +1302,10 @@ Jackson
 
 Ecplise
 
++ 快捷键 `Ctrl+/` 补全
++ 快捷键 `Ctrl+1` 修正
++ 插件 Spring
+
 web project
 
 deploy
@@ -1102,6 +1315,8 @@ clean/build
 jetbrains
 
 vscode
+
++ 快捷键 `Ctrl+P` 切换文件
 
 ## git
 
@@ -1243,6 +1458,10 @@ body {
 float:left
 
 有一些可视化的布局工具
+
+
+
+### Mobile
 
 
 
@@ -1407,6 +1626,48 @@ setTimeout
 
 
 
+```javascript
+function $(){
+    
+}
+function select(selector){
+    return document.querySelectorAll(selector)
+}
+
+$.ajax = function(opt){
+    var url = opt['url'];
+    var method = opt['method'] || 'GET';
+    var data = opt['data'];
+    var success = opt['success'];
+    var xhr = new XMLHttpRequest();
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');    
+}
+$.prototype.each = function(html){
+    
+};
+$.prototype.html = function(html){
+    
+};
+$.prototype.css = function(html){
+    
+};
+$.prototype.attr = function(html){
+    
+};
+$.prototype.show = function(html){
+    
+};
+$.prototype.hide = function(html){
+	return this.css("display", "none")
+};
+```
+
+https://www.cnblogs.com/xiaohuochai/p/7526278.html
+
+Zepto.js
+
+
+
 ### JQuery
 
 AJAX
@@ -1428,6 +1689,20 @@ $.get("...", ...)
 ### require.js
 
 单网页应用管理多 js 文件
+
+http://handlebarsjs.com/
+
+http://www.embeddedjs.com/
+
+https://mustache.github.io/
+
+http://www.vogella.com/tutorials/JavaServerFaces/article.html
+
+### tinyMCE
+
+
+
+自动补全输入框
 
 ## HTTP
 
@@ -1460,6 +1735,15 @@ Post
 
 URLConnection
 
+1、+ URL 中+号表示空格 %2B 
+2、空格 URL中的空格可以用+号或者编码 %20 
+3、 / 分隔目录和子目录 %2F 
+4、 ? 分隔实际的 URL 和参数 %3F 
+5、 % 指定特殊字符 %25 
+6、# 表示书签 %23 
+7、 & URL 中指定的参数间的分隔符 %26 
+8、 = URL 中指定参数的值 %3D
+
 
 
 ## TCP/IP
@@ -1478,7 +1762,7 @@ packet
 
 
 
-web devtools mybatis jdbc mysql
+web devtools mybatis jdbc mysql  lambok
 
 
 
@@ -1505,6 +1789,18 @@ pom.xml
 
 执行 `dependency:purge-local-repository` 
 
+配置
+
+端口
+
+
+
+```properties
+server.port=8004
+```
+
+ 连接 mysql
+
 ```ini
 spring.jpa.hibernate.ddl-auto=create
 spring.datasource.url=jdbc:mysql://localhost:3306/database1
@@ -1514,6 +1810,8 @@ spring.jpa.database-platform=org.hibernate.dialect.MySQL5Dialect
 ```
 
 
+
+@ComponentScan(basePackages = "com.test.app")
 
 @Transactional @EnableTransactionManagement
 
@@ -1641,10 +1939,16 @@ Access
 
 + 表格
 + 关系
-
 + 表单 绑定 数据源
-
 + 报表
+
+
+
+
+
+
+
+
 
 ## Advance
 
@@ -1688,9 +1992,46 @@ BCNF
 
 
 
+## Redis教程
+
+
+
 ## GIS
 
 mysql
+
+GEOMETRY
+
+类型
+
+GEOMETRY（内部格式）
+
+POINT
+
+LINESTRING
+
+POLYGON
+
+查询 
+
++ 用ST_AsText
++ MBRContains 
+
+SELECT ST_AsText(ST_GeomFromText(@mp));
+
+插入 用ST_GeomFromText
+
+
+
+索引SPATIAL INDEX(
+
+
+
+Well-Known Text (WKT) Format（文本格式）
+
+`ST_GeomFromText(...)` 文本格式转内部格式
+
+`ST_AsText ` 内部格式转文本格式
 
 sharp
 
@@ -1734,6 +2075,29 @@ excel
 
 plot
 
+ECharts - Java类库 ECharts-Ja
+
+## [分布式 RPC 服务框架 Dubbo [推](https://www.oschina.net/p/dubbo) 
+
+分布式系统协调 ZooKeeper
+
+
+
+## [分布式系统基础架构 Hadoop ](https://www.oschina.net/p/hadoop) 
+
+## [分布式搜索引擎 ElasticSearch ](https://www.oschina.net/p/elasticsearch) 
+
+## 集成测试工具 Selenium
+
+Java 常用工具包 Jodd  推荐
+常用工具包
+
+guava
+
+
+
+uuid
+
 
 
 ## References
@@ -1761,9 +2125,10 @@ plot
 + https://www.drupal.org/docs/8/core/modules/workflows/overview
 + https://www.google.com
 + https://www.bing.com
-+ 
 
 
+
+http://wuyuan.io/tutorials
 
 补充
 

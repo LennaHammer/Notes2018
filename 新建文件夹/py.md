@@ -1,4 +1,4 @@
-# Py Tools and Principles
+# Python Tools and Principles
 
 ## INSTALL
 
@@ -51,6 +51,8 @@ conn.commit()
 
 ```
 
+cursor.lastrowid
+
 
 
 ## Web
@@ -99,7 +101,7 @@ element.click()
 
 
 
-Flask
+
 
 
 
@@ -107,19 +109,57 @@ Django
 
 
 
+Flask
 
 
 
 
-opencv
 
 
 
-pytorch
 
 
 
-## stats
+
+## stat
+
+https://github.com/python/cpython/blob/3.7/Lib/statistics.py
+
+
+
+
+
+statistics
+
+1. sampling
+1. descriptive statistics
+1. analysis of variance anova
+1. correlation
+1. covariance
+1. exponential smoothing
+1. moving average
+1. regression
+1. paired t-test
+1. F-test
+1. z-test
+1. chi-square Test
+
+
+
+
+
+
+
+Excel
+
++ sort
++ filter
++ range
++ pivot table
++ validity
++ subtotal
++ form
++ group outline
 
 
 
@@ -131,11 +171,15 @@ def read_csv(filename):
 
 ```
 
+plot
 
+## ML
 
 sklearn
 
+keras
 
+pytorch
 
 ## Image
 
@@ -143,19 +187,22 @@ sklearn
 
 opencv
 
-
-
-## ML
-
+opencv
 
 
 
 
-# NLP
+
+
+
+## NLP
+
+
 
 NLTK
 
-
-
 jieba
 
+
+
+ datetime.now().date() + timedelta(days=1)

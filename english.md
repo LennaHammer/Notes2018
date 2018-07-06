@@ -20,6 +20,8 @@ of
 
 be
 
++ be ready to
+
 can
 
 give
@@ -57,15 +59,27 @@ like
 
 help
 
-stop
+stop from
 
 start
 
 time
 
+will
+
+have
+
++ have been .... for a long time
+
+can, must, need, have to,
+
+remember, forget 
+
+be ready to, make sure, 
+
 now, today
 
-
+happy, glad, sad, excited, nervous
 
 what when where how
 
@@ -107,15 +121,27 @@ fast
 
 副词
 
-never
-
-often
-
-always
+never often always
 
 very
 
 
+
+feel
+
+like
+
+think
+
+know
+
+
+
+yesterday today tomorrow
+
+afternoon noon morning night
+
+now later
 
 ## 附录
 
@@ -127,7 +153,7 @@ very
 
 星期 Monday Tuesday Thirsty 
 
-月 
+月份 December 
 
 代词1 I he she we they
 
@@ -150,3 +176,16 @@ very
 Dolch Basic Sight Words 
 
 http://www.mrsperkins.com/dolch.htm
+
+
+
+## 草稿
+
+
+
+What is your name?
+
+My name is ...
+
+
+

@@ -50,6 +50,9 @@ wget -m -p -np -k
 -e,  --execute=COMMAND           execute a `.wgetrc'-style command
 
 -i,  --input-file=FILE           download URLs found in local or external FILE
+
+wget -A gif,jpg
+-R png,jpg,gif
 ```
 
 
@@ -58,6 +61,7 @@ wget -m
 
 ```
 wget -m -np -k -p -E -K
+
 wget -m -np -k -p -E -e robots=off
 # https://www.yiibai.com/
 
@@ -65,7 +69,21 @@ wget -m -np -k -p -E -e robots=off
 
 ```
 
+--exclude-directories
 
+wget -bc \
+    --html-extension \
+    --restrict-file-names=windows \
+    --convert-links \
+    --page-requisites \
+    --execute robots=off \
+    --mirror \
+    --exclude-directories /try \
+    --user-agent="Chrome/10.0.648.204" \
+    --no-check-certificate \
+    --reject "aggregator*" \
+    -o $SERVER.log \
+    $ADDR 2>&1 & 
 
 
 

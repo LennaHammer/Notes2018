@@ -13,7 +13,7 @@ ActiveRecord::Base.establish_connection(
 ActiveRecord::Base.connection.execute("
   create table if not exists posts (
     id integer primary key autoincrement,
-    name string not null,
+    name varchar(255) not null,
     body text not null,
     created_at datetime not null
   )
