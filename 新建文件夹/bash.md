@@ -111,5 +111,5 @@ windows
 
 msys2
 
-cywim
+Cygwin
 

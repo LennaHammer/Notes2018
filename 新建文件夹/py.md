@@ -142,7 +142,7 @@ Flask
 
 分布
 + 概率
-+ 正态分布
++ 正态分布 Normal distribution
   + Z检验 Z-test
 
 
@@ -188,7 +188,7 @@ Mean squared error MSE 均方误差
 + 正态分布
   + Z检验 根据中央极限定理 p值 if the sample size is large or the population variance is known
  If the population variance is unknown (and therefore has to be estimated from the sample itself) and the sample size is not large (n < 30), the Student's t-test may be more appropriate.
-
+单侧或双侧的p值可以用标准累积分布函数Φ来计算，分别为Φ(?Z)（上侧） Φ(Z)（下侧）和 2Φ(?|Z|) （双侧）。
 
 + 卡方分布 chi-squared distribution
 + t检验
@@ -311,3 +311,12 @@ jieba
 
 
  datetime.now().date() + timedelta(days=1)
+ 
+ ```r
+x <- 1:10
+y <- 23*x+rnorm(length(x))
+m <- lm(y~x)
+summary(m)
+par(mfrow=c(2, 2))
+plot(m)
+```
