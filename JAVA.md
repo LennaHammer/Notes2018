@@ -41,12 +41,13 @@ Configuration
 + annotation
   + `@Component` bean
   + `@Autowired` + interface 用于 field setter constructor
+  + `@bean`
 
 
 
 启动
 
-
++ ​
 
 
 
@@ -431,7 +432,7 @@ RUN
 
 @Component 被扫描，才能注入使用
 
-+ 
++ ​
 
 + @Controller -->> (@Service -> @Repository）
 
@@ -834,7 +835,7 @@ JpaRepository extends PagingAndSortingRepository which in turn extends CrudRepos
 
 @ManyToMany
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    
+​    
 
 @ManyToMany(mappedBy = "roles")
 
@@ -969,7 +970,7 @@ pom.xml
     )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
     ```
 
-  + 
+  + ​
 
   + Type(Length)
 
@@ -1010,7 +1011,7 @@ pom.xml
   + CHANGE 
 + trigger
 
-  
+
 ```mysql
 CREATE TABLE `data` (
 	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -1151,7 +1152,7 @@ DESCRIBE City;
 explain select
 
 + type all index range
-+ 
++ ​
 
 https://dev.mysql.com/doc/workbench/en/wb-tutorial-visual-explain-dbt3.html
 
@@ -1322,7 +1323,7 @@ mysqldump -hhostname -uusername -ppassword -database databasename | gzip > backu
 行为 Behavioral patterns
 
 + Command 实现 undo
-+ 
++ ​
 + Observer 实现 事件 event 订阅 subscribe ，MVC 中触发视图的变化
 + Iterator 迭代
 + Visitor 复合类型的迭代 Interpreter 迭代时解释运行
@@ -1338,7 +1339,7 @@ mysqldump -hhostname -uusername -ppassword -database databasename | gzip > backu
 Concurrency patterns
 
 + Lock
-+ 
++ ​
 
 ## Java 基础
 
@@ -1614,7 +1615,7 @@ FORM 表单
 
 样式 Style
 
-+ 
++ ​
 
 HTML 4
 
@@ -1908,7 +1909,7 @@ role 团队分工
 
 + Customer
 + Project Manager
-+   前端 后端
++ 前端 后端
 
 ## Domain 
 
@@ -2197,7 +2198,7 @@ uuid
 + https://www.tutorialspoint.com/online_bootstrap_editor.php
 + https://www.runoob.com/try/bootstrap
 + https://www.layoutit.com/build
-+ 
++ ​
 + https://bootstrapstudio.io/
 + https://www.tutorialspoint.com/springaop/
 + https://hellokoding.com/registration-and-login-example-with-spring-security-spring-boot-spring-data-jpa-hsql-jsp/
