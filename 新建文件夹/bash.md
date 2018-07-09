@@ -67,6 +67,9 @@ wget -m -np -k -p -E -e robots=off
 
 # http://www.runoob.com/
 
+wget -m -np -k -p -E -e robots=off http://www.runoob.com/
+
+wget -m -np -k -p -E -e robots=off --exclude-directories /tag/,/t/ http://www.yiibai.com/
 ```
 
 --exclude-directories

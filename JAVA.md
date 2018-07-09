@@ -1120,9 +1120,13 @@ DATEDIFF
 
 CLI
 
-MySQL Workbench
++ 
 
-Navicat Premium
+GUI
+
++ MySQL Workbench
++ Navicat Premium
++ HeidiSQL
 
 
 
@@ -1131,6 +1135,8 @@ Navicat Premium
 SHOW columns FROM table_name
 
 desc table_name
+
+SHOW TABLE STATUS
 
 
 
@@ -1216,6 +1222,73 @@ https://dev.mysql.com/doc/refman/8.0/en/select-optimization.html
 
 
 
+### ACID
+
+locking 
+
+concurrency
+
+
+
+https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_acid
+
+isolation level
+One of the foundations of database processing. Isolation is the I in the acronym ACID; the isolation level is the setting that fine-tunes the balance between performance and reliability, consistency, and reproducibility of results when multiple transactions are making changes and performing queries at the same time.
+
+From highest amount of consistency and protection to the least, the isolation levels supported by InnoDB are: SERIALIZABLE, REPEATABLE READ, READ COMMITTED, and READ UNCOMMITTED.
+
+With InnoDB tables, many users can keep the default isolation level (REPEATABLE READ) for all operations. Expert users might choose the READ COMMITTED level as they push the boundaries of scalability with OLTP processing, or during data warehousing operations where minor inconsistencies do not affect the aggregate results of large amounts of data. The levels on the edges (SERIALIZABLE and READ UNCOMMITTED) change the processing behavior to such an extent that they are rarely used.
+
+See Also ACID, OLTP, READ COMMITTED, READ UNCOMMITTED, REPEATABLE READ, SERIALIZABLE, transaction.
+
+ACID
+An acronym standing for atomicity, consistency, isolation, and durability. These properties are all desirable in a database system, and are all closely tied to the notion of a transaction. The transactional features of InnoDB adhere to the ACID principles.
+
+Transactions are atomic units of work that can be committed or rolled back. When a transaction makes multiple changes to the database, either all the changes succeed when the transaction is committed, or all the changes are undone when the transaction is rolled back.
+
+The database remains in a consistent state at all times — after each commit or rollback, and while transactions are in progress. If related data is being updated across multiple tables, queries see either all old values or all new values, not a mix of old and new values.
+
+Transactions are protected (isolated) from each other while they are in progress; they cannot interfere with each other or see each other's uncommitted data. This isolation is achieved through the locking mechanism. Experienced users can adjust the isolation level, trading off less protection in favor of increased performance and concurrency, when they can be sure that the transactions really do not interfere with each other.
+
+The results of transactions are durable: once a commit operation succeeds, the changes made by that transaction are safe from power failures, system crashes, race conditions, or other potential dangers that many non-database applications are vulnerable to. Durability typically involves writing to disk storage, with a certain amount of redundancy to protect against power failures or software crashes during write operations. (In InnoDB, the doublewrite buffer assists with durability.)
+
+See Also atomic, commit, concurrency, doublewrite buffer, isolation level, locking, rollback, transaction.
+
+isolation level
+
++ SERIALIZABLE default(sql)
++ REPEATABLE READ default(mysql)  加 lock blocking non-repeatable reads but not phantom reads
+  + It prevents any rows that are queried from being changed by other transactions, thus blocking non-repeatable reads but not phantom reads.
+  + SELECT ... FOR UPDATE
++ READ COMMITTED 
++ READ_UNCOMMITTED 不用，脏读
+
+
+
+| isolation level  | 默认   | dirty read | phantom | non-repeatable | locking |
+| ---------------- | ------ | ---------- | ------- | -------------- | ------- |
+| SERIALIZABLE     | SQL    | 无         | 无      | 无             |         |
+| REPEATABLE READ  | InnoDB | 无         | 有      | 无             |         |
+| READ COMMITTED   |        | 无         | 有      | 有             |         |
+| READ_UNCOMMITTED |        | 有         | 有      | 有             |         |
+
+
+
++ 脏读
++ non-repeatable reads 被其他事务修改
++ phantom 行数不对，被其他事物增删
++ 
+
+A row that appears in the result set of a query, but not in the result set of an earlier query. For example, if a query is run twice within a transaction, and in the meantime, another transaction commits after inserting a new row or updating a row so that it matches the WHERE clause of the query.
+
+
+
+Pessimistic
+
+Optimistic
+
+deadlock detection
+
 
 
 ### DateTime
@@ -1223,6 +1296,10 @@ https://dev.mysql.com/doc/refman/8.0/en/select-optimization.html
 函数
 
 YEAR(o_orderdate) = 1992 AND MONTH(o_orderdate)
+
+### 备份
+
+mysqldump -hhostname -uusername -ppassword -database databasename | gzip > backupfile.sql.gz
 
 
 
@@ -2042,6 +2119,10 @@ point
 POLYGON((120.152627724 30.312151179, 120.1528202 30.310101329, 120.160247752 30.302236616, 120.161226136 30.295942228, 120.157295087 30.2945869, 120.14327573 30.30942543, 120.150616189 30.313894475, 120.152627724 30.312151179))
 
 MULTIPOLYGON(((120.15302015 30.299728037, 120.157295087 30.2945869, 120.154759368 30.293816328, 120.15390814 30.295835673, 120.149698396 30.29459818, 120.145101432 30.301637696, 120.145511434 30.306987958, 120.15302015 30.299728037)), ((120.166818473 30.347120822, 120.170087744 30.339075233, 120.173948414 30.339344393, 120.152627724 30.312151179, 120.150616189 30.313894475, 120.14327573 30.30942543, 120.141016643 30.327011727, 120.144558281 30.327347644, 120.143775266 30.333254667, 120.132787036 30.333070584, 120.132409346 30.342810367, 120.143129909 30.342728101, 120.142859251 30.345866931, 120.15037414 30.345158958, 120.149370328 30.343615841, 120.150635425 30.342854044, 120.153161203 30.343635488, 120.152889449 30.345879629, 120.155226536 30.345065427, 120.154990106 30.3476505, 120.156930075 30.347246025, 120.157441212 30.345070776, 120.160915423 30.346207469, 120.161816258 30.344771021, 120.166818473 30.347120822)))
+
+
+
+地图 arcgis
 
 
 
