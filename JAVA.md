@@ -152,6 +152,8 @@ con.commit(); // con.rollback();
 
 + `HttpServletResponse response`
 + `HttpServletRequest request`
++ HttpServletRequest request
++ HttpServletResponse response
 
 
 
@@ -1087,6 +1089,12 @@ BEGIN 或 START TRANSACTION
 
 储存过程
 
+Convert(decimal(18,2),ca
+
+convert(value,type)
+
+
+
 ### 注意
 
 避免类型转换
@@ -1220,6 +1228,21 @@ MATCH() ... AGAINST
  Full-Text Search Functions
 
 https://dev.mysql.com/doc/refman/8.0/en/select-optimization.html
+
+ROW_NUMBER() OVER (
+ORDER BY OPERATION_DATE DESC) AS rank
+
+substr(string string,num start,num length);
+
+string为字符串；
+
+start为起始位置；
+
+length为长度。
+
+区别：
+
+mysql中的start是从1开始的，而hibernate中的start是从0开始的。
 
 
 
@@ -1687,6 +1710,15 @@ position: absolute;
 
 ## JavaScript
 
+### core
+
+
+
+Date
+
++ `Date.parse("...")`
++ `new Date().getTime()`
+
 
 
 ### Vanilla
@@ -1782,6 +1814,15 @@ http://www.vogella.com/tutorials/JavaServerFaces/article.html
 
 自动补全输入框
 
+ var a = document.createElement('a')
+    // 创建一个单击事件
+    var event = new MouseEvent('click')
+    
+
+    // 将a的download属性设置为我们想要下载的图片名称，若name不存在则使用‘下载图片名称’作为默认名称
+    a.download = name || '下载图片名称'
+    // 将生成的URL设置为a.href属性
+    a.href = url
 ## HTTP
 
 header
@@ -2149,7 +2190,11 @@ GeoJson
 
 open layer
 
-leaflet
+leaflet+
+
+http://www.tianditu.com/
+
+
 
 ## 数据可视化
 
@@ -2181,6 +2226,18 @@ guava
 uuid
 
 
+
+
+
+### Debug
+
+断点 breakpoint
+
+
+
+step in
+
+step over
 
 ## References
 
