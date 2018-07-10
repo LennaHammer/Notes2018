@@ -6,7 +6,7 @@ man
 
 
 
-查找
+文件查找
 
 grep
 
@@ -96,6 +96,24 @@ curl
 
 文本处理
 
+grep
+
+sed
+
+vi
+
+awk
+
+echo
+
+printf
+
+expr
+
+test
+
+
+
 
 
 系统设计
@@ -112,7 +130,8 @@ group
 
 windows
 
-msys2
+
 
 Cygwin
 
+msys2

@@ -44,7 +44,7 @@ mysql
 import mysql.connector
 
 conn = mysql.connector.connect(user='root', password='password', database='test')
-cursor = conn.cursor(buffered=True)
+cursor = conn.cursor(buffered=True, dictionary=True)
 cursor.execute("select * from table1")
 cursor.fetchall()
 conn.commit()
@@ -55,61 +55,7 @@ cursor.lastrowid
 
 
 
-## Web
 
-requests
-
-```python
-import requests
-session = requests.Session()
-
-def http_get(url):
-	r = session.get(url,timeout=60)
-	r.raise_for_status()
-	return r
-```
-
-ajax
-
-
-
-BeautifulSoup
-
-```python
-from bs4 import BeautifulSoup
-
-doc = BeautifulSoup(text, 'lxml')
-elements = doc.select(...)
-
-
-```
-
-requests_html
-
-
-
-Selenium
-
-```python
-from selenium import webdriver
-
-browser = webdriver.Chrome()
-browser.get("http://www.google.com")
-element = browser.find_element_by...(...)
-element.click()
-```
-
-
-
-
-
-
-
-Django
-
-
-
-Flask
 
 
 
@@ -127,16 +73,16 @@ Flask
 
 统计
 
-总体population 
+总体 Population 
 
 + 标量
-+ 期望 均值 mean e μ:
-+ 方差 variance \sigma^2
++ 期望 均值 mean e  $\mu$ 
++ 方差 variance $\sigma^2$
   + 标准差
 
-样本
+样本 Sample
 
-+ 样本均值 sample mean
++ 样本均值 sample mean $\overline{X}$
 + 样本方差 $s^2$
 
 
@@ -278,21 +224,70 @@ def read_csv(filename):
 
 plot
 
+
+
+dates = pd.date_range('1950-01', periods = input_data.shape[0], freq = 'M')
+
+timeseries.plot()
+
+plt.figure()
+timeseries.plot()
+plt.show()
+
+
+
+数据挖掘
+
+
+
 ## ML
 
 sklearn
+
+from sklearn import linear_model
 
 keras
 
 pytorch
 
-## Image
+
+
+## Vision
 
 
 
-opencv
+### PIL
 
-opencv
+image magic
+
+### OpenCV
+
+`import cv2` 
+
+ 读写显示
+
++ imread
++ imshow
++ imwrite
+
+色彩
+
++ cvtColor  `gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)`
+
+绘图
+
+filter
+
+阈值
+
+变换
+
++ 仿射变换
+
+
+
++ 人脸识别 haarcascades
++ 边缘检测 Canny
 
 
 
@@ -310,8 +305,72 @@ jieba
 
 
 
+## Web
+
+requests
+
+```python
+import requests
+session = requests.Session()
+
+def http_get(url):
+	r = session.get(url, timeout=60)
+	r.raise_for_status()
+	return r
+```
+
+ajax
+
+
+
+BeautifulSoup
+
+```python
+from bs4 import BeautifulSoup
+
+doc = BeautifulSoup(text, 'lxml')
+elements = doc.select(...)
+
+
+```
+
+requests_html
+
+
+
+Selenium
+
+```python
+from selenium import webdriver
+
+browser = webdriver.Chrome()
+browser.get("http://www.google.com")
+element = browser.find_element_by...(...)
+element.click()
+```
+
+
+
+
+
+
+
+Django
+
+
+
+Flask
+
+
+
+
+
+draft
+
+
+
  datetime.now().date() + timedelta(days=1)
- 
+
  ```r
 x <- 1:10
 y <- 23*x+rnorm(length(x))
@@ -319,4 +378,4 @@ m <- lm(y~x)
 summary(m)
 par(mfrow=c(2, 2))
 plot(m)
-```
+ ```

@@ -959,7 +959,7 @@ pom.xml
 
 
 
-### Create
+### Create Table
 
 + CREATE TABLE 
   + `create table if not exists table1 (id integer primary key , data text not null)`
@@ -979,11 +979,7 @@ pom.xml
     + Numeric `INT` `FLOAT` `DOUBLE` `DECIMAL` 
     + String `VARCHAR(255)` `TEXT` 
     + Date and Time  `DATETIME ` 
-    + Bytes `BLOB` 
-
-  + INDEX
-
-    + `CREATE INDEX` `ADD` 
+    + Bytes `BLOB`  
 
   + Constraint
 
@@ -997,10 +993,12 @@ pom.xml
 + INDEX
 
   + CREATE INDEX `CREATE INDEX index_name ON table_name(column_name(length)); `
+  + ADD
   + =, >, <, FK, UN
   + UNIQUE
-  + 用于 select 中 where 和 order，配合 explain 查看
+  + 用于 select 中 where 和 order使用索引，配合 explain 查看
   + 对 NULL 无效
+  + 复合索引
 
 + DROP TABLE `DROP TABLE table_name;`
 
@@ -1029,6 +1027,8 @@ ENGINE=InnoDB
 
 
 ```
+
+### Index
 
 
 
@@ -1313,7 +1313,27 @@ Optimistic
 
 deadlock detection
 
+1、A (Atomicity) 原子性
 
+原子性很容易理解，也就是说事务里的所有操作要么全部做完，要么都不做，事务成功的条件是事务里的所有操作都成功，只要有一个操作失败，整个事务就失败，需要回滚。
+
+比如银行转账，从A账户转100元至B账户，分为两个步骤：1）从A账户取100元；2）存入100元至B账户。这两步要么一起完成，要么一起不完成，如果只完成第一步，第二步失败，钱会莫名其妙少了100元。
+
+2、C (Consistency) 一致性
+
+一致性也比较容易理解，也就是说数据库要一直处于一致的状态，事务的运行不会改变数据库原本的一致性约束。
+
+例如现有完整性约束a+b=10，如果一个事务改变了a，那么必须得改变b，使得事务结束后依然满足a+b=10，否则事务失败。
+
+3、I (Isolation) 独立性
+
+所谓的独立性是指并发的事务之间不会互相影响，如果一个事务要访问的数据正在被另外一个事务修改，只要另外一个事务未提交，它所访问的数据就不受未提交事务的影响。
+
+比如现在有个交易是从A账户转100元至B账户，在这个交易还未完成的情况下，如果此时B查询自己的账户，是看不到新增加的100元的。
+
+4、D (Durability) 持久性
+
+持久性是指一旦事务提交后，它所做的修改将会永久的保存在数据库上，即使出现宕机也不会丢失。
 
 ### DateTime
 
@@ -1368,17 +1388,68 @@ Concurrency patterns
 
 ### collections
 
-### 并发
+ArrayList
 
-collection
+HashMap
 
-lock
++ synchronizedMap
++ LinkedHashMap
 
 
 
-## Date time 
+### concurrent 并发
 
-## JSON
+thread
+
+synchronized 
+
+volatile
+
+线程池
+
+transient volatile
+
+
+
+
+
+
+
+
+
+java.util.concurrent
+
+Collection
+
++ ConcurrentHashMap<K,V> 锁分段
++ ArrayBlockingQueue
++ Atomic
+
+Lock 阻塞超时
+
++ ReentrantLock
++ ReadWriteLock
+
+Atomic
+
++ ::compareAndSet
+
+ThreadPoolExecutor
+
++ Future future = executorService.submit(new Callable
++ ScheduledExecutorService
+
+ForkJoinPool 
+
+http://tutorials.jenkov.com/java-concurrency/index.html
+
+### 注释
+
+
+
+### Date time 
+
+### JSON
 
 ```java
 import net.sf.json.JSONArray;
@@ -1430,6 +1501,33 @@ git commit
 git push
 
 git pull git fetch followed by a git merge.
+
+
+
+stage 暂存区
+
+
+
+创建
+
++ init, clone
+
+修改
+
++ add, commit, rm, mv
+  + `git commit -m "message"` 
++ status, diff
++ reset HEAD
+
+分支
+
++ branch, checkout, merge 
+
+远程
+
++ remote
++ push 
++ pull = fetch+merge
 
 ## Deploy
 
@@ -1794,6 +1892,30 @@ $("...").click(function(){
 $.get("...", ...)
 ```
 
+```javascript
+$.get( "ajax/test.html", function( data ) {
+  $( ".result" ).html( data );
+  alert( "Load was performed." );
+});
+```
+
+JSON.stringify
+
+```javascript
+$.ajax({
+    type: "post",
+    url: "sync", //your valid url
+    contentType: "application/json", //this is required for spring 3 - ajax to work (at least for me)
+    data: JSON.stringify(jsonobject), //json object or array of json objects
+    success: function(result) {
+        //do nothing
+    },
+    error: function(){
+        alert('failure');
+    }
+});
+```
+
 
 
 ### require.js
@@ -1819,10 +1941,13 @@ http://www.vogella.com/tutorials/JavaServerFaces/article.html
     var event = new MouseEvent('click')
     
 
-    // 将a的download属性设置为我们想要下载的图片名称，若name不存在则使用‘下载图片名称’作为默认名称
-    a.download = name || '下载图片名称'
-    // 将生成的URL设置为a.href属性
-    a.href = url
+```javascript
+var a = document.createElement('a');
+a.download = name || '导出表格.xls';
+a.href = uri + base64(format(template, ctx));
+document.body.appendChild(a);
+a.click();
+```
 ## HTTP
 
 header
@@ -1873,7 +1998,279 @@ frame
 
 packet
 
+网际互联及OSI七层模型：
 
+物理层、数据链路层、网络层、传输层、表示层、会话层、应用层
+
+==========================================
+
+物理层
+
+作用：定义一些电器，机械，过程和规范，如集线器；
+
+PDU(协议数据单元)：bit/比特
+
+设备：集线器HUB;
+
+注意：没有寻址的概念；
+
+==========================================
+
+数据链路层
+
+作用：定义如何格式化数据，支持错误检测；
+
+典型协议：以太网，帧中继（古董级VPN）
+
+PDU：frame（帧）设备：以太网交换机；
+
+备注：交换机通过MAC地址转发数据，逻辑链路控制；
+
+===========================================
+
+网络层
+
+作用：定义一个逻辑的寻址，选择最佳路径传输，路由数据包；
+
+典型协议：IP，IPX，ICMP,ARP(IP->MAC),IARP;
+
+PDU:packet/数据包；
+
+设备：路由器
+
+备注：实现寻址
+
+============================================
+
+传输层：
+
+作用：提供可靠和尽力而为的传输；
+
+典型协议：TCP,UDP,SPX,port(65535个端口),EIGRP,OSPF,
+
+PDU:fragment 段；
+
+无典型设备；
+
+备注：负责网络传输和会话建立；
+
+=============================================
+
+会话层：
+
+作用：控制会话，建立管理终止应用程序会话；
+
+典型协议：NFS, SQL, ASP, PHP, JSP, RSVP(资源源预留协议), windows， 
+
+备注：负责会话建立；
+
+==============================================
+
+表示层：
+
+作用：格式化数据；
+
+典型协议：ASCII, JPEG. PNG, MP3. WAV, AVI, 
+
+备注：可以提供加密服务；
+
+===============================================
+
+应用层：
+
+作用：控制应用程序；
+
+典型协议：telant, ssh, http, ftp, smtp, rip, BGP, (未完待续)
+
+备注：为应用程序提供网络服务；
+
+================================================
+
+Q：什么时候有PDU？
+
+A：当需要跟别人通信时候才有。
+
+TCP/IP 介绍
+TCP/IP 是用于因特网 (Internet) 的通信协议。
+
+计算机通信协议（Computer Communication Protocol）
+计算机通信协议是对那些计算机必须遵守以便彼此通信的的规则的描述。
+
+什么是 TCP/IP？
+TCP/IP 是供已连接因特网的计算机进行通信的通信协议。
+
+TCP/IP 指传输控制协议/网际协议（Transmission Control Protocol / Internet Protocol）。
+
+TCP/IP 定义了电子设备（比如计算机）如何连入因特网，以及数据如何在它们之间传输的标准。
+
+在 TCP/IP 内部
+在 TCP/IP 中包含一系列用于处理数据通信的协议：
+
+TCP (传输控制协议) - 应用程序之间通信
+UDP (用户数据报协议) - 应用程序之间的简单通信
+IP (网际协议) - 计算机之间的通信
+ICMP (因特网消息控制协议) - 针对错误和状态
+DHCP (动态主机配置协议) - 针对动态寻址
+TCP 使用固定的连接
+TCP 用于应用程序之间的通信。
+
+当应用程序希望通过 TCP 与另一个应用程序通信时，它会发送一个通信请求。这个请求必须被送到一个确切的地址。在双方"握手"之后，TCP 将在两个应用程序之间建立一个全双工 (full-duplex) 的通信。
+
+这个全双工的通信将占用两个计算机之间的通信线路，直到它被一方或双方关闭为止。
+
+UDP 和 TCP 很相似，但是更简单，同时可靠性低于 TCP。
+
+IP 是无连接的
+IP 用于计算机之间的通信。
+
+IP 是无连接的通信协议。它不会占用两个正在通信的计算机之间的通信线路。这样，IP 就降低了对网络线路的需求。每条线可以同时满足许多不同的计算机之间的通信需要。
+
+通过 IP，消息（或者其他数据）被分割为小的独立的包，并通过因特网在计算机之间传送。
+
+IP 负责将每个包路由至它的目的地。
+
+IP 路由器
+当一个 IP 包从一台计算机被发送，它会到达一个 IP 路由器。
+
+IP 路由器负责将这个包路由至它的目的地，直接地或者通过其他的路由器。
+
+在一个相同的通信中，一个包所经由的路径可能会和其他的包不同。而路由器负责根据通信量、网络中的错误或者其他参数来进行正确地寻址。
+
+TCP/IP
+TCP/IP 意味着 TCP 和 IP 在一起协同工作。
+
+TCP 负责应用软件（比如您的浏览器）和网络软件之间的通信。
+
+IP 负责计算机之间的通信。
+
+TCP 负责将数据分割并装入 IP 包，然后在它们到达的时候重新组合它们。
+
+IP 负责将包发送至接受者。
+
+TCP/IP 寻址
+TCP/IP 使用 32 个比特或者 4 组 0 到 255 之间的数字来为计算机编址。
+
+IP地址
+每个计算机必须有一个 IP 地址才能够连入因特网。
+
+每个 IP 包必须有一个地址才能够发送到另一台计算机。
+
+在本教程下一节，您会学习到更多关于 IP 地址和 IP 名称的知识。
+
+IP 地址包含 4 组数字：
+TCP/IP 使用 4 组数字来为计算机编址。每个计算机必须有一个唯一的 4 组数字的地址。
+
+每组数字必须在 0 到 255 之间，并由点号隔开，比如：192.168.1.60。
+
+32 比特 = 4 字节
+TCP/IP 使用 32 个比特来编址。一个计算机字节是 8 比特。所以 TCP/IP 使用了 4 个字节。
+
+一个计算机字节可以包含 256 个不同的值：
+
+00000000、00000001、00000010、00000011、00000100、00000101、00000110、00000111、00001000 ....... 直到 11111111。
+
+现在，您应该知道了为什么 TCP/IP 地址是介于 0 到 255 之间的 4 组数字。
+
+IP V6
+IPv6 是 "Internet Protocol Version 6" 的缩写，也被称作下一代互联网协议，它是由 IETF 小组（Internet 工程任务组Internet Engineering Task Force）设计的用来替代现行的 IPv4（现行的）协议的一种新的 IP 协议。
+
+我们知道，Internet 的主机都有一个唯一的 IP 地址，IP 地址用一个 32 位二进制的数表示一个主机号码，但 32 位地址资源有限，已经不能满足用户的需求了，因此 Internet 研究组织发布新的主机标识方法，即 IPv6。
+
+在 RFC1884 中（RFC 是 Request for Comments document 的缩写。RFC 实际上就是 Internet 有关服务的一些标准），规定的标准语法建议把 IPv6 地址的 128 位（16 个字节）写成 8 个 16 位的无符号整数，每个整数用 4 个十六进制位表示，这些数之间用冒号（:）分开，例如：
+
+686E：8C64：FFFF：FFFF：0：1180：96A：FFFF
+冒号十六进制记法允许零压缩，即一串连续的0可以用一对冒号取代，例如：
+
+FF05：0：0：0：0：0：0：B3可以定成：FF05：：B3
+为了保证零压缩有一个清晰的解释，建议中规定，在任一地址中，只能使用一次零压缩。该技术对已建议的分配策略特别有用，因为会有许多地址包含连续的零串。
+
+冒号十六进制记法结合有点十进制记法的后缀。这种结合在IPv4向IPv6换阶段特别有用。例如，下面的串是一个合法的冒号十六进制记法：
+
+0：0：0：0：0：0：128.10.1.1
+这种记法中，虽然冒号所分隔的每一个值是一个16位的量，但每个分点十进制部分的值则指明一个字节的值。再使用零压缩即可得出：
+
+：：128.10.1.1
+域名
+12 个阿拉伯数字很难记忆。使用一个名称更容易。
+
+用于 TCP/IP 地址的名字被称为域名。runoob.com 就是一个域名。
+
+当你键入一个像 http://www.runoob.com 这样的域名，域名会被一种 DNS 程序翻译为数字。
+
+在全世界，数量庞大的 DNS 服务器被连入因特网。DNS 服务器负责将域名翻译为 TCP/IP 地址，同时负责使用新的域名信息更新彼此的系统。
+
+当一个新的域名连同其 TCP/IP 地址一起注册后，全世界的 DNS 服务器都会对此信息进行更新。
+
+TCP/IP 协议
+TCP/IP 是不同的通信协议的大集合。
+
+协议族
+TCP/IP 是基于 TCP 和 IP 这两个最初的协议之上的不同的通信协议的大集合。
+
+TCP - 传输控制协议
+TCP 用于从应用程序到网络的数据传输控制。
+
+TCP 负责在数据传送之前将它们分割为 IP 包，然后在它们到达的时候将它们重组。
+
+IP - 网际协议（Internet Protocol）
+IP 负责计算机之间的通信。
+
+IP 负责在因特网上发送和接收数据包。
+
+HTTP - 超文本传输协议(Hyper Text Transfer Protocol)
+HTTP 负责 web 服务器与 web 浏览器之间的通信。
+
+HTTP 用于从 web 客户端（浏览器）向 web 服务器发送请求，并从 web 服务器向 web 客户端返回内容（网页）。
+
+HTTPS - 安全的 HTTP（HTTP Secure）
+HTTPS 负责在 web 服务器和 web 浏览器之间的安全通信。
+
+作为有代表性的应用，HTTPS 会用于处理信用卡交易和其他的敏感数据。
+
+SSL - 安全套接字层（Secure Sockets Layer）
+SSL 协议用于为安全数据传输加密数据。
+
+SMTP - 简易邮件传输协议（Simple Mail Transfer Protocol）
+SMTP 用于电子邮件的传输。
+
+MIME - 多用途因特网邮件扩展（Multi-purpose Internet Mail Extensions）
+MIME 协议使 SMTP 有能力通过 TCP/IP 网络传输多媒体文件，包括声音、视频和二进制数据。
+
+IMAP - 因特网消息访问协议（Internet Message Access Protocol）
+IMAP 用于存储和取回电子邮件。
+
+POP - 邮局协议（Post Office Protocol）
+POP 用于从电子邮件服务器向个人电脑下载电子邮件。
+
+FTP - 文件传输协议（File Transfer Protocol）
+FTP 负责计算机之间的文件传输。
+
+NTP - 网络时间协议（Network Time Protocol）
+NTP 用于在计算机之间同步时间（钟）。
+
+DHCP - 动态主机配置协议（Dynamic Host Configuration Protocol）
+DHCP 用于向网络中的计算机分配动态 IP 地址。
+
+SNMP - 简单网络管理协议（Simple Network Management Protocol）
+SNMP 用于计算机网络的管理。
+
+LDAP - 轻量级的目录访问协议（Lightweight Directory Access Protocol）
+LDAP 用于从因特网搜集关于用户和电子邮件地址的信息。
+
+ICMP - 因特网消息控制协议（Internet Control Message Protocol）
+ICMP 负责网络中的错误处理。
+
+ARP - 地址解析协议（Address Resolution Protocol）
+ARP - 用于通过 IP 来查找基于 IP 地址的计算机网卡的硬件地址。
+
+RARP - 反向地址转换协议（Reverse Address Resolution Protocol）
+RARP 用于通过 IP 查找基于硬件地址的计算机网卡的 IP 地址。
+
+BOOTP - 自举协议（Boot Protocol）
+BOOTP 用于从网络启动计算机。
+
+PPTP - 点对点隧道协议（Point to Point Tunneling Protocol）
+PPTP 用于私人网络之间的连接（隧道）。
 
 ## Spring Boot
 
@@ -2117,6 +2514,26 @@ BCNF
 
 ## GIS
 
+POINT   (x,y) 经度 纬度
+
++ 函数 X Y
+
+距离 st_distance
+
+POLYGON   多边形 
+
++ Area 面积
+
+Spatial index
+
+how far two points differ, or whether points fall within a spatial area of interest
+
+最小边界矩形（MBR）
+
++ MBRContains(g1,g2)  g1的最小边界矩形是否包含g2的最小边界矩形。例如判断点在多边形内
+
+https://blog.csdn.net/zzq900503/article/details/17142621
+
 mysql
 
 GEOMETRY
@@ -2204,6 +2621,27 @@ plot
 
 ECharts - Java类库 ECharts-Ja
 
+显示表格
+
+显示 Chart
+
++ 折线图
++ 直方图
+
+导出 Excel
+
+导出 Pdf
+
+## Redis
+
+Cache
+
+后台任务
+
+发布订阅
+
+
+
 ## [分布式 RPC 服务框架 Dubbo [推](https://www.oschina.net/p/dubbo) 
 
 分布式系统协调 ZooKeeper
@@ -2214,7 +2652,11 @@ ECharts - Java类库 ECharts-Ja
 
 ## [分布式搜索引擎 ElasticSearch ](https://www.oschina.net/p/elasticsearch) 
 
-## 集成测试工具 Selenium
+## nginx
+
+
+
+## Selenium
 
 Java 常用工具包 Jodd  推荐
 常用工具包
@@ -2225,11 +2667,240 @@ guava
 
 uuid
 
+## NoSQL
+
+关系运算
+
+projection
+
+
+
+### Redis
+
+key-value存储
+
+
+
+Memchche,
+
+
+
+当分布式缓存集群需要扩容的时候
+
+先构造一个长度为232的整数环（这个环被称为一致性Hash环），根据节点名称的Hash值（其分布为[0, 232-1]）将缓存服务器节点放置在这个Hash环上，然后根据需要缓存的数据的Key值计算得到其Hash值（其分布也为[0, 232-1]），然后在Hash环上顺时针查找距离这个Key值的Hash值最近的服务器节点
+
+虚拟节点
 
 
 
 
-### Debug
+
+哈希(Hash)
+
+列表(List)
+
+发布订阅 pub/sub
+
+当有新消息通过 PUBLISH 命令发送给频道 channel1 时， 这个消息就会被发送给订阅它的三个客户端：
+
+事务 MULTI 不是原子性的。
+
+类型	简介	特性	场景
+String(字符串)	二进制安全	可以包含任何数据,比如jpg图片或者序列化的对象,一个键最大能存储512M	---
+Hash(字典)	键值对集合,即编程语言中的Map类型	适合存储对象,并且可以像数据库中update一个属性一样只修改某一项属性值(Memcached中需要取出整个字符串反序列化成对象修改完再序列化存回去)	存储、读取、修改用户属性
+List(列表)	链表(双向链表)	增删快,提供了操作某一段元素的API	1,最新消息排行等功能(比如朋友圈的时间线) 2,消息队列
+Set(集合)	哈希表实现,元素不重复	1,添加、删除,查找的复杂度都是O(1) 2,为集合提供了求交集、并集、差集等操作	1,共同好友 2,利用唯一性,统计访问网站的所有独立ip 3,好用推荐时,根据tag求交集,大于某个阈值就可以推荐
+Sorted Set(有序集合)	将Set中的元素增加一个权重参数score,元素按score有序排列	数据插入集合时,已经进行天然排序	1,排行榜 2,带权重
+
+### MongoDB
+文档存储
+
+分布式文件存储的开源数据库系统
+
+术语
+
++ database,	database
+	 table,	collection
+	 row,	document
+	 column,	field
+	 index,	index
++ table joins,
+	 primary key,	primary key
+
+id
+
++ `"_id":ObjectId(...)`
+
+查询
+
+分片
+
+关系
+
++ 嵌入
++ 引用
+
+索引
+
+索引数组字段 会为 music、cricket、blogs三个值建立单独的索引。
+
+索引子文档字段
+
+explain
+
+indexOnly: 字段为 true ，表示我们使用了索引。
+cursor：因为这个查询使用了索引，MongoDB 中索引存储在B树结构中，所以这是也使用了 BtreeCursor 类型的游标。如果没有使用索引，游标的类型是 BasicCursor。这个键还会给出你所使用的索引的名称，你通过这个名称可以查看当前数据库下的system.indexes集合（系统自动创建，由于存储索引信息，这个稍微会提到）来得到索引的详细信息。
+n：当前查询返回的文档数量。
+nscanned/nscannedObjects：表明当前这次查询一共扫描了集合中多少个文档，我们的目的是，让这个数值和返回文档的数量越接近越好。
+millis：当前查询所需时间，毫秒数。
+indexBounds：当前查询具体使用的索引。
+
+hint 强制 MongoDB 使用一个指定的索引。
+
+索引不能被以下的查询使用：
+
+正则表达式及非操作符，如 $nin, $not, 等。
+算术运算符，如 $mod, 等。
+$where 子句
+
+原子操作
+
++ findAndModify 
+
+MapReduce 
+
+map ：映射函数 (生成键值对序列,作为 reduce 函数参数)。
+reduce 统计函数，reduce函数的任务就是将key-values变成key-value，也就是把values数组变成一个单一的值value。。
+out 统计结果存放集合 (不指定则使用临时集合,在客户端断开后自动删除)。
+query 一个筛选条件，只有满足条件的文档才会调用map函数。（query。limit，sort可以随意组合）
+sort 和limit结合的sort排序参数（也是在发往map函数前给文档排序），可以优化分组机制
+limit 发往map函数的文档数量的上限（要是没有limit，单独使用sort的用处不大）
+
+```javascript
+db.collection.mapReduce(
+   function() {emit(key,value);},  //map 函数
+   function(key, values) {return reduceFunction},   //reduce 函数
+   {
+      out: collection,
+      query: document,
+      sort: document,
+      limit: number
+   }
+)
+```
+
+
+
+GridFS
+
+### ElasticSearch
+
+全文搜索
+
+
+
+### Cassandra  
+列存储 
+
+HBase
+面向列的数据库是存储数据表作为数据列的部分，而不是作为行数据。总之它们拥有列族。
+
+列族
+
+'Column family:column name'
+
+grant命令授予特定的权限，如读，写，执行和管理表给定一个特定的用户。 grant命令的语法如下：
+
+hbase> grant <user> <permissions> [<table> [<column family> [<column; qualifier>]]
+
+我们可以从RWXCA组，其中给予零个或多个特权给用户
+
+R - 代表读取权限
+W - 代表写权限
+X - 代表执行权限
+C - 代表创建权限
+A - 代表管理权限
+
+Tutorialspoint
+
+
+
+Cassandra具有能够处理大量数据的分布式架构。 数据放置在具有多个复制因子的不同机器上，以获得高可用性，而无需担心单点故障。
+
+Cassandra是一个面向列的数据库。
+
+Cassandra中的数据复制
+在Cassandra中，集群中的一个或多个节点充当给定数据片段的副本。如果检测到一些节点以过期值响应，Cassandra将向客户端返回最近的值。返回最新的值后，Cassandra在后台执行读修复以更新失效值。
+
+下图显示了Cassandra如何在集群中的节点之间使用数据复制，以确保没有单点故障的示意图。
+
+布隆过滤器 - 这些只是快速，非确定性的算法，用于测试元素是否是集合的成员。它是一种特殊的缓存。 每次查询后访问Bloom过滤器。
+
+Cassandra的主要组成部分主要有：
+
+节点(Node)：Cassandra节点是存储数据的地方。
+数据中心(Data center)：数据中心是相关节点的集合。
+集群(Cluster)：集群是包含一个或多个数据中心的组件。
+提交日志(Commit log)：在Cassandra中，提交日志是一个崩溃恢复机制。 每个写入操作都将写入提交日志。
+存储表(Mem-table)：内存表是内存驻留的数据结构。 提交日志后，数据将被写入内存表。 有时，对于单列系列，将有多个内容表。
+SSTable：当内容达到阈值时，它是从内存表刷新数据的磁盘文件。
+布鲁姆过滤器(Bloom filter)：这些只是快速，非确定性的，用于测试元素是否是集合成员的算法。 它是一种特殊的缓存。 每次查询后都会访问Bloom过滤器。
+
+Cassandra查询语言(CQL)用于通过其节点访问Cassandra。 CQL将数据库(Keyspace)视为表的容器。 程序员使用cqlsh：提示使用CQL或单独的应用程序语言驱动程序。
+客户端可以接近任何节点进行读写操作。 该节点(协调器)在客户机和保存数据的节点之间扮演代理。
+
+Cassandra被许多零售商用于购物车数据保持和快速的产品目录输入和输出。
+
+社交媒体分析和推荐引擎
+Cassandra是许多在线公司和社交媒体提供商的良好数据库，用于分析和推荐给客户。
+
+键空间(Keyspace)是用于保存列族
+
+CREATE (TABLE | COLUMNFAMILY) <tablename>  
+
+KeyspaceName.TableName   
+
+
+
+## 分布式
+
+
+
+消息系统
+
+队列 点对点消息系统
+
+发布-订阅消息系统
+
+分布式的发布 - 订阅消息传递系统和一个强大的队列
+
+用例。 其中一些列在下面 -
+
+指标 - Kafka通常用于运营监控数据。 这涉及从分布式应用程序汇总统计数据以生成操作数据的集中式提要。
+日志聚合解决方案 - Kafka可以在整个组织中使用，从多个服务中收集日志，并以标准格式向多个消费者提供。
+流处理 - 流行的框架(如Storm和Spark Streaming)可以从主题读取数据，对其进行处理，并将处理后的数据写入新主题，以供用
+
+ZooKeeper是一个分布式协调服务来管理大量的主机。协调和管理在分布式环境的一个服务是一个复杂的过程。ZooKeeper 简单解决了其结构和API这个问题。ZooKeeper允许开发人员能够专注于核心应用程序逻辑，而无需担心应用程序的分布式特性。
+
+Apache ZooKeeper是由群集（组节点）之间进行相互协调，并保持强大的同步技术共享数据的服务。ZooKeeper本身是一个分布式应用写入分布式应用提供服务。
+
+ZooKeeper 提供的通用服务如下-
+
+命名服务 − 确定在一个集群中的节点的名字。它类似于DNS，只不是过节点。
+
+配置管理 − 系统最近加入节点和向上最新配置信息。
+
+集群管理 − 加入/节点的群集和节点状态实时离开。
+
+节点领导者选举 − 选举一个节点作为领导者协调的目的。
+
+锁定和同步服务 − 锁定数据，同时修改它。这种机制可以帮助自动故障恢复，同时连接其它的分布式应用程序。如Apache HBase。
+
+高可靠的数据注册表 − 一个或几个节点的可用性的数据向下。
+
+
+
+## Debug
 
 断点 breakpoint
 
