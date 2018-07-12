@@ -18,6 +18,7 @@
 
 Bean Factory
 
++ ApplicationContext interface
 + Application Context `applicationContext.xml `
 
 Bean
@@ -56,11 +57,14 @@ Configuration
 `<aop:aspectj-autoproxy/>` 
 
 + Aspect
-
 + pointcut the pointcut expression String or @Pointcut
   + `execution` `@annotation` 
   + `&& this && target(...) && args(..., ...)`
 + Advice `@Before` `@After` `@Around` 
+
+
+
+custom annotations
 
 ```java
 @Target(ElementType.METHOD)
@@ -1443,11 +1447,17 @@ ForkJoinPool
 
 http://tutorials.jenkov.com/java-concurrency/index.html
 
-### 注释
+### annotation
 
 
 
 ### Date time 
+
+
+
+formatter
+
+
 
 ### JSON
 
@@ -1529,9 +1539,9 @@ stage 暂存区
 + push 
 + pull = fetch+merge
 
-## Deploy
+## Deploy 
 
-上线
+部署
 
 ### Linux
 
@@ -1748,6 +1758,88 @@ HTML 4
 
 ## CSS
 
+### text
+
+颜色
+
++ color 名称 #RGBA
+  + aqua, black, blue, fuchsia, gray, green, lime, maroon, navy, olive, orange, purple, red, silver, teal, white, yellow。
+
+字体
+
++ font 顺序 font-style, font-variant, font-weight, font-stretch, font-size, line-height, and font-family. 
+
++ font-style font-weight text-decoration
+	 font-family Arial 	sans-serif Courier New 	monospace Times New Roman 	serif
++ serif, sans-serif, monospace, cursive,和 fantasy. 
++ font-size px 像素 em 继承父元素的字体倍数
+
+文本布局
+
++ text-align
++ line-height
+
+### Box
+
+背景
+background
+
++ background-color  background-image 
+ padding
+
+display 属性为 inline inline-block
+
++ width, height 内容框（content box）的宽度和高度 默认情况下 width 被设置为可用空间的100%  height默认设置为content的高度。
+
++ padding 
+
++ border `border-radius: 20px;`
+
++ margin  居中 margin: 0 auto;
+
+
+
+Overflow
+
++ Overflow visible auto
+
+  width: 70%;
+  max-width: 1280px;
+  min-width: 480px;
+
+  box-sizing调整盒模型。 用值 border-box margin  0
+  总宽度是它的  width， padding-right，padding-left，border-right和border-left margin属性之和
+  box-sizing调整盒模型。 用值 border-box
+
+### Layout  
+
+文档流
+
+floats 和 positioning
+
+分栏
+
+Flexbox
+
+
+
+### Mobile
+
+
+
+HSL **色相**、**饱和度**以及**明度值** 
+
+函数
+
+transform: rotate(45deg);
+/* calculate the new position of an element after it has been moved across 50px and down 60px */
+transform: translate(50px, 60px);
+/* calculate the computed value of 90% of the current width minus 15px */
+width: calc(90%-15px);
+/* fetch an image from the network to be used as a background image */
+background-image: url('myimage.png');
+
+
 ### Style
 
 width width:100%;
@@ -1814,8 +1906,24 @@ position: absolute;
 
 Date
 
-+ `Date.parse("...")`
++ `Date.parse("...")` 为当前时区
 + `new Date().getTime()`
+
+Date.parse 使用本地时区
+
+ 如果参数字符串只包含日期格式，那么将会使用UTC时区
+
+格林尼治标准时间（GMT
+
+协调世界时(UTC)  
+
+ GMT +8
+
+
+
+
+
+等号规则
 
 
 
@@ -1898,6 +2006,8 @@ $.get( "ajax/test.html", function( data ) {
   alert( "Load was performed." );
 });
 ```
+
+post form json raw
 
 JSON.stringify
 
@@ -2333,6 +2443,8 @@ spring.jpa.database-platform=org.hibernate.dialect.MySQL5Dialect
 
 
 
+
+
 模块
 
 日志模块
@@ -2340,6 +2452,51 @@ spring.jpa.database-platform=org.hibernate.dialect.MySQL5Dialect
 工作流引擎
 
 treeview 模块
+
+cache
+
+@Component
+
++ 
+
+
+
+ReactiveRedisTemplate
+
+RedisTemplate
+
+StringRedisTemplate
+
+
+
+### Cache
+
+@EnableCaching 
+
+
+
+方法
+
+- @Cacheable("books")
+- @CachePut(cacheNames="book", key="#isbn")
+- @CacheEvict
+
+spring.cache.redis.*
+
+### Task
+
+Schedule
+
+TaskExecutor @Scheduled
+
+@Async
+Future<String>
+
+
+
+
+
+
 
 ## Back-end
 
@@ -2613,6 +2770,10 @@ http://www.tianditu.com/
 
 
 
+bigemap 地图瓦片下载
+
+
+
 ## 数据可视化
 
 excel
@@ -2797,6 +2958,12 @@ GridFS
 
 全文搜索
 
+GET http://localhost:9200/_search?q = name:central
+
+节点统计
+
+此API用于检索集群的一个节点的统计信息。节点状态与集群几乎相同。 例如，
+
 
 
 ### Cassandra  
@@ -2898,7 +3065,27 @@ ZooKeeper 提供的通用服务如下-
 
 高可靠的数据注册表 − 一个或几个节点的可用性的数据向下。
 
+## Spring Cloud
 
+### eureka 
+
+服务发现和注册
+
+@EnableEurekaServer
+
+
+
+### zuul 微服务网关
+
+@EnableZuulProxy
+
+
+
+routes 路由
+
+Filter
+
+ [spring cloud 学习(6) - zuul 微服务网关](https://www.cnblogs.com/yjmyzz/p/spring-cloud-zuul-demo.html)
 
 ## Debug
 
@@ -2909,6 +3096,18 @@ ZooKeeper 提供的通用服务如下-
 step in
 
 step over
+
+时区问题
+
+
+
+IETester
+
+https://www.my-debugbar.com/wiki/IETester/HomePage
+
+## Excel
+
+数据透视表 = group by
 
 ## References
 

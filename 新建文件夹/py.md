@@ -291,7 +291,7 @@ filter
 
 
 
-
+https://www.yiibai.com/opencv/opencv_writing_image.html
 
 
 
@@ -320,6 +320,26 @@ def http_get(url):
 ```
 
 ajax
+
+```python
+class RestClient:
+    
+    def __init__(self, host):
+        self._host = host
+        self._s = requests_html.HTMLSession()
+
+
+    def get(self, path, data=None):
+        r = self._s.get(self._host+path, params=data)
+        return r.status_code, r.json()
+
+
+    def post(self, path, data=None):
+        r = self._s.post(self._host+path, json=data)
+        return r.status_code, r.json()
+    
+    
+```
 
 
 
