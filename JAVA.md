@@ -98,6 +98,10 @@ servlet 的 filter 和 spring mvc 的拦截器 都都可以起到类似的功能
 
 
 
+aop stack
+
+
+
 ## JDBC
 
 Connection
@@ -883,6 +887,10 @@ JpaRepository extends PagingAndSortingRepository which in turn extends CrudRepos
 
 优点：方便映射到实体类，省去写 rowmapper，避免直接拼字符串
 
+通过xml使用。
+
+
+
 SqlSessionFactoryBuilder  XML 
 
 SqlSessionFactory Singleton pattern
@@ -1034,7 +1042,9 @@ ENGINE=InnoDB
 
 ### Index
 
+用途 where, order, column
 
+联合索引：只查询上的数据，查询最左的前缀
 
 ### CRUD
 
@@ -1502,6 +1512,32 @@ vscode
 
 ## git
 
+概念
+
+stage
+
+任务
+
+创建
+
+git init
+
+git add
+
+git commit
+
+提交
+
+git push
+
+获取
+
+git clone
+
+git pull
+
+
+
 git
 
 git add
@@ -1539,7 +1575,11 @@ stage 暂存区
 + push 
 + pull = fetch+merge
 
-## Deploy 
+## BASH
+
+命令
+
+## Deploy
 
 部署
 
@@ -3026,6 +3066,10 @@ Cassandra是许多在线公司和社交媒体提供商的良好数据库，用�
 CREATE (TABLE | COLUMNFAMILY) <tablename>  
 
 KeyspaceName.TableName   
+
+## RabbitMQ
+
+Task Queue
 
 
 

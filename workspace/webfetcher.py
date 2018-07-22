@@ -85,7 +85,7 @@ class WebSession:
         s.mount('https://', requests.adapters.HTTPAdapter(max_retries=5))
         self._encoding = encoding
         if headers:
-            self.session.headers.update(headers)
+            self._session.headers.update(headers)
         if cookies:
             cs = {}
             for item in cookies.split(';'):
@@ -104,6 +104,17 @@ class WebSession:
         r.raise_for_status()
         assert r.status_code == 200
         return Response(r)
+
+    def download(self, url, out, overwrite=False):
+        if not overwrite and os.path.exists(out) and os.path.getsize(out):
+           Util.log(f"skip {url}")
+           return
+        Util.log(f"DOWNLOAD: {url} -> {out}")
+        data = self.get(url).data
+        Util.safe_write(out, data)
+
+
+
 
 
 class BrowserSession:
@@ -142,23 +153,23 @@ session = WebSession()
 
 
 def http_get(url):
-    return retry(lambda: session.get(url))
+    return Util.retry(lambda: session.get(url))
 
 
 def log(s):
     print(s)
 
 
-def download_file(url, out, overwrite=None):
-    if not overwrite and os.path.exists(out):
-        log(f"skip {url}")
-        return
-    log(f"DOWNLOAD: {url} -> {out}")
-    data = session.get(url).data
-    safe_write(out, data)
+# def download_file(url, out, overwrite=None):
+#     if not overwrite and os.path.exists(out):
+#         log(f"skip {url}")
+#         return
+#     log(f"DOWNLOAD: {url} -> {out}")
+#     data = session.get(url).data
+#     safe_write(out, data)
 
 
-class Utils:
+class Util:
     @staticmethod
     def retry(foo, times=3, ignore=None):
             exc = None
@@ -196,7 +207,7 @@ class Utils:
                     if m[1].startswith('0'):
                         pass
                     y = f"{x[:m.start()]}{i}{x[m.end():]}"
-                    urls += Utils.expand_url(y)
+                    urls += Util.expand_url(y)
             else:
                 urls.append(x)
         return urls
@@ -241,7 +252,7 @@ class Utils:
         for x in xs:
             lines.append(x)
             lines.append("\n")
-        Utils.safe_write(filename, "".join(lines))
+        Util.safe_write(filename, "".join(lines))
 
 #        with open(filename, 'w', encoding='utf-8', newline="\n") as f:
 #            for x in xs:
@@ -250,6 +261,10 @@ class Utils:
     @staticmethod
     def find_files(path):
         return glob.glob(path, recursive=True)
+
+    @staticmethod
+    def log(text):
+    	print(text)
 
 
 class Table:
@@ -309,11 +324,11 @@ def read_items(urls, output_file, extractor):
         return
     items = []
     s = WebSession()
-    for url in Utils.unique(Utils.expand_url(urls)):
+    for url in Util.unique(Util.expand_url(urls)):
         r = s.get(url)
         items += extractor(r)
     if output_file:
-        Utils.write_lines(output_file, items)
+        Util.write_lines(output_file, items)
     else:
         log(items)
         return items
@@ -322,6 +337,36 @@ def read_items(urls, output_file, extractor):
 class WebItemPage:
     def __init__(self):
         pass
+
+
+def run_web__task(urls, name,callback):
+    urls = collections.deque(urls)
+    table = Table(name)
+    s = WebSession()
+    while urls:
+        url = urls.popleft()
+        if url in table:
+            continue
+        response = Util.retry(lambda: s.get(url),ignore=True)
+        values = callback(response)
+        assert all(x for x in values), values
+        assert values is not None, None
+        if values:
+            table.put(key, values)
+    cached = table.cached_rows
+    if cached:
+        print(cached)
+    return cached   
+
+class Task:
+    @staticmethod
+    def download_files(tasks):
+        s = WebSession()
+        for url, filename in tasks:
+            if os.path.exists(filename):
+                continue
+            Util.download()
+
 
 
 class WebTask:
@@ -343,7 +388,7 @@ class WebTask:
             url = self._urls.popleft()
             if url in self._table:
                 continue
-            response = Utils.retry(lambda: s.get(url),ignore=True)
+            response = Util.retry(lambda: s.get(url),ignore=True)
             values = callback(self, response)
             assert all(x for x in values), values
             assert values is not None, None
@@ -405,13 +450,13 @@ def task_read_list(out, url, pat):
     if out and os.path.exists(out):
         return
     items = []
-    urls = Utils.expand_url(url)
+    urls = Util.expand_url(url)
     for item in urls:
-        r = Utils.retry(lambda: s.get(item), 3)
+        r = Util.retry(lambda: s.get(item), 3)
         items += pat(r)
-    items = Utils.unique(items)
+    items = Util.unique(items)
     if out:
-        Utils.write_lines(out, items)
+        Util.write_lines(out, items)
     else:
         print(items)
     print("ok")
@@ -566,7 +611,7 @@ class Test(unittest.TestCase):
             ("a[1-2]b[2-3]c", ['a1b2c', 'a1b3c', 'a2b2c', 'a2b3c']),
         ]
         for k, v in xs:
-            self.assertEqual(Utils.expand_url(k), v)
+            self.assertEqual(Util.expand_url(k), v)
 
     def test_b(self):
         self.assertEqual(http_get("https://www.baidu.com").title, "百度一下，你就知道")
@@ -574,7 +619,7 @@ class Test(unittest.TestCase):
     def test_c(self):
         if os.path.exists("baidu.html"):
             os.remove("baidu.html")
-        download_file("http://www.baidu.com", "baidu.html")
+        session.download("http://www.baidu.com", "baidu.html")
         self.assertTrue(os.path.getsize("baidu.html") > 0)
 
     def test_d(self):
