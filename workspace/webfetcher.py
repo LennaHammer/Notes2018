@@ -15,7 +15,7 @@ import functools
 import typing
 import json
 import traceback
-
+import glob
 # import selenium
 
 
@@ -260,11 +260,12 @@ class Util:
 
     @staticmethod
     def find_files(path):
-        return glob.glob(path, recursive=True)
+        return {os.path.basename(file) for file in glob.iglob(path+"/**/*", recursive=True)}
+
 
     @staticmethod
     def log(text):
-    	print(text)
+        print(text)
 
 
 class Table:
@@ -365,7 +366,7 @@ class Task:
         for url, filename in tasks:
             if os.path.exists(filename):
                 continue
-            Util.download()
+            s.download(url,filename)
 
 
 
@@ -628,6 +629,11 @@ class Test(unittest.TestCase):
             return [response.title, "1\t2\n3"]
 
         self.assertEqual(dd(), ['http://www.baidu.com\t百度一下，你就知道\t1\\t2\\n3\n'])
+
+    def test_e(self):
+        s = Util.find_files('.')
+        self.assertTrue(isinstance(s,set))
+        self.assertTrue('webfetcher.py' in s)
 
 
 if __name__ == '__main__':
