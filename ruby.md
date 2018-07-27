@@ -2043,7 +2043,45 @@ Step 5 Form
 
 ### Day 2 Layout
 
+## Day 8 Now
 
+### Step 1 Cache
+
+### Step 1 Active Resource
+
+### Step 3 Active Job
+
+perform_later
+
+### Step 2 Action Cable
+
+### Server
+
+capistrano
+
+·#authenticate  ·
+
+Active Resource supports the token based authentication
+
+Response (201)
+
+code (204)
+
+At GitHub we use Resque to process the following types of jobs:
+
+Warming caches
+Counting disk usage
+Building tarballs
+Building Rubygems
+Firing off web hooks
+Creating events in the db and pre-caching them
+Building graphs
+Deleting users
+Updating our search index
+
+rabbitmq+
+
+https://www.rabbitmq.com/tutorials/tutorial-one-ruby.html
 
 
 ## w

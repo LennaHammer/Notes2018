@@ -1361,6 +1361,37 @@ mysqldump -hhostname -uusername -ppassword -database databasename | gzip > backu
 
 
 
+利用嵌套select给group by 的字段起别名
+
+=(select max)
+
+join max group by on =
+
+ROW_NUMBER 数值相同也会进行连续
+
+RANK() 相同的两名是并列
+
+over(partition by course order by score desc)
+
+will return 1 for every row that is the newest per name and subject, ROW_NUMBER
+
+ row_number() over (partition by number order by id) as seqnum
+      from t
+     ) t
+where seqnum = 1;
+
+
+
+下列等价
+
+where COUNT(*) =0
+
+LEFT JOIN RESULTS AS t2
+  ON t1.NAME = t2.NAME AND t1.SUBJECT = t2.SUBJECT AND t1.YEAR < t2.YEAR
+WHERE t2.NAME IS NULL
+
+where not exists
+
 
 ## Design Pattern
 
@@ -1467,6 +1498,14 @@ http://tutorials.jenkov.com/java-concurrency/index.html
 
 formatter
 
+SimpleDateFormat 格式 
+
+SimpleDateFormat dd=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+Date 不可变
+
+Calendar 可变
+
 
 
 ### JSON
@@ -1520,21 +1559,20 @@ stage
 
 创建
 
-git init
-
-git add
-
-git commit
++ git init
 
 提交
 
-git push
++ git add
+
++ git commit
+
++ git push
 
 获取
 
-git clone
-
-git pull
++ git clone
++ git pull
 
 
 
@@ -1579,6 +1617,8 @@ stage 暂存区
 
 命令
 
+
+
 ## Deploy
 
 部署
@@ -1599,7 +1639,9 @@ stage 暂存区
 
 `.war` 放入 `webapps`
 
+### 压力测试
 
+工具 jmeter？
 
 ## Test
 
@@ -1965,7 +2007,21 @@ Date.parse 使用本地时区
 
 等号规则
 
+类型转换规则
 
+
+
+正则表达式
+
+search -> Number
+
+match -> array
+
+test boolean
+
+exec -> match
+
+lastIndex 
 
 ### Vanilla
 
@@ -2068,9 +2124,44 @@ $.ajax({
 
 
 
+显示隐藏元素
+
++ show、hide
++ toggleClass display
+
+输出内容
+
++ html(...)
++ append
+
+Ajax
+
++ form
++ json JSON.stringify
++ file
++ 跨域 jsonp ，服务器配置
+
+绑定事件
+
++ click
++ 冒泡
+
+模式
+
++ 进入返回
++ 跳转
+
+
+
 ### require.js
 
-单网页应用管理多 js 文件
+单网页应用管理多 js 文件++
+
+
+
+requirejs-text
+
+
 
 http://handlebarsjs.com/
 
@@ -2546,6 +2637,14 @@ role 团队分工
 + Project Manager
 + 前端 后端
 
+## Debug
+
+浏览器断点
+
+后台断点
+
+简单的原型
+
 ## Domain 
 
 system
@@ -2660,6 +2759,62 @@ Access
 
 
 
+
+## 后台系统
+
+用户 User
+
+角色 Role
+
+权限 p
+
+菜单 Menu
+
++ Tree
++ Role
+
+表格 Table
+
++ 分页
++ 排序
++ 过滤
++ 搜索
++ 导出 Excel
+
+表单 Form
+
++ 表单提交
++ 表单验证
++ 数据绑定 通过控件的 name 和 value 
++ 单选框，多选框
+
+远程调用 ajax restful
+
+本地异步调用
+
++ 回调函数
+
+图表
+
++ chart
++ map
+
+工作流
+
++ 状态 State 状态视图
++ 事件 Event 转变
+
+
+
+## 项目沟通
+
+需求
+
+计划
+
+实现
+
+测试
 
 
 
@@ -2792,7 +2947,7 @@ MULTIPOLYGON(((120.15302015 30.299728037, 120.157295087 30.2945869, 120.15475936
 
 Camera 
 
-cesrum 地球3d显示
+cesrum 地球3d显示(炫酷)
 
 无人机自动 3d 建模
 
@@ -2833,6 +2988,10 @@ ECharts - Java类库 ECharts-Ja
 
 导出 Pdf
 
+## three.js
+
+
+
 ## Redis
 
 Cache
@@ -2852,6 +3011,10 @@ Cache
 ## [分布式系统基础架构 Hadoop ](https://www.oschina.net/p/hadoop) 
 
 ## [分布式搜索引擎 ElasticSearch ](https://www.oschina.net/p/elasticsearch) 
+
+提交更新
+
+AOP？
 
 ## nginx
 
@@ -3071,7 +3234,87 @@ KeyspaceName.TableName
 
 Task Queue
 
+Introduction
 
++ messages
++ producer 发送消息
++ queue
++ consumer 等待消息，一直运行
++ api connection 
++ exchange
++ broker
+
+
+
+
+
+Work queues (Task Queues)
+
++ consuming tasks among multiple workers.
++ Message acknowledgment 任务完成时发送 ack，否则会重试
++ Message durability/message persistence 仍然不完全可靠
++ Fair dispatch
+
+Publish/Subscribe
+
++ deliver a message to multiple consumers
++ broadcast log messages
++ the producer can only send messages to an exchange
++ exchange  broadcasts all the messages it receives to all the queues it knows
++ exchange types available: direct, topic, headers and fanout
++ Bindings That relationship between exchange and a queue is called a binding.queue_bind(exchange='logs',
+         queue=
++ fanout exchange type
++ 匿名队列
+
+Routing
+
++ routing_key  binding key
++ direct 
+
+Topics
+
++ `*`(star) can substitute for exactly one word.
++ `#` (hash) can substitute for zero or more words.
++ fanout direct
++ Severity syslog
+
+ RPC
+
++ wait for the result
+
++ Bearing that in mind, consider the following advice:
+
+  Make sure it's obvious which function call is local and which is remote.
+  Document your system. Make the dependencies between components clear.
+  Handle error cases. How should the client react when the RPC server is down for a long time?
+
++ callback_queue
+
++ reply_to = callback_queue
+
++ create a single callback queue per client. correlation_id
+
++ the restarted RPC server will process the request again. That's why on the client we must handle the duplicate responses gracefully, and the RPC should ideally be idempotent.
+
+
+
+Consumer Acknowledgements and Publisher Confirms
+
++ Both features build on the same idea and are inspired by TCP. 
++ delivery tag
++ When Consumers Fail or Lose Connection: Automatic Requeueing
++  idempotence
++ For persistent messages routed to durable queues, this means persisting to disk.
++ Applications should not depend on the order of acknowledgements when possible.
+
+Time-To-Live Extensions
+
+
+
+Java Spring AMQP
+
++ RabbitTemplate
 
 ## 分布式
 
@@ -3110,6 +3353,10 @@ ZooKeeper 提供的通用服务如下-
 高可靠的数据注册表 − 一个或几个节点的可用性的数据向下。
 
 ## Spring Cloud
+
+熔断，降级
+
+
 
 ### eureka 
 
@@ -3153,6 +3400,59 @@ https://www.my-debugbar.com/wiki/IETester/HomePage
 
 数据透视表 = group by
 
+## BASH
+
+
+
+文本编辑
+
++ vi
+
++ sed
+
+
+
+查找文件
+
++ grep
+
++ find
+
+
+
+输出报表
+
+wc
+
+awk
+
+
+
+文件操作
+
++ cp
++ mv
++ mkdir
+
+
+
+控制流程
+
++ if
++ while
+
+
+
+
+
+综合案例
+
+词频
+
+
+
+
+
 ## References
 
 + https://docs.oracle.com/javase/tutorial/index.html
@@ -3192,3 +3492,147 @@ Workflows
 States
 Transitions
 ```
+
+
+
+
+
+
+
+1、所有报表中，小数位数全部保留两位，需要检查一下。
+2、水位日报表功能，选择渠首分水闸，11号站有数据，但是表格没有出来数据。
+3、解决IE11无法进入主页的问题。
+4、系统安装部署文档，把最新的上传到SVN后告诉我在哪里。
+5、水位流量统计图的日期是乱的
+
+
+
+mustache.js
+
+Pug, Mustache, and EJS
+
+
+
+```sql
+SELECT
+	TOP 20 fycd,
+	delta,
+	row_number () OVER (PARTITION BY delta ORDER BY TM) as n,
+	TM,W,Q
+FROM
+	(
+		SELECT
+			*, DATEDIFF(
+				mi,
+				'2018-05-28 08:00:00.000',
+				TM
+			) / 15 AS delta
+		FROM
+			nsy.WRTRUN
+		WHERE
+			fycd IN (11)
+		AND tm > '2018-05-28 08:00:00.000'
+	) AS a
+ORDER BY
+	TM
+```
+
+
+
+```javascript
+$('.sub-right table td').each((i,e)=>{
+    var x =$(e).text();if(/^\d+\.\d+$/.test(x))$(e).text(parseFloat(x).toFixed(2))})
+```
+
+```
+$('.sub-right table td').each(function(i,e){
+    var x =$(e).text();if(/^\d+\.\d+$/.test(x))$(e).text(parseFloat(x).toFixed(2))});
+```
+
+
+
+```sql
+
+DECLARE @tmp TABLE (dt datetime)
+DECLARE @i datetime = '2018-05-28 08:00:00'
+DECLARE @a datetime = '2018-05-28 08:00:00'
+DECLARE @s datetime = dateadd(DAY, 1 ,@i)
+WHILE DATEDIFF(mi, @i, @s) >= 0
+BEGIN
+	INSERT @tmp (dt)
+VALUES
+	(@i)
+SET @i = DATEADD(mi, 15, @i)
+END SELECT
+	*
+FROM
+	(
+		SELECT
+			*, ROW_NUMBER () OVER (
+				partition BY dt,
+				fycd
+			ORDER BY
+				TM DESC
+			) AS rn
+		FROM
+			@tmp AS k,
+			nsy.WRTRUN AS v
+		WHERE
+			v.FYCD IN (11, 12, 13, 14, 15, 16, 17, 18)
+		AND v.TM BETWEEN @a
+		AND @s
+		AND DATEDIFF(SECOND, v.TM, k.dt) BETWEEN 0
+		AND 2 * 60 * 60
+	) t
+WHERE
+	t.rn = 1
+ORDER BY
+	fycd,
+	dt
+DECLARE @t TABLE (fycd INT) INSERT INTO @t
+VALUES
+	(11),
+	(12),
+	(13),
+	(14),
+	(15),
+	(16),
+	(17),
+	(18) SELECT
+		t0.dt,
+		t1.fycd,t3.FYNM,t2.TM,t2.W,t2.Q
+	FROM
+		@tmp AS t0
+	CROSS JOIN @t AS t1
+	LEFT JOIN (
+		SELECT
+			*
+		FROM
+			(
+				SELECT
+					*, ROW_NUMBER () OVER (
+						partition BY dt,
+						fycd
+					ORDER BY
+						TM DESC
+					) AS rn
+				FROM
+					@tmp AS k,
+					nsy.WRTRUN AS v
+				WHERE
+					v.FYCD IN (11, 12, 13, 14, 15, 16, 17, 18)
+				AND v.TM BETWEEN @a
+				AND @s
+				AND DATEDIFF(SECOND, v.TM, k.dt) BETWEEN 0
+				AND 2 * 60 * 60
+			) t
+		WHERE
+			t.rn = 1
+	) AS t2 ON t1.fycd = t2.fycd
+	AND t0.dt = t2.dt join [nsy].FYINF t3 on t1.fycd=t3.fycd
+	ORDER BY
+		t1.fycd,
+		t0.dt
+```
+
+https://stackoverflow.com/questions/10999522/how-to-get-the-latest-record-in-each-group-using-group-by
