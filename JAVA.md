@@ -2900,14 +2900,19 @@ LINESTRING
 
 POLYGON
 
+
+
 查询 
 
 + 用ST_AsText
 + MBRContains 
++ st_distance
++ ST_Contains
++ 
 
 SELECT ST_AsText(ST_GeomFromText(@mp));
 
-插入 用ST_GeomFromText
+插入 用ST_GeomFromText ST_GeomFromText('POINT(116.405289 39.904987)');  
 
 
 
@@ -3230,6 +3235,26 @@ CREATE (TABLE | COLUMNFAMILY) <tablename>
 
 KeyspaceName.TableName   
 
+## Search
+
+## Redis
+
+类型
+
++ String
+
+Hash
+
+List
+
+Set
+
+SortedSet
+
+Pub/Sub
+
+
+
 ## RabbitMQ
 
 Task Queue
@@ -3315,6 +3340,46 @@ Time-To-Live Extensions
 Java Spring AMQP
 
 + RabbitTemplate
+
+
+
+发送方本地消息表+接收方消费状态表
+
+
+
+异步事务
+
+事务
+
+锁
+
+可靠消息，TCC，最大努力通知
+
+未收到确认消息，主动询问。
+
+等幂性，通过记录单号。
+
+锁
+
+第一阶段，写入binlog；第二阶段执行commit或者rollback。这就是著名的两阶段提交协议（2PC）
+
+
+
+论文中提出的解决方法是将更新交易表记录和用户表更新消息放在一个本地事务来完成，为了避免重复消费用户表更新消息带来的问题，增加一个操作记录表updates_applied来记录已经完成的交易相关的信息。记录编号。
+
+
+
+解决方法很简单，在余额宝这边增加消息应用状态表（message_apply），通俗来说就是个账本，用于记录消息的消费情况，每次来一个消息，在真正执行之前，先去消息应用状态表中查询一遍，如果找到说明是重复消息，丢弃即可，如果没找到才执行，同时插入到消息应用状态表（同一事务）。
+
+
+
+
+
+分布式，paxos算法。
+
+
+
+
 
 ## 分布式
 
@@ -3451,7 +3516,15 @@ awk
 
 
 
+## Axure
 
+原型工具
+
+box-shadow: 0 0 8px #ccc;
+
+。拟合的公式参照前面发的网页文章，里面有详细的正交多项式拟合公式，和检验偏差的方法，一些偏离曲线多的点值要去掉移除，
+
+证明P=NP或P!=NP
 
 ## References
 
