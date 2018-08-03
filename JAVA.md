@@ -1060,7 +1060,7 @@ ENGINE=InnoDB
   + ORDER  `select * order by id asc` (asc/desc)
   + LIMIT `select * from table1 limit 10 `
   + JOIN `select * from table1 join table2 on table1.id=table2.id` 
-    + inner join, left join
+    + inner join, left join 用来补空缺值
   + Aggregation `select count(*) from table`
     + `count,sum` 
   + GROUP `select column1, count(1) group by column1`
@@ -1535,6 +1535,7 @@ Ecplise
 
 + 快捷键 `Ctrl+/` 补全
 + 快捷键 `Ctrl+1` 修正
++ Ctrl+单击 跳转
 + 插件 Spring
 
 web project
@@ -1548,6 +1549,12 @@ jetbrains
 vscode
 
 + 快捷键 `Ctrl+P` 切换文件
+
+
+
+
+
+debug ssql sysout（sql）
 
 ## git
 
@@ -3239,6 +3246,34 @@ KeyspaceName.TableName
 
 ## Redis
 
+
+
+LRU Cache
+
++ maxmemory
++ allkeys-lru
++ volatile-ttl
++ volatile-lru
+
+
+
+The volatile-lru and volatile-random policies are mainly useful when you want to use a single instance for both caching and to have a set of persistent keys. However it is usually a better idea to run two Redis instances to solve such a problem.
+
+
+
+ Transactions 
+
++ 隔离性
++ 原子性 (失败，不支持回滚)
++ MULTI + (QUEUED) + EXEC
++ 
+
+Persistence
+
++ 
+
+
+
 类型
 
 + String
@@ -3514,7 +3549,11 @@ awk
 
 词频
 
+## Linux
 
+文件锁
+
+socket
 
 ## Axure
 
@@ -3525,6 +3564,69 @@ box-shadow: 0 0 8px #ccc;
 。拟合的公式参照前面发的网页文章，里面有详细的正交多项式拟合公式，和检验偏差的方法，一些偏离曲线多的点值要去掉移除，
 
 证明P=NP或P!=NP
+
+LIKE CONCAT(?, '%');
+
+
+
+## Data
+
+MapReduce
+
+文件储存 hdfs://
+
+
+
+，进程调度（线程池）
+
+JobTracker and TaskTracker
+
+shuffle
+
+partition
+
+
+
+    Map: each worker node applies the map function to the local data, and writes the output to a temporary storage. A master node ensures that only one copy of redundant input data is processed.
+    Shuffle: worker nodes redistribute data based on the output keys (produced by the map function), such that all data belonging to one key is located on the same worker node.
+    Reduce: worker nodes now process each group of output data, per key, in parallel.
+
+
+ provided that all outputs of the map operation that share the same key are presented to the same reducer at the same time, or that the reduction function is associative.
+
+(key, value) pairs
+
+
+
+RDD
+
+
+
+map e => (e.key, e.value)
+
+flatMap
+
+reduce
+
+reduceByKey
+
+groupByKey
+
+如Map阶段的map, flatMap, filter, keyBy，Reduce阶段的reduceByKey, sortByKey, mean, gourpBy, sort等。
+
+
+
+算法
+
+求最大值最小值
+
+平均值问题
+
+TopN问题
+
+词频数统计
+
+
 
 ## References
 
@@ -3709,3 +3811,7 @@ VALUES
 ```
 
 https://stackoverflow.com/questions/10999522/how-to-get-the-latest-record-in-each-group-using-group-by
+
+
+
+http://lbs.tianditu.gov.cn/home.html
