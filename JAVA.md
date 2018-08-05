@@ -1060,7 +1060,7 @@ ENGINE=InnoDB
   + ORDER  `select * order by id asc` (asc/desc)
   + LIMIT `select * from table1 limit 10 `
   + JOIN `select * from table1 join table2 on table1.id=table2.id` 
-    + inner join, left join
+    + inner join, left join 用来补空缺值
   + Aggregation `select count(*) from table`
     + `count,sum` 
   + GROUP `select column1, count(1) group by column1`
@@ -1547,6 +1547,7 @@ Ecplise
 
 + 快捷键 `Ctrl+/` 补全
 + 快捷键 `Ctrl+1` 修正
++ Ctrl+单击 跳转
 + 插件 Spring
 
 web project
@@ -1560,6 +1561,12 @@ jetbrains
 vscode
 
 + 快捷键 `Ctrl+P` 切换文件
+
+
+
+
+
+debug ssql sysout（sql）
 
 ## git
 
@@ -2912,14 +2919,19 @@ LINESTRING
 
 POLYGON
 
+
+
 查询 
 
 + 用ST_AsText
 + MBRContains 
++ st_distance
++ ST_Contains
++ 
 
 SELECT ST_AsText(ST_GeomFromText(@mp));
 
-插入 用ST_GeomFromText
+插入 用ST_GeomFromText ST_GeomFromText('POINT(116.405289 39.904987)');  
 
 
 
@@ -3242,6 +3254,54 @@ CREATE (TABLE | COLUMNFAMILY) <tablename>
 
 KeyspaceName.TableName   
 
+## Search
+
+## Redis
+
+
+
+LRU Cache
+
++ maxmemory
++ allkeys-lru
++ volatile-ttl
++ volatile-lru
+
+
+
+The volatile-lru and volatile-random policies are mainly useful when you want to use a single instance for both caching and to have a set of persistent keys. However it is usually a better idea to run two Redis instances to solve such a problem.
+
+
+
+ Transactions 
+
++ 隔离性
++ 原子性 (失败，不支持回滚)
++ MULTI + (QUEUED) + EXEC
++ 
+
+Persistence
+
++ 
+
+
+
+类型
+
++ String
+
+Hash
+
+List
+
+Set
+
+SortedSet
+
+Pub/Sub
+
+
+
 ## RabbitMQ
 
 Task Queue
@@ -3327,6 +3387,46 @@ Time-To-Live Extensions
 Java Spring AMQP
 
 + RabbitTemplate
+
+
+
+发送方本地消息表+接收方消费状态表
+
+
+
+异步事务
+
+事务
+
+锁
+
+可靠消息，TCC，最大努力通知
+
+未收到确认消息，主动询问。
+
+等幂性，通过记录单号。
+
+锁
+
+第一阶段，写入binlog；第二阶段执行commit或者rollback。这就是著名的两阶段提交协议（2PC）
+
+
+
+论文中提出的解决方法是将更新交易表记录和用户表更新消息放在一个本地事务来完成，为了避免重复消费用户表更新消息带来的问题，增加一个操作记录表updates_applied来记录已经完成的交易相关的信息。记录编号。
+
+
+
+解决方法很简单，在余额宝这边增加消息应用状态表（message_apply），通俗来说就是个账本，用于记录消息的消费情况，每次来一个消息，在真正执行之前，先去消息应用状态表中查询一遍，如果找到说明是重复消息，丢弃即可，如果没找到才执行，同时插入到消息应用状态表（同一事务）。
+
+
+
+
+
+分布式，paxos算法。
+
+
+
+
 
 ## 分布式
 
@@ -3464,7 +3564,82 @@ Netcat
 
 词频
 
+## Linux
 
+文件锁
+
+socket
+
+## Axure
+
+原型工具
+
+box-shadow: 0 0 8px #ccc;
+
+。拟合的公式参照前面发的网页文章，里面有详细的正交多项式拟合公式，和检验偏差的方法，一些偏离曲线多的点值要去掉移除，
+
+证明P=NP或P!=NP
+
+LIKE CONCAT(?, '%');
+
+
+
+## Data
+
+MapReduce
+
+文件储存 hdfs://
+
+
+
+，进程调度（线程池）
+
+JobTracker and TaskTracker
+
+shuffle
+
+partition
+
+
+
+    Map: each worker node applies the map function to the local data, and writes the output to a temporary storage. A master node ensures that only one copy of redundant input data is processed.
+    Shuffle: worker nodes redistribute data based on the output keys (produced by the map function), such that all data belonging to one key is located on the same worker node.
+    Reduce: worker nodes now process each group of output data, per key, in parallel.
+
+
+ provided that all outputs of the map operation that share the same key are presented to the same reducer at the same time, or that the reduction function is associative.
+
+(key, value) pairs
+
+
+
+RDD
+
+
+
+map e => (e.key, e.value)
+
+flatMap
+
+reduce
+
+reduceByKey
+
+groupByKey
+
+如Map阶段的map, flatMap, filter, keyBy，Reduce阶段的reduceByKey, sortByKey, mean, gourpBy, sort等。
+
+
+
+算法
+
+求最大值最小值
+
+平均值问题
+
+TopN问题
+
+词频数统计
 
 ## Erlang
 
@@ -3744,3 +3919,14 @@ JVM类加载机制
 算法二分查找
 时间复杂度分析
 操作系统cpu调度算法
+
+
+http://lbs.tianditu.gov.cn/home.html
+
+
+
+
+
+
+
+
