@@ -1506,6 +1506,30 @@ Date 不可变
 
 Calendar 可变
 
+运算
+
+```java
+
+```
+
+
+
+解析
+
+```java
+
+```
+
+
+
+格式化
+
+```java
+Date findTime = new Date();
+SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+String str = formatter.format(findTime);
+```
+
 
 
 ### JSON
