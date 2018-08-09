@@ -2981,6 +2981,23 @@ bigemap 地图瓦片下载
 
 
 
+
+
+shp 文件 转 wkt 格式的文本 MULTIPOLYGON
+
+
+
+```
+var crs = new L.Proj.CRS(
+                'EPSG:4326',
+                "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs", {
+                    origin: [-180.0, 90],
+                    resolutions: res
+                });
+```
+
+
+
 ## 数据可视化
 
 excel
