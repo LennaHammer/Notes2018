@@ -9,7 +9,7 @@ th
 
 ```
 p	pen	/pen/ b	bad	/bæd/
-t	tea	/tiː/ d	did	/dɪd/
+t	tea	/tiː/ d	did	/dɪd/ 
 k	cat	/kæt/ ɡ	get	/ɡet/
 
 f	fall /fɔːl/ v van /væn/
@@ -43,16 +43,16 @@ iː	see	/siː/
 ʌ	cup	/kʌp/
 
 ɜː	fur	/fɜː(r)/
-ə	about	/əˈbaʊt/
+ə	about	/əˈbaʊt/ 弱读的音节
 
-e	ten	/ten/
+e	ten	/ten/ 
 æ	cat	/kæt/
 
 ɔː	saw	/sɔː/
 ɒ	got	/ɡɒt/
 
-ʊ	put	/pʊt/
 uː	too	/tuː/
+ʊ	put	/pʊt/
 
 
 eɪ	say	/seɪ/
@@ -67,11 +67,18 @@ eə	hair	/heə(r)/ (British English)
 ʊə	pure	/pjʊə(r)/ (British English)
 ```
 
+说明
++ t 辅音之间省略，元音之间读 d 
++ ə 用在单词弱读时 如 to of the 介词 冠词
++ 
+
 读音
 
 重音
 
 连读
+
+reduced
 
 https://www.oxfordlearnersdictionaries.com/about/english/pronunciation_english
 

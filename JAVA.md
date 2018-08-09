@@ -1393,6 +1393,18 @@ WHERE t2.NAME IS NULL
 where not exists
 
 
+Analyze Table
+Collect statistics about the table that can be used by the query optimizer to find a better plan.
+
+Optimizer
+Optimized Logical Plan
+
+Aggregate 
+Project 
+ Join Inner
+ Filter
+ 
+
 ## Design Pattern
 
 动机
@@ -1870,6 +1882,52 @@ HTML 4
 
 
 ## CSS
+
+文本
++ 字体 颜色 color 字体 font 修饰 大小 font-size
++ 段落 对齐 text-align 行高 line-height 缩进
+
+边框底纹
++ 背景 颜色 图片
++ 边框 样式 宽度 颜色
++ 衬距 padding
+
+编号方式 列表样式
+
+定位
+
++ 环绕样式 `float:left` `clear:both`
++ 定位样式
++ 位置与大小
+
+Box
+
+
+
+
+overflow
+
+布局
++ 居中 `margin：0 auto`
+绝对布局
++ position: absolute; width: 451px; height: 92px; z-index: 1; left: 243px; top: 51px;
+分栏布局
+
+
+
+
+Aural
+
+
+margin: 0;
+box-sizing: border-box;
+
+Normalize.css
+
+居中
+margin：auto
+响应式图片
+max-width 100%，height:auto
 
 ### text
 
@@ -3044,6 +3102,11 @@ ECharts - Java类库 ECharts-Ja
 ## three.js
 
 
+## Leaflet
+
+wkt格式
+
+
 
 ## Redis
 
@@ -3583,7 +3646,10 @@ awk
 + while
 
 
+网络
+Netcat 
 
+进程管理
 
 
 综合案例
@@ -3668,6 +3734,55 @@ TopN问题
 词频数统计
 
 
+## 推荐系统
+
+## 过滤
+
+## 日志系统
+
+
+## Erlang
+
+
+消息
+
+错误处理
+
+
+## MapReduce
+
+数据存储 DBFS
+
+## Pig
+
+## Spark
+
+flatMap
+reduce groupBy
+
+## 功能
+
+
+推荐算法
+
+搜索排序
+
+垃圾信息过滤
+
+kdb
+
+Generalized Linear Model, Logistic Regression
+
+cluster
+
+socket 进程
+Apache Kafka
+
+keras
+
+NIO之前，恐怕十个Java程序员里只一个可能写出高质量的网络应用
+
+备份数据库
 
 ## References
 
@@ -3853,6 +3968,65 @@ VALUES
 
 https://stackoverflow.com/questions/10999522/how-to-get-the-latest-record-in-each-group-using-group-by
 
+分布式事物。
+
+
+写视频点播网站文件下载接口
+基础变量/数组写出模拟maven导入包过程
+写出新变脸内存分配，模拟垃圾回收过程
+50个白球50个红球，两个盒子，怎么放让人随机在一个盒子里抽到红球概率最高
+n个数里取两个和为s的数
+java数据结构
+HashMap原理
+自定义类型可以作为Key么？
+java内存模型
+知道的排序算法
+快排的优化
+Java多线程实现方式
+Java线程与进程区别
+JVM内存模型+垃圾回收算法
+hashmap和treemap的区别
+操作系统同步方式、通信方式
+计算机网络三次握手四次分手以及wait_time三种差别
+http post和get差别
+美赛的建模
+k-means 算法
+数据库的三范式
+路由器和交换机有什么区别
+抽象类和接口有什么区别
+HashMap 和 HashTable 有什么区别
+多线程下有什么同步措施
+JVM GC、CMS 和 多线程
+Java 64 位的指针压缩
+Java 中的锁是怎么实现的、有什么锁
+Spark 和 Hadoop 区别
+Spark 分布式数据的容错机制
+Spark 的 shuffle read 和 shuffle write 的实现
+docker(namespace cgroups)
+docker文件系统
+http协议
+java线程池达到提交上限的具体情况
+Java无锁原理
+rehash过程
+java如何定位内存泄漏
+对中间件的认识
+数组中Arrays.sort的排序方法是什么？
+快速排序和堆排序的优缺点
+GC中可达性分析法，和引用计数法有什么不同？引用计数法有什么问题？
+JVM类加载机制
+链表中如何判断有环路
+数据结构中的链表
+算法二分查找
+时间复杂度分析
+操作系统cpu调度算法
 
 
 http://lbs.tianditu.gov.cn/home.html
+
+
+
+
+
+
+
+

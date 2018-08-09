@@ -1,10 +1,12 @@
+﻿
+blocks = open('Ruby Algo.md','r:utf-8',&:read).scan(/^(```+)ruby\b[^\n]*\n(.*?)^\1\s*$/m).map{|e|e[1]}
 
-blocks = open('Ruby Algo.md','r:utf-8',&:read).scan(/```ruby\s*\n(.+?)\n```/m)
+puts "#{blocks.size} blocks"
 
-out = open('_out.rb','w:utf-8') 
-blocks.each{|b|
-  out.puts b
+open('_out.rb','w:utf-8'){|out|
+  blocks.each{|b|
+    out.puts b
+  }
 }
-out.close
 
 system('ruby _out.rb')
