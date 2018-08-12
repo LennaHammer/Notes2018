@@ -1,26 +1,27 @@
 # Python Tools and Principles
 
-## INSTALL
 
+## 统计
 
+## 向量
 
-Python 3
-
-```
-pip install numpy
-pip install ipython
-```
-
-Miniconda
-
-```bash
-coda install anaconda
-```
+向量 
++ 向量加法 
++ 基 标准正交基
+线性运算
++ 拉伸
++ 基变换
+内积
++ 
 
 
 
 
 
+## 模型
+
+
+PCA、SVD
 
 
 ## Database
@@ -61,118 +62,118 @@ cursor.lastrowid
 
 
 
-## ͳ��
+## 统计
 
-ԭ����ģ��
-
-
+原理与模型
 
 
 
-## stat
+
+
+## 统计
 
 
 
-ͳ��
+统计
 
-���� Population 
+总体 Population 
 
-+ ����
-+ ���� ��ֵ mean e  $\mu$ 
-+ ���� variance $\sigma^2$
-  + ��׼��
++ 标量
++ 期望 均值 mean e  $\mu$ 
++ 方差 variance $\sigma^2$
+  + 标准差
 
-���� Sample
+样本 Sample
 
-+ ������ֵ sample mean $\overline{X}$
-+ �������� $s^2$
-
-
-�ֲ�
-+ ����
-+ ��̬�ֲ� Normal distribution
-  + Z���� Z-test
++ 样本均值 sample mean $\overline{X}$
++ 样本方差 $s^2$
 
 
+分布
++ 概率
++ 正态分布 Normal distribution
+  + Z检验 Z-test
 
-ͳ��ѧ - ά���ٿƣ����ɵİٿ�ȫ��
+
+
+统计学 - 维基百科，自由的百科全书
 https://zh.wikipedia.org/wiki/%E7%BB%9F%E8%AE%A1%E5%AD%A6
 
 central tendency
-+ ��ֵ  mean
++ 均值  mean
 
 
-����mode�������г���Ƶ���������֡�
-��λ������ n �������ɴ�С�����λ���м�����֡�
-����ƽ������n��������Ӻ����n��
-����ƽ������n��������˺� n �η���
-����ƽ������n�����ݵĵ���ȡ����ƽ������ȡ������
-ƽ��ƽ������Ҳ�ơ�������������n �����ݵ�ƽ��ȡ����ƽ�����ٿ����š�
-�ƶ�ƽ����
+众数mode：数据中出现频率最多的数字。
+中位数：在 n 个数据由大到小排序后，位在中间的数字。
+算术平均数：n个数据相加后除以n。
+几何平均数：n个数据相乘后开 n 次方。
+调和平均数：n个数据的倒数取算术平均，再取倒数。
+平方平均数（也称“均方根”）：n 个数据的平方取算数平均，再开根号。
+移动平均数
 
-��ɢ�̶� dispersion
-+ ���� Variance var $\sigma^2$
-  + ��ƽ���͵�ƽ������ȥ��ƽ����ƽ������
-  + Population(����) variance and sample variance
-  + �������� $s^2$  follows a scaled chi-squared distribution
+离散程度 dispersion
++ 方差 Variance var $\sigma^2$
+  + “平方和的平均”减去“平均的平方”。
+  + Population(总体) variance and sample variance
+  + 样本方差 $s^2$  follows a scaled chi-squared distribution
   + Distribution of the sample variance
-  + ��׼�� Standard Deviation \sigma s ���������ƽ���� ���k����׼�� x+-ks
-+ �������� #
-  + ����
-  + �ֲ� follows a scaled chi-squared distribution ���� ����
+  + 标准差 Standard Deviation \sigma s 方差的算术平方根 相差k个标准差 x+-ks
++ 样本方差 #
+  + 期望
+  + 分布 follows a scaled chi-squared distribution 期望 方差
   
-����ϵ�����ֳơ���ɢϵ������Ӣ�ģ�coefficient of variation�����Ǹ��ʷֲ���ɢ�̶ȵ�һ����һ�����ȣ��䶨��Ϊ��׼�� {\displaystyle \ \sigma } \ \sigma ��ƽ��ֵ {\displaystyle \ \mu } \ \mu ֮��
+变异系数，又称“离散系数”（英文：coefficient of variation），是概率分布离散程度的一个归一化量度，其定义为标准差 {\displaystyle \ \sigma } \ \sigma 与平均值 {\displaystyle \ \mu } \ \mu 之比
 
-range ���ֵ����Сֵ��������ֵ��
-�ķ�λ�� ����ͼ
+range 最大值减最小值后所得数值。
+四分位数 箱形图
 
-Mean squared error MSE �������
-��һ�����ƺ���Ϊ�����Ȼ���ƣ�������ƫ�ģ���ƫ�Ϊ�㣬�������ķ���ȵڶ���С�����ڶ������ƺ�������ƫ�ġ��ϴ�ķ���ĳ�̶ֳ��ϲ�����ƫ���˵ڶ������ƺ����ľ������ȵ�һ��Ҫ��
+Mean squared error MSE 均方误差
+第一个估计函数为最大似然估计，它是有偏的，即偏差不为零，但是它的方差比第二个小。而第二个估计函数是无偏的。较大的方差某种程度上补偿了偏差，因此第二个估计函数的均方误差比第一个要大。
 
-�ֲ� distribution
+分布 distribution
 
-+ ���� 
-  + ��һ��������һ����Ӣ�be normalized ���ʱ������ {\displaystyle 1} 1 
-+ ��̬�ֲ�
-  + Z���� �������뼫�޶��� pֵ if the sample size is large or the population variance is known
++ 概率 
+  + 归一条件（归一化，英语：be normalized 概率必须等于 {\displaystyle 1} 1 
++ 正态分布
+  + Z检验 根据中央极限定理 p值 if the sample size is large or the population variance is known
  If the population variance is unknown (and therefore has to be estimated from the sample itself) and the sample size is not large (n < 30), the Student's t-test may be more appropriate.
-�����˫���pֵ�����ñ�׼�ۻ��ֲ������������㣬�ֱ�Ϊ��(?Z)���ϲࣩ ��(Z)���²ࣩ�� 2��(?|Z|) ��˫�ࣩ��
+单侧或双侧的p值可以用标准累积分布函数Φ来计算，分别为Φ(?Z)（上侧） Φ(Z)（下侧）和 2Φ(?|Z|) （双侧）。
 
-+ �����ֲ� chi-squared distribution
-+ t����
-  + ���������飺����һ����̬�ֲ�������ľ�ֵ�Ƿ�������������ֵ֮��
-  + ˫�������飺�������Ϊ������̬�ֲ�������ľ�ֵ֮��Ϊĳʵ��
-  + ����ԡ����ߡ��ظ�������t���飺����ͬһͳ���������β���ֵ֮��Ĳ����Ƿ�Ϊ�㡣
-  + ����һ���ع��ߵ�б���Ƿ�������Ϊ�㡣
-+ F-�ֲ� ����һϵ�з�����̬�ֲ���ĸ�壬������ͬ�ı�׼�� F����ķ��ӡ���ĸ��ʵ����һ�������������Ը��Ե����ɶ�
++ 卡方分布 chi-squared distribution
++ t检验
+  + 单样本检验：检验一个正态分布的总体的均值是否在满足零假设的值之内
+  + 双样本检验：其零假设为两个正态分布的总体的均值之差为某实数
+  + “配对”或者“重复测量”t检验：检验同一统计量的两次测量值之间的差异是否为零。
+  + 检验一条回归线的斜率是否显著不为零。
++ F-分布 假设一系列服从正态分布的母体，都有相同的标准差 F检验的分子、分母其实各是一个卡方变数除以各自的自由度
 
 
 
-���Ϸֲ� ����������� X �� Y
-+ Э���� Covariance  ���������ı仯����һ��
-  + ���� => 0
-  + ��������� [��1, 1] ���Բ���� 0
-  + Э������� �������������X ��Y��
+联合分布 两个随机变量 X 和 Y
++ 协方差 Covariance  两个变量的变化趋势一致
+  + 独立 => 0
+  + 线性相关性 [－1, 1] 线性不相关 0
+  + 协方差矩阵 列向量随机变量X 与Y，
   
-����裬�ڸü����У��������ضԱ����������κ����á������H0��Ϊ��������׵ģ�֤���޷����䶨�
+零假设，在该假设中，所有因素对变量都不起任何作用。零假设H0认为被告是清白的，证据无法将其定罪。
 
-���
-+ ��һ�ʹ���������豻�����֤α���ó����Խ��Ϊ�������ԡ���
-+ �ڶ��ʹ����������û�б���ʱ�ų���ĸȺ���е�ʵ�ʲ��챻�����ж�Ϊ�������ԡ���
+误差
++ 第一型错误中零假设被错误地证伪，得出测试结果为“假阳性”。
++ 第二型错误中零假设没有被及时排除，母群体中的实际差异被错误判断为“假阴性”。
 
-�����С�������ַ��� ����֮Ϊ����С���˷�����
-������� 95%�������� ��Ҷ˹����
-�����Բ���
+误差最小化，这种方法 被称之为“最小二乘法”。
+区间估算 95%置信区间 贝叶斯概率
+显著性差异
 
-�����Բ���
-����Ŀ�������Բ���
-���ڸ��������⣬ͳ��ѧ���ٻش�򵥵��ǻ�����Ľ��ͳ�������ͳ�Ƶ������Բ�����֣��㱨���Խ�����辫ȷ֤α�ĸ���ֵ����Ҳ��������pֵ���ٶ�ֵ����
+显著性差异
+主条目：显著性差异
+对于给出的问题，统计学很少回答简单的是或否。它的解释常常是以统计的显著性差异出现，汇报可以将零假设精确证伪的概率值（这也被称作是p值、假定值）。
 
-�ع����
-ʱ�����з���
+回归分析
+时间序列分析
 
-�ֱ���decibel��������������ͬ��λ֮���������ĵ�λ
-����ֵ��ο���ֵ֮�ȼ������10�Ķ������ٳ���10
+分贝（decibel）是量度两个相同单位之数量比例的单位
+测量值与参考量值之比计算基于10的对数，再乘以10
 
 https://github.com/python/cpython/blob/3.7/Lib/statistics.py
 
@@ -213,8 +214,8 @@ Excel
 + group outline
 
 chart
-+ ����ͼ
-+ ֱ��ͼ
++ 折线图
++ 直方图
 
 pandas
 
@@ -238,9 +239,10 @@ plt.show()
 
 
 
-�����ھ�
+数据挖掘
 
 
+## 拟合
 
 ## ML
 
@@ -252,13 +254,14 @@ keras
 
 pytorch
 
+指标
 
 
 ## Vision
 
 
 
-### PIL
+### PIL/pillow
 
 image magic
 
@@ -266,30 +269,30 @@ image magic
 
 `import cv2` 
 
- ��д��ʾ
+ 读写显示
 
 + imread
 + imshow
 + imwrite
 
-ɫ��
+色彩
 
 + cvtColor  `gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)`
 
-��ͼ
+绘图
 
 filter
 
-��ֵ
+阈值
 
-�任
+变换
 
-+ ����任
++ 仿射变换
 
 
 
-+ ����ʶ�� haarcascades
-+ ��Ե��� Canny
++ 人脸识别 haarcascades
++ 边缘检测 Canny
 
 
 
@@ -391,13 +394,46 @@ draft
 
 
 
- datetime.now().date() + timedelta(days=1)
+datetime.now().date() + timedelta(days=1)
 
- ```r
+```r
 x <- 1:10
 y <- 23*x+rnorm(length(x))
 m <- lm(y~x)
 summary(m)
 par(mfrow=c(2, 2))
 plot(m)
- ```
+```
+
+## 工具
+
+
+
+## 附录
+
+### 安装
+
+Python 3
+
+```
+pip install numpy
+pip install ipython
+```
+
+Miniconda
+
+```bash
+coda install anaconda
+```
+
+
+## 其他
+
+
+
+
+
+
+
+
+

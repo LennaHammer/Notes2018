@@ -1,5 +1,11 @@
 ## see https://github.com/kennethreitz/requests-html/blob/master/requests_html.py
+'''
 
+
+
+
+
+'''
 import sys
 import os
 import re
@@ -90,8 +96,8 @@ class WebSession:
             cs = {}
             for item in cookies.split(';'):
                 key, value = item.split('=', 1)
-                cs[key] = value
-            session.cookies = requests.cookies.cookiejar_from_dict(Cookies)
+                cs[key.strip()] = value.strip()
+            session.cookies = requests.cookies.cookiejar_from_dict(cs)
 
         # print(self.session.headers)
 

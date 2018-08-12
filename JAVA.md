@@ -1060,7 +1060,7 @@ ENGINE=InnoDB
   + ORDER  `select * order by id asc` (asc/desc)
   + LIMIT `select * from table1 limit 10 `
   + JOIN `select * from table1 join table2 on table1.id=table2.id` 
-    + inner join, left join
+    + inner join, left join 用来补空缺值
   + Aggregation `select count(*) from table`
     + `count,sum` 
   + GROUP `select column1, count(1) group by column1`
@@ -1393,6 +1393,18 @@ WHERE t2.NAME IS NULL
 where not exists
 
 
+Analyze Table
+Collect statistics about the table that can be used by the query optimizer to find a better plan.
+
+Optimizer
+Optimized Logical Plan
+
+Aggregate 
+Project 
+ Join Inner
+ Filter
+ 
+
 ## Design Pattern
 
 动机
@@ -1535,6 +1547,7 @@ Ecplise
 
 + 快捷键 `Ctrl+/` 补全
 + 快捷键 `Ctrl+1` 修正
++ Ctrl+单击 跳转
 + 插件 Spring
 
 web project
@@ -1548,6 +1561,12 @@ jetbrains
 vscode
 
 + 快捷键 `Ctrl+P` 切换文件
+
+
+
+
+
+debug ssql sysout（sql）
 
 ## git
 
@@ -1839,6 +1858,52 @@ HTML 4
 
 
 ## CSS
+
+文本
++ 字体 颜色 color 字体 font 修饰 大小 font-size
++ 段落 对齐 text-align 行高 line-height 缩进
+
+边框底纹
++ 背景 颜色 图片
++ 边框 样式 宽度 颜色
++ 衬距 padding
+
+编号方式 列表样式
+
+定位
+
++ 环绕样式 `float:left` `clear:both`
++ 定位样式
++ 位置与大小
+
+Box
+
+
+
+
+overflow
+
+布局
++ 居中 `margin：0 auto`
+绝对布局
++ position: absolute; width: 451px; height: 92px; z-index: 1; left: 243px; top: 51px;
+分栏布局
+
+
+
+
+Aural
+
+
+margin: 0;
+box-sizing: border-box;
+
+Normalize.css
+
+居中
+margin：auto
+响应式图片
+max-width 100%，height:auto
 
 ### text
 
@@ -2900,14 +2965,19 @@ LINESTRING
 
 POLYGON
 
+
+
 查询 
 
 + 用ST_AsText
 + MBRContains 
++ st_distance
++ ST_Contains
++ 
 
 SELECT ST_AsText(ST_GeomFromText(@mp));
 
-插入 用ST_GeomFromText
+插入 用ST_GeomFromText ST_GeomFromText('POINT(116.405289 39.904987)');  
 
 
 
@@ -2989,6 +3059,11 @@ ECharts - Java类库 ECharts-Ja
 导出 Pdf
 
 ## three.js
+
+
+## Leaflet
+
+wkt格式
 
 
 
@@ -3230,6 +3305,54 @@ CREATE (TABLE | COLUMNFAMILY) <tablename>
 
 KeyspaceName.TableName   
 
+## Search
+
+## Redis
+
+
+
+LRU Cache
+
++ maxmemory
++ allkeys-lru
++ volatile-ttl
++ volatile-lru
+
+
+
+The volatile-lru and volatile-random policies are mainly useful when you want to use a single instance for both caching and to have a set of persistent keys. However it is usually a better idea to run two Redis instances to solve such a problem.
+
+
+
+ Transactions 
+
++ 隔离性
++ 原子性 (失败，不支持回滚)
++ MULTI + (QUEUED) + EXEC
++ 
+
+Persistence
+
++ 
+
+
+
+类型
+
++ String
+
+Hash
+
+List
+
+Set
+
+SortedSet
+
+Pub/Sub
+
+
+
 ## RabbitMQ
 
 Task Queue
@@ -3315,6 +3438,46 @@ Time-To-Live Extensions
 Java Spring AMQP
 
 + RabbitTemplate
+
+
+
+发送方本地消息表+接收方消费状态表
+
+
+
+异步事务
+
+事务
+
+锁
+
+可靠消息，TCC，最大努力通知
+
+未收到确认消息，主动询问。
+
+等幂性，通过记录单号。
+
+锁
+
+第一阶段，写入binlog；第二阶段执行commit或者rollback。这就是著名的两阶段提交协议（2PC）
+
+
+
+论文中提出的解决方法是将更新交易表记录和用户表更新消息放在一个本地事务来完成，为了避免重复消费用户表更新消息带来的问题，增加一个操作记录表updates_applied来记录已经完成的交易相关的信息。记录编号。
+
+
+
+解决方法很简单，在余额宝这边增加消息应用状态表（message_apply），通俗来说就是个账本，用于记录消息的消费情况，每次来一个消息，在真正执行之前，先去消息应用状态表中查询一遍，如果找到说明是重复消息，丢弃即可，如果没找到才执行，同时插入到消息应用状态表（同一事务）。
+
+
+
+
+
+分布式，paxos算法。
+
+
+
+
 
 ## 分布式
 
@@ -3442,16 +3605,143 @@ awk
 + while
 
 
+网络
+Netcat 
 
+进程管理
 
 
 综合案例
 
 词频
 
+## Linux
+
+文件锁
+
+socket
+
+## Axure
+
+原型工具
+
+box-shadow: 0 0 8px #ccc;
+
+。拟合的公式参照前面发的网页文章，里面有详细的正交多项式拟合公式，和检验偏差的方法，一些偏离曲线多的点值要去掉移除，
+
+证明P=NP或P!=NP
+
+LIKE CONCAT(?, '%');
 
 
 
+## Data
+
+MapReduce
+
+文件储存 hdfs://
+
+
+
+，进程调度（线程池）
+
+JobTracker and TaskTracker
+
+shuffle
+
+partition
+
+
+
+    Map: each worker node applies the map function to the local data, and writes the output to a temporary storage. A master node ensures that only one copy of redundant input data is processed.
+    Shuffle: worker nodes redistribute data based on the output keys (produced by the map function), such that all data belonging to one key is located on the same worker node.
+    Reduce: worker nodes now process each group of output data, per key, in parallel.
+
+
+ provided that all outputs of the map operation that share the same key are presented to the same reducer at the same time, or that the reduction function is associative.
+
+(key, value) pairs
+
+
+
+RDD
+
+
+
+map e => (e.key, e.value)
+
+flatMap
+
+reduce
+
+reduceByKey
+
+groupByKey
+
+如Map阶段的map, flatMap, filter, keyBy，Reduce阶段的reduceByKey, sortByKey, mean, gourpBy, sort等。
+
+
+
+算法
+
+求最大值最小值
+
+平均值问题
+
+TopN问题
+
+词频数统计
+
+
+## 推荐系统
+
+## 过滤
+
+## 日志系统
+
+
+## Erlang
+
+
+消息
+
+错误处理
+
+
+## MapReduce
+
+数据存储 DBFS
+
+## Pig
+
+## Spark
+
+flatMap
+reduce groupBy
+
+## 功能
+
+
+推荐算法
+
+搜索排序
+
+垃圾信息过滤
+
+kdb
+
+Generalized Linear Model, Logistic Regression
+
+cluster
+
+socket 进程
+Apache Kafka
+
+keras
+
+NIO之前，恐怕十个Java程序员里只一个可能写出高质量的网络应用
+
+备份数据库
 
 ## References
 
@@ -3636,3 +3926,66 @@ VALUES
 ```
 
 https://stackoverflow.com/questions/10999522/how-to-get-the-latest-record-in-each-group-using-group-by
+
+分布式事物。
+
+
+写视频点播网站文件下载接口
+基础变量/数组写出模拟maven导入包过程
+写出新变脸内存分配，模拟垃圾回收过程
+50个白球50个红球，两个盒子，怎么放让人随机在一个盒子里抽到红球概率最高
+n个数里取两个和为s的数
+java数据结构
+HashMap原理
+自定义类型可以作为Key么？
+java内存模型
+知道的排序算法
+快排的优化
+Java多线程实现方式
+Java线程与进程区别
+JVM内存模型+垃圾回收算法
+hashmap和treemap的区别
+操作系统同步方式、通信方式
+计算机网络三次握手四次分手以及wait_time三种差别
+http post和get差别
+美赛的建模
+k-means 算法
+数据库的三范式
+路由器和交换机有什么区别
+抽象类和接口有什么区别
+HashMap 和 HashTable 有什么区别
+多线程下有什么同步措施
+JVM GC、CMS 和 多线程
+Java 64 位的指针压缩
+Java 中的锁是怎么实现的、有什么锁
+Spark 和 Hadoop 区别
+Spark 分布式数据的容错机制
+Spark 的 shuffle read 和 shuffle write 的实现
+docker(namespace cgroups)
+docker文件系统
+http协议
+java线程池达到提交上限的具体情况
+Java无锁原理
+rehash过程
+java如何定位内存泄漏
+对中间件的认识
+数组中Arrays.sort的排序方法是什么？
+快速排序和堆排序的优缺点
+GC中可达性分析法，和引用计数法有什么不同？引用计数法有什么问题？
+JVM类加载机制
+链表中如何判断有环路
+数据结构中的链表
+算法二分查找
+时间复杂度分析
+操作系统cpu调度算法
+
+
+http://lbs.tianditu.gov.cn/home.html
+
+
+
+
+
+
+
+

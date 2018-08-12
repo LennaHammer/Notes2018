@@ -8,27 +8,27 @@ th
 辅音 清辅音 浊辅音
 
 ```
-p	pen	/pen/ b	bad	/bæd/
-t	tea	/tiː/ d	did	/dɪd/
-k	cat	/kæt/ ɡ	get	/ɡet/
+p  pen  /pen/ b  bad  /bæd/
+t  tea  /tiː/ d  did  /dɪd/ 
+k  cat  /kæt/ ɡ  get  /ɡet/
 
-f	fall /fɔːl/ v van /væn/
+f  fall /fɔːl/ v van /væn/
 
-θ	thin	/θɪn/ ð	this	/ðɪs/
-s	see	/siː/ z	zoo	/zuː/
-ʃ	shoe	/ʃuː/ ʒ	vision	/ˈvɪʒn/
-tʃ chain /tʃeɪn/ dʒ	jam	/dʒæm/
+θ  thin  /θɪn/ ð  this  /ðɪs/ 字母 th
+s  see  /siː/ z  zoo  /zuː/
+ʃ  shoe  /ʃuː/ ʒ  vision  /ˈvɪʒn/ 字母 sh
+tʃ chain /tʃeɪn/ dʒ  jam  /dʒæm/ 字母 ch
 
-m	man	/mæn/
-n	now	/naʊ/
-ŋ	sing /sɪŋ/
+m  man  /mæn/
+n  now  /naʊ/
+ŋ  sing /sɪŋ/ 字母 
 
-l	leg	/leɡ/
-r	red	/red/
-h	hat	/hæt/
+l  leg  /leɡ/
+r  red  /red/
+h  hat  /hæt/
 
-j	yes	/jes/
-w	wet	/wet/
+j  yes  /jes/ 字母 
+w  wet  /wet/
 
 ```
 
@@ -36,42 +36,51 @@ w	wet	/wet/
 元音 长元音 短元音 双元音
 
 ```
-iː	see	/siː/
-ɪ	sit	/sɪt/
+iː  see  /siː/
+ɪ  sit  /sɪt/
 
-ɑː	father	/ˈfɑːðə(r)/
-ʌ	cup	/kʌp/
+ɑː  father  /ˈfɑːðə(r)/
+ʌ  cup  /kʌp/
 
-ɜː	fur	/fɜː(r)/
-ə	about	/əˈbaʊt/
+ɜː  fur  /fɜː(r)/
+ə  about  /əˈbaʊt/ 弱读的音节 Schwa
 
-e	ten	/ten/
-æ	cat	/kæt/
+e  ten  /ten/ 
+æ  cat  /kæt/
 
-ɔː	saw	/sɔː/
-ɒ	got	/ɡɒt/
+ɔː  saw  /sɔː/
+ɒ  got  /ɡɒt/
 
-ʊ	put	/pʊt/
-uː	too	/tuː/
+uː  too  /tuː/
+ʊ  put  /pʊt/
 
 
-eɪ	say	/seɪ/
-aɪ	my	/maɪ/
-ɔɪ	boy	/bɔɪ/
+eɪ  say  /seɪ/
+aɪ  my  /maɪ/
+ɔɪ  boy  /bɔɪ/
 
-əʊ	go	/ɡəʊ/
-aʊ	now	/naʊ/
+əʊ  go  /ɡəʊ/
+aʊ  now  /naʊ/
 
-ɪə	near	/nɪə(r)/ (British English)
-eə	hair	/heə(r)/ (British English)
-ʊə	pure	/pjʊə(r)/ (British English)
+ɪə  near  /nɪə(r)/ (British English)
+eə  hair  /heə(r)/ (British English)
+ʊə  pure  /pjʊə(r)/ (British English)
 ```
 
+说明
++ t 辅音之间省略，元音之间读 d 
++ ə 用在单词*弱读*时 如 to of the 介词 冠词
+  + and can are was them him her at to of for you the
++ 连读 不完全爆破
++ 缩读 'cause(because) gaonna(going to) gatta(go to) wanna(want to) 'd 've
+  + 'n(and)
 读音
 
 重音
 
 连读
+
+reduced
 
 https://www.oxfordlearnersdictionaries.com/about/english/pronunciation_english
 
@@ -248,6 +257,12 @@ now later
 
 颜色 red green blue black white gray
 
+时间 
+
+频率 often sometimes
+
+心情 happy sad angry
+
 介词1 
 
 
@@ -269,4 +284,7 @@ What is your name?
 My name is ...
 
 
+
+| dd | ff |
+| ff | ff |
 
