@@ -70,7 +70,7 @@ eə	hair	/heə(r)/ (British English)
 说明
 + t 辅音之间省略，元音之间读 d 
 + ə 用在单词弱读时 如 to of the 介词 冠词
-+ 
++ bit bet e bat æ but ʌ
 
 读音
 
