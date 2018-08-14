@@ -1,5 +1,11 @@
 ## see https://github.com/kennethreitz/requests-html/blob/master/requests_html.py
+'''
 
+
+
+
+
+'''
 import sys
 import os
 import re
@@ -90,8 +96,8 @@ class WebSession:
             cs = {}
             for item in cookies.split(';'):
                 key, value = item.split('=', 1)
-                cs[key] = value
-            session.cookies = requests.cookies.cookiejar_from_dict(Cookies)
+                cs[key.strip()] = value.strip()
+            session.cookies = requests.cookies.cookiejar_from_dict(cs)
 
         # print(self.session.headers)
 
@@ -361,12 +367,12 @@ def run_web__task(urls, name,callback):
 
 class Task:
     @staticmethod
-    def download_files(tasks):
+    def download_files(tasks,path=None):
         s = WebSession()
         for url, filename in tasks:
             if os.path.exists(filename):
                 continue
-            s.download(url,filename)
+            Util.retry(lambda:s.download(url,filename),ignore=1)
 
 
 

@@ -1,3 +1,5 @@
+# Leetcode Database
+
 175. Combine Two Tables
 
 ```mysql
