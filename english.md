@@ -19,37 +19,38 @@ s  see  /siː/ z  zoo  /zuː/
 ʃ  shoe  /ʃuː/ ʒ  vision  /ˈvɪʒn/ 字母 sh
 tʃ chain /tʃeɪn/ dʒ  jam  /dʒæm/ 字母 ch
 
-m  man  /mæn/
-n  now  /naʊ/
-ŋ  sing /sɪŋ/ 字母 
+m  man  /mæn/ 字母 m
+n  now  /naʊ/ 字母 n
+ŋ  sing /sɪŋ/ 字母 ng
 
 l  leg  /leɡ/
 r  red  /red/
 h  hat  /hæt/
 
-j  yes  /jes/ 字母 
+j  yes  /jes/ 字母 y u/jʊ/
 w  wet  /wet/
 
 ```
 
 
 元音 长元音 短元音 双元音
+前元音 中 后
 
 ```
 iː  see  /siː/ 字母 e
 ɪ  sit  /sɪt/ 字母 i y
 
-e  ten  /ten/ 字母 e a
+e  ten  /ten/ 字母 e
 æ  cat  /kæt/ 字母 a
 
 ɑː  father  /ˈfɑːðə(r)/ 字母 a
-ʌ  cup  /kʌp/ 字母 u o
+ʌ  cup  /kʌp/ 字母 u
 
-ɜː  fur  /fɜː(r)/ 字母 ？r
-ə  about  /əˈbaʊt/ 弱读的音节 Schwa 字母 a [aeo]r
+ɜː  fur  /fɜː(r)/ 字母 ?r
+ə  about  /əˈbaʊt/ 弱读的音节 Schwa 字母 a ?r
 
 ɔː  saw  /sɔː/ 字母 o a
-ɒ  got  /ɡɒt/ 
+ɒ  got  /ɡɒt/ 字母 o
 
 uː  too  /tuː/
 ʊ  put  /pʊt/
@@ -96,15 +97,21 @@ https://en.wikipedia.org/wiki/Stress_and_vowel_reduction_in_English
 
 ## 单词
 
+
+### be
+
 is
 
 `... is ...` 
 
 
 
-of
+### of
 
 `the ... of ...`
+
+of the
+
 
 动词
 

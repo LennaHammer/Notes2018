@@ -367,12 +367,12 @@ def run_web__task(urls, name,callback):
 
 class Task:
     @staticmethod
-    def download_files(tasks):
+    def download_files(tasks,path=None):
         s = WebSession()
         for url, filename in tasks:
             if os.path.exists(filename):
                 continue
-            s.download(url,filename)
+            Util.retry(lambda:s.download(url,filename),ignore=1)
 
 
 
