@@ -109,4 +109,8 @@ update salary set sex=if(sex='m','f','m')
 
 + group by ...
 
++ 子查询
++ 选择 投影 汇总
+
+
 https://www.cnblogs.com/grandyang

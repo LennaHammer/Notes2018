@@ -19,15 +19,15 @@ s  see  /siː/ z  zoo  /zuː/
 ʃ  shoe  /ʃuː/ ʒ  vision  /ˈvɪʒn/ 字母 sh
 tʃ chain /tʃeɪn/ dʒ  jam  /dʒæm/ 字母 ch
 
-m  man  /mæn/
-n  now  /naʊ/
-ŋ  sing /sɪŋ/ 字母 
+m  man  /mæn/ 字母 m
+n  now  /naʊ/ 字母 n
+ŋ  sing /sɪŋ/ 字母 ng
 
 l  leg  /leɡ/
 r  red  /red/
 h  hat  /hæt/
 
-j  yes  /jes/ 字母 
+j  yes  /jes/ 字母 y u/jʊ/
 w  wet  /wet/
 
 ```
@@ -50,7 +50,7 @@ e  ten  /ten/ 字母 e
 æ  cat  /kæt/ 字母 a
 
 ɔː  saw  /sɔː/
-ɒ  got  /ɡɒt/
+ɒ  got  /ɡɒt/ 字母 o
 
 uː  too  /tuː/
 ʊ  put  /pʊt/
@@ -97,15 +97,20 @@ https://gss1.bdstatic.com/-vo3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C
 
 ## 单词
 
+
+### be
+
 is
 
 `... is ...` 
 
 
 
-of
+### of
 
 `the ... of ...`
+of the
+
 
 动词
 
