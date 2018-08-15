@@ -34,19 +34,20 @@ w  wet  /wet/
 
 
 元音 长元音 短元音 双元音
+前元音 中 后
 
 ```
 iː  see  /siː/
-ɪ  sit  /sɪt/
+ɪ  sit  /sɪt/ 字母 i
 
 ɑː  father  /ˈfɑːðə(r)/
-ʌ  cup  /kʌp/
+ʌ  cup  /kʌp/ 字母 u
 
 ɜː  fur  /fɜː(r)/
 ə  about  /əˈbaʊt/ 弱读的音节 Schwa
 
-e  ten  /ten/ 
-æ  cat  /kæt/
+e  ten  /ten/ 字母 e
+æ  cat  /kæt/ 字母 a
 
 ɔː  saw  /sɔː/
 ɒ  got  /ɡɒt/
