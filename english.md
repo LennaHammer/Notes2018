@@ -14,42 +14,43 @@ k  cat  /kæt/ ɡ  get  /ɡet/
 
 f  fall /fɔːl/ v van /væn/
 
-θ  thin  /θɪn/ ð  this  /ðɪs/ 字母 th
+θ  thin  /θɪn/ ð  this  /ðɪs/ 字母 th 字母 th
 s  see  /siː/ z  zoo  /zuː/
 ʃ  shoe  /ʃuː/ ʒ  vision  /ˈvɪʒn/ 字母 sh
 tʃ chain /tʃeɪn/ dʒ  jam  /dʒæm/ 字母 ch
 
-m  man  /mæn/
-n  now  /naʊ/
-ŋ  sing /sɪŋ/ 字母 
+m  man  /mæn/ 字母 m
+n  now  /naʊ/ 字母 n
+ŋ  sing /sɪŋ/ 字母 ng
 
 l  leg  /leɡ/
 r  red  /red/
 h  hat  /hæt/
 
-j  yes  /jes/ 字母 
+j  yes  /jes/ 字母 y u/jʊ/
 w  wet  /wet/
 
 ```
 
 
 元音 长元音 短元音 双元音
+前元音 中 后
 
 ```
-iː  see  /siː/
-ɪ  sit  /sɪt/
+iː  see  /siː/ 字母 e
+ɪ  sit  /sɪt/ 字母 i y
 
-ɑː  father  /ˈfɑːðə(r)/
-ʌ  cup  /kʌp/
+e  ten  /ten/ 字母 e
+æ  cat  /kæt/ 字母 a
 
-ɜː  fur  /fɜː(r)/
-ə  about  /əˈbaʊt/ 弱读的音节 Schwa
+ɑː  father  /ˈfɑːðə(r)/ 字母 a
+ʌ  cup  /kʌp/ 字母 u
 
-e  ten  /ten/ 
-æ  cat  /kæt/
+ɜː  fur  /fɜː(r)/ 字母 ?r
+ə  about  /əˈbaʊt/ 弱读的音节 Schwa 字母 a ?r
 
-ɔː  saw  /sɔː/
-ɒ  got  /ɡɒt/
+ɔː  saw  /sɔː/ 字母 o a
+ɒ  got  /ɡɒt/ 字母 o
 
 uː  too  /tuː/
 ʊ  put  /pʊt/
@@ -89,7 +90,7 @@ https://www.oxfordlearnersdictionaries.com/about/english/pronunciation_english
 
 https://gss1.bdstatic.com/-vo3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C5%2C150%2C50/sign=5756ea7024738bd4d02cba63c0e2ecb3/3c6d55fbb2fb4316e0c0efd72aa4462308f7d344.jpg
 
-
+https://en.wikipedia.org/wiki/Stress_and_vowel_reduction_in_English
 
 语法
 
@@ -99,15 +100,21 @@ https://gss1.bdstatic.com/-vo3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike150%2C5%2C
 
 ## 单词
 
+
+### be
+
 is
 
 `... is ...` 
 
 
 
-of
+### of
 
 `the ... of ...`
+
+of the
+
 
 动词
 
@@ -265,6 +272,8 @@ now later
 频率 often sometimes
 
 心情 happy sad angry
+
+形容词 right wrong good bad 
 
 介词1 
 

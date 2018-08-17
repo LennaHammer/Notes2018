@@ -290,7 +290,7 @@ O* eval_expr(O *o, O *env) {
         switch (o->type) {
         case SYM:
             if (!strcmp(o->string, "lambda")) {
-                return
+                return;
             } else if (!strcmp(o->string, "define")) {
 
             } else if (!strcmp(o->string, "+")) {

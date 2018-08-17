@@ -1,58 +1,52 @@
 # Python Tools and Principles
 
 
-## 统计
+## 数学基础
 
-## 向量
+### 向量
 
 向量 
-+ 向量加法 
-+ 基 标准正交基
++ 向量加法 c=xa+yb
++ 坐标(x,y) 基 a b 标准正交基
 线性运算
++ T(xa+yb) = xT(a)+yT(b)
 + 拉伸
 + 基变换
+矩阵分解
++ 
 内积
 + 
+多项式
++ y = x'Ax+x'B+C
 
+### 统计
 
+统计量（总体、样本）
++ 均值
++ 方差 标准差
++ 协方差 相关系数
+分布
++ 叠加
++ 统计量的分布
+估计
++ 最大似然估计
+检验
++ 均值，方差，两个
+
+### 微分
 
 
 
 ## 模型
 
 
+### 线性回归
+
+
+
 PCA、SVD
 
 
-## Database
-
-sql
-
-sqlite3
-
-```python
-import sqlite3
-conn = sqlite3.connect("database.sqlite")
-conn.execute("...")
-conn.commit()
-```
-
-
-
-mysql
-
-```python
-import mysql.connector
-
-conn = mysql.connector.connect(user='root', password='password', database='test')
-cursor = conn.cursor(buffered=True, dictionary=True)
-cursor.execute("select * from table1")
-cursor.fetchall()
-conn.commit()
-
-```
-
-cursor.lastrowid
 
 
 
@@ -62,11 +56,24 @@ cursor.lastrowid
 
 
 
-## 统计
+
+## 统计学习
 
 原理与模型
 
 
+特征选择
+
+回归（拟合，分类）
+
+聚类（无监督学习）
+
+最优化
+损失函数 正则化
+梯度下降
+
+模型参数选择
++ 准确度
 
 
 
@@ -405,7 +412,9 @@ par(mfrow=c(2, 2))
 plot(m)
 ```
 
-## 工具
+## 工具箱
+
+
 
 
 
@@ -426,7 +435,54 @@ Miniconda
 coda install anaconda
 ```
 
+<<<<<<< HEAD
 ## Matlab
+=======
+### 数据库
+
+sql
+
+sqlite3
+
+```python
+import sqlite3
+conn = sqlite3.connect("database.sqlite")
+conn.execute("...")
+conn.commit()
+```
+
+mysql
+
+```python
+import mysql.connector
+
+conn = mysql.connector.connect(user='root', password='password', database='test')
+cursor = conn.cursor(buffered=True, dictionary=True)
+cursor.execute("select * from table1")
+cursor.fetchall()
+conn.commit()
+
+```
+
+cursor.lastrowid
+
+## matlab
+
+
+plot
+
+nnet
+
+[x,t] = simplefit_dataset;
+net = feedforwardnet(10);
+net = train(net,x,t);
+view(net)
+y = net(x);
+perf = perform(net,y,t)
+
+
+
+>>>>>>> 488243b6eb22e756a2b98a18c00fdec4cd04dba2
 
 Octave
 
