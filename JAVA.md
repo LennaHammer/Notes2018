@@ -2293,6 +2293,10 @@ a.click();
 
 拖动图层
 
+### 插件
+
+zTree
+debugger;
 
 
 ## HTTP
@@ -3123,18 +3127,177 @@ Vector3
 translation, rotation, shear, scale, reflection, orthogonal or perspective projection
 
 
+Object
+点、线、面
 
-Cameras
+Camera
+透视，平行
+
 
 https://en.wikipedia.org/wiki/Transformation_matrix
 
+Geometry 
+顶点
+
+法线，面的方向
+Material 材质
+
+纹理 texture 贴图，法线
+
+Light 光照
++ Ambient Light
+
+Phong shading model
+
+GLSL shader 
+ vertex shader 与 fragment shader
+ gl_Position
+ gl_FragColor
+uniforms and attributes 
 
 
+
+
+
+
+内置的特殊变量
+glsl程序使用一些特殊的内置变量与硬件进行沟通.他们大致分成两种 一种是 input类型,他负责向硬件(渲染管线)发送数据. 另一种是output类型,负责向程序回传数据,以便编程时需要.
+
+在 vertex Shader 中:
+
+output 类型的内置变量:
+
+变量	说明	单位
+highp vec4 gl_Position;	gl_Position 放置顶点坐标信息	vec4
+mediump float gl_PointSize;	gl_PointSize 需要绘制点的大小,(只在gl.POINTS模式下有效)	float
+在 fragment Shader 中:
+
+input 类型的内置变量:
+
+变量	说明	单位
+mediump vec4 gl_FragCoord;	片元在framebuffer画面的相对位置	vec4
+bool gl_FrontFacing;	标志当前图元是不是正面图元的一部分	bool
+mediump vec2 gl_PointCoord;	经过插值计算后的纹理坐标,点的范围是0.0到1.0	vec2
+output 类型的内置变量:
+
+变量	说明	单位
+mediump vec4 gl_FragColor;	设置当前片点的颜色	vec4 RGBA color
+mediump vec4 gl_FragData[n]	设置当前片点的颜色,使用glDrawBuffers数据数组	vec4 RGBA color
+
+官方的shader范例:
+下面的shader如果你可以一眼看懂,说明你已经对glsl语言基本掌握了.
+
+Vertex Shader:
+
+uniform mat4 mvp_matrix; //透视矩阵 * 视图矩阵 * 模型变换矩阵
+uniform mat3 normal_matrix; //法线变换矩阵(用于物体变换后法线跟着变换)
+uniform vec3 ec_light_dir; //光照方向
+attribute vec4 a_vertex; // 顶点坐标
+attribute vec3 a_normal; //顶点法线
+attribute vec2 a_texcoord; //纹理坐标
+varying float v_diffuse; //法线与入射光的夹角
+varying vec2 v_texcoord; //2d纹理坐标
+void main(void)
+{
+ //归一化法线
+ vec3 ec_normal = normalize(normal_matrix * a_normal);
+ //v_diffuse 是法线与光照的夹角.根据向量点乘法则,当两向量长度为1是 乘积即cosθ值
+ v_diffuse = max(dot(ec_light_dir, ec_normal), 0.0);
+ v_texcoord = a_texcoord;
+ gl_Position = mvp_matrix * a_vertex;
+}
+Fragment Shader:
+
+precision mediump float;
+uniform sampler2D t_reflectance;
+uniform vec4 i_ambient;
+varying float v_diffuse;
+varying vec2 v_texcoord;
+void main (void)
+{
+ vec4 color = texture2D(t_reflectance, v_texcoord);
+ //这里分解开来是 color*vec3(1,1,1)*v_diffuse + color*i_ambient
+ //色*光*夹角cos + 色*环境光
+ gl_FragColor = color*(vec4(v_diffuse) + i_ambient);
+}
+
+https://www.cnblogs.com/brainworld/p/7445290.html
+
+There are three types of variables in shaders: uniforms, attributes, and varyings:
+
+Uniforms are variables that have the same value for all vertices - lighting, fog, and shadow maps are examples of data that would be stored in uniforms. Uniforms can be accessed by both the vertex shader and the fragment shader.
+Attributes are variables associated with each vertex---for instance, the vertex position, face normal, and vertex color are all examples of data that would be stored in attributes. Attributes can only be accessed within the vertex shader.
+Varyings are variables that are passed from the vertex shader to the fragment shader. For each fragment, the value of each varying will be smoothly interpolated from the values of adjacent vertices.
+
+document.getElementById( 'vertexShader' ).textContent
 
 ## Leaflet
 
-wkt格式
+wkt格式 坐标 边界
 
+投影方式，目前支持的地图投影方式有：EPSG:900913(墨卡托投影)，EPSG:4326(大地平面投影)。
+
+WGS84坐标经纬度与网络墨卡托(Web Mercator)投影坐标
+
+wmts 服务影像数据
+
+
+Equirectangular projection
+WGS 84: EPSG Projection EPSG:4326 天地图用这个 GPS 用这个
+
+
+Spherical Mercator projection
+Web Mercator EPSG3857 也叫 EPSG:900913  WMS 服务用这个 默认 leaflet 用这个
+
+Coordinate Reference Systems (CRS), which are EPSG:3857.
+
+国内加密坐标GCJ-02以WGS 84为基础偏移。
+
+geographical coordinates into coordinates in units 
+
+Represents a geographical point with a certain latitude and longitude.
+
+
+esri-leaflet
+
+服务URL：
+CGCS2000，经纬度：
+全球矢量中文注记服务：http://t0.tianditu.com/cva_c/wmts
+全球矢量地图服务：http://t0.tianditu.com/vec_c/wmts
+全球影像地图服务：http://t0.tianditu.com/img_c/wmts
+CGCS2000，web墨卡托：
+全球矢量中文注记服务：http://t0.tianditu.com/cva_w/wmts
+全球矢量地图服务：http://t0.tianditu.com/vec_w/wmts
+全球影像地图服务：http://t0.tianditu.com/img_w/wmts
+
+    visibility: visible;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    width: 50px;
+    height: 50px;
+    background-image: url(../img/map-vec.png);
+    cursor: pointer;
+
+    visibility: hidden;
+    position: absolute;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    visibility: visible;
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    margin-left: -145px;
+    padding: 5px;
+    background-color: #2d89e7;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    z-index: 20;
 
 
 ## Redis
@@ -3788,6 +3951,8 @@ TopN问题
 
 flatMap
 reduce groupBy
+
+http://spark.apache.org/docs/latest/ml-statistics.html
 
 ## 功能
 

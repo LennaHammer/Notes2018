@@ -426,9 +426,49 @@ Miniconda
 coda install anaconda
 ```
 
+## Matlab
+
+Octave
+
+nnet Neural Network Package for Octave
+
+
+## Socket
+
+## Processing
+
 
 ## 其他
+maxima
 
+synaptic
+
+## 
+
+Basic statistics
+Pipelines
+Extracting, transforming and selecting features
+Classification and Regression
+Clustering
+Collaborative filtering
+Frequent Pattern Mining
+Model selection and tuning
+Advanced topics
+
+
+Data types
+Basic statistics
+Classification and regression
+Collaborative filtering
+Clustering
+Dimensionality reduction
+Feature extraction and transformation
+Frequent pattern mining
+Evaluation metrics
+PMML model export
+Optimization (developer)
+
+imagemagic
 
 
 
