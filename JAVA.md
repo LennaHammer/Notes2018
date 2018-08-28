@@ -40,9 +40,9 @@ Configuration
    ```
 
 + annotation
-  + `@Component` bean
+  + `@Component` bean 用于自动扫描
   + `@Autowired` + interface 用于 field setter constructor
-  + `@bean`
+  + `@Bean` 用于 @Configuration
 
 
 
@@ -1506,7 +1506,7 @@ http://tutorials.jenkov.com/java-concurrency/index.html
 
 
 
-### Date time 
+### Datetime 
 
 
 
@@ -1571,6 +1571,12 @@ Arrays.asList
 
 Jackson
 
+### Stream
+
+去重
+```java
+list = list.stream().distinct().collect(Collectors.toList());
+```
 
 
 ## IDE
@@ -1810,7 +1816,25 @@ float:left
 
 ### Mobile
 
+### components
 
+Thumbnails
+
+```html
+<div class="row">
+  <div class="col-xs-6 col-md-3">
+    <a href="#" class="thumbnail">
+      <img src="..." alt="...">
+    </a>
+  </div>
+  ...
+</div>
+```
+
+栏数可以根据屏幕宽度变化
+显示的图片加了底框
+
+http://www.tutorialspoint.com/bootstrap/bootstrap_thumbnails.htm
 
 ## Angular
 
@@ -1896,18 +1920,26 @@ HTML 4
 
 ## CSS
 
-文本
-+ 字体 颜色 color 字体 font 修饰 大小 font-size
-+ 段落 对齐 text-align 行高 line-height 缩进
+### 文本
 
-边框底纹
+字体
++颜色 color 
++字体 font 大小 font-size (单位 px 像素 em 继承父元素的字体倍数)
++修饰 text-decoration
+
+段落
++ 对齐 text-align 
++ 行高 line-height 缩进
+
+### 边框底纹
 + 背景 颜色 图片
 + 边框 样式 宽度 颜色
 + 衬距 padding
 
-编号方式 列表样式
+### 编号方式
+列表样式
 
-定位
+### 定位
 
 + 环绕样式 `float:left` `clear:both`
 + 定位样式
@@ -1915,16 +1947,17 @@ HTML 4
 
 Box
 
+### 布局
 
-
-
-overflow
+滚动条 `overflow : auto`
 
 布局
-+ 居中 `margin：0 auto`
++ 居中 `margin: 0 auto`, `text-align:center`
 绝对布局
-+ position: absolute; width: 451px; height: 92px; z-index: 1; left: 243px; top: 51px;
++ `position: absolute; width: 451px; height: 92px; z-index: 1; left: 243px; top: 51px;`
++ `margin:0; padding:0; `
 分栏布局
++ `float:left:width:50%`,
 
 
 
@@ -1937,11 +1970,10 @@ box-sizing: border-box;
 
 Normalize.css
 
-居中
-margin：auto
 响应式图片
 max-width 100%，height:auto
 
+## CSS （废弃）
 ### text
 
 颜色
@@ -2068,7 +2100,7 @@ border-radius: 5px; */
 分栏布局
 
 + 分栏浮动 `<div style="float: left; width=30%;"></div>`
-+ 清除浮动`<div style="clear: both;"></div>`
++ 清除浮动 `<div style="clear: both;"></div>`
 
 绝对布局
 
@@ -2084,7 +2116,7 @@ position: absolute;
 
 ## JavaScript
 
-### core
+### Core
 
 
 
@@ -2107,23 +2139,28 @@ Date.parse 使用本地时区
 
 
 
+隐式类型转换规则
+
 等号规则
-
++ 
+加号规则
++ 
 类型转换规则
-
+转换成数字
 
 
 正则表达式
 
-search -> Number
++ search -> Number
++ match -> array
++ test boolean
++ exec -> match
++ lastIndex 
 
-match -> array
+### DOM
 
-test boolean
-
-exec -> match
-
-lastIndex 
++ byid
++ document.createElement .appendChild
 
 ### Vanilla
 
@@ -2291,7 +2328,6 @@ a.href = uri + base64(format(template, ctx));
 document.body.appendChild(a);
 a.click();
 ```
-<<<<<<< HEAD
 ### 效果
 
 拖动图层
@@ -2300,7 +2336,6 @@ a.click();
 
 zTree
 debugger;
-=======
 
 ### Vue
 
@@ -2309,7 +2344,6 @@ debugger;
 
 
 
->>>>>>> 488243b6eb22e756a2b98a18c00fdec4cd04dba2
 
 
 ## HTTP
@@ -2752,6 +2786,12 @@ Future<String>
 
 ## Netty
 
+### java.Nio
+
+buffer 是一个 queue
+select 是同步阻塞的
+
+### 拆包
 
 
 ## Back-end
@@ -3105,6 +3145,28 @@ shp 文件 转 wkt 格式的文本 MULTIPOLYGON
 
 
 
+
+
+
+ArcGlobe
+ArcMap
+ArcServer
+
+wms、wmts协议
+
+### Leaflet
+
+
+图层
+
+地图 多图层 天地图服务
+
+标注 
++ 点（经纬度） 折线（边界） 鼠标事件（显示信息图层）onMouseMove
++ 标绘工具
+
+投影
+
 ```js
 var crs = new L.Proj.CRS(
                 'EPSG:4326',
@@ -3114,7 +3176,11 @@ var crs = new L.Proj.CRS(
                 });
 ```
 
+### CesiumJS
 
+Cesium3DTileset
+contesxtcapture4.3
+倾斜摄影无人机倾斜摄影
 
 ## 数据可视化
 
@@ -3134,6 +3200,23 @@ ECharts - Java类库 ECharts-Ja
 导出 Excel
 
 导出 Pdf
+
+## 3D
+
+变换
+glTranslatef(); glScaled(); glRotatef()
+model Matrix
+
+视角
+摄像机
+
+画图
+点
+线
+面
+
+渲染
+光
 
 ## three.js
 
@@ -3325,21 +3408,24 @@ Cache
 
 
 
-## [分布式 RPC 服务框架 Dubbo [推](https://www.oschina.net/p/dubbo) 
+## 分布式 RPC 服务框架 Dubbo
 
 分布式系统协调 ZooKeeper
 
 
 
-## [分布式系统基础架构 Hadoop ](https://www.oschina.net/p/hadoop) 
+## 分布式系统基础架构 Hadoop 
 
-## [分布式搜索引擎 ElasticSearch ](https://www.oschina.net/p/elasticsearch) 
+##[分布式搜索引擎 ElasticSearch
 
 提交更新
 
 AOP？
 
-## nginx
+## Nginx
+
+反向代理
+负载均衡
 
 
 
@@ -4027,6 +4113,8 @@ NIO之前，恐怕十个Java程序员里只一个可能写出高质量的网络�
 备份数据库
 
 ## References
+
+参考链接
 
 + https://docs.oracle.com/javase/tutorial/index.html
   + https://docs.oracle.com/javase/tutorial/jdbc/index.html

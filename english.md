@@ -300,3 +300,29 @@ My name is ...
 | dd | ff |
 | ff | ff |
 
+走遍美国
+
+Family Album, U.S.A. 
+
+http://www.tingroom.com/lesson/album/105.html
+
+My name is Richard Stewart.
+I'm a photographer.
+You're writing a book?
+
+
+What's it for? It's for a book.
+What's your name? Gerald.
+How old are you, Gerald? Five.
+And where do you live? We live in California.
+Can I help you? Oh, please.
+Are you from New York? No, I'm from Greece.
+When did you come here? Three months ago.
+Would you like some coffee? No, thank you.
+Would you like to see them? Yes. I'd like that.
+What's her name?
+
+
+Excuse me.
+Thank you. I appreciate your help.
+Oh, you're welcome.
