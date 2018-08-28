@@ -3162,7 +3162,7 @@ wms、wmts协议
 地图 多图层 天地图服务
 
 标注 
-+ 点（经纬度） 折线（边界） 鼠标事件（显示信息图层）onMouseMove
++ 标注信息点（经纬度） 折线Polygon（边界） 鼠标事件（显示信息图层）onMouseMove
 + 标绘工具
 
 投影
@@ -3181,6 +3181,28 @@ var crs = new L.Proj.CRS(
 Cesium3DTileset
 contesxtcapture4.3
 倾斜摄影无人机倾斜摄影
+
+```js
+function createTdtiImageryProvider(){
+var tdtImageryProvider=new Cesium.WebMapTileServiceImageryProvider({
+url: "http://t0.tianditu.com/img_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=img&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default&format=tiles",
+layer: "tdtBasicLayer",
+style: "default",
+format: "image/jpeg",
+tileMatrixSetID: "GoogleMapsCompatible",
+show: true
+});
+return tdtImageryProvider;
+}
+/* viewer.imageryLayers.addImageryProvider(new Cesium.WebMapTileServiceImageryProvider({
+   url: "http://t0.tianditu.com/cia_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=cia&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default.jpg",
+   layer: "tdtAnnoLayer",
+   style: "default",
+   format: "image/jpeg",
+   tileMatrixSetID: "GoogleMapsCompatible",
+   show: false
+}));*/
+```
 
 ## 数据可视化
 
@@ -3203,20 +3225,174 @@ ECharts - Java类库 ECharts-Ja
 
 ## 3D
 
-变换
-glTranslatef(); glScaled(); glRotatef()
-model Matrix
+坐标系
 
-视角
-摄像机
+变换
+glTranslatef(); glScaled(); glRotatef() 右手原则。
+顺序 按调用顺序。
+矩阵变换的顺序问题。
+注意，OpenGL在多种变换同时施加到顶点上时以相反的顺序矩阵相乘。
+model view Matrix
+
+摄像机 相反的方向变换
+gluLookAt
+
+投影 Projection
+
+glFrustum() 产生投影视角。glOrtho() 产生正交（或者平行）投影
+两个函数都需要6个参数决定6个剪切面：left, right, bottom, top, near, 和far 平面。
+gluPerspective()只需要4个参数：视图的垂直区域(vertical field of view(FOV)),
 
 画图
 点
 线
 面
 
+Vertices
+
 渲染
 光
+纹理贴图
+
+
+
+
+
+这个是矩阵乘法的问题。
+对一个 矩阵/图 X 依次做AB两个线形变换
+第一步：X' = AX
+第二步：X'' = B(X') = (BA)X
+
+显然也就相当于是做了 （BA）这一个线性变换
+
+上面的当我没说……得查一下资料。lz可以：看一下实际编程效果 或者把translate和rotate的矩阵的值贴上来看看
+
+
+另外，translate和rotate的问题。
+旋转的是ModelView矩阵（模型矩阵）的坐标系而不是投影矩阵（名字忘了）
+所以translate(1, 0, 0)相当于Model坐标系的原点，从Perspective坐标系的(0, 0, 0)移到了(1, 0, 0)
+
+
+
+```c
+void drawTriangle(void)
+{
+　glBegin(GL_TRIANGLES);//开始画三角形
+　glShadeModel(GL_SMOOTH);//设置为光滑明暗模式
+
+　glColor3f(1.0,0.0,0.0);//设置第一个顶点为红色
+　glVertex2f(-1.0,-1.0);//设置第一个顶点的坐标为（-1.0，-1.0） 
+　glColor3f(0.0,1.0,0.0);//设置第二个顶点为绿色
+　glVertex2f(0.0,-1.0);//设置第二个顶点的坐标为（0.0，-1.0）
+
+　glColor3f(0.0,0.0,1.0);//设置第三个顶点为蓝色
+　glVertex2f(-0.5,1.0);//设置第三个顶点的坐标为（-0.5，1.0）
+　glEnd();//三角形结束
+
+}
+
+void myDisplay(void)
+{
+　glClear(GL_COLOR_BUFFER_BIT);//buffer设置为颜色可写
+
+　drawTriangle();
+　glTranslatef(1,0,0);//坐标变换
+　drawTriangle();
+
+　glFlush();//强制OpenGL函数在有限时间内运行
+}
+```
+
+glTranslate是对坐标进行平移，glRotate对坐标进行旋转，glScale实际上是对坐标的缩放。
+
+Z轴正方向由屏幕内指向屏幕外，
+
+由这三个例子可知，所有对图形进行平移旋转等操作的语句的执行顺序都是从下到上执行的。
+而且旋转语句的旋转中心知（0.0f， 0.0f, 0.0f）这个点。
+
+https://blog.csdn.net/lyx2007825/article/details/8792475/
+
+它有一个漂亮的学名：右手笛卡尔坐标系统,这个坐标系常用来描述物体及光源的位置。 
+在移动设备中，屏幕中心为坐标三点，水平向右为X轴，在原点垂直X轴向上为Y轴，在原点垂直X,Y轴指向屏幕外为Z轴（正面对手机屏幕，直戳你眼睛的就是Z轴），同样如下图： 
+
+纹理坐标系 UV坐标系 根据在世界坐标系中绘制顶点的先后顺序，把UV坐标系中的坐标与其一一对应
+
+我们上面说到了ModelViewMatrix 与ProjectionMatrix两个矩阵栈，那矩阵栈是怎么切换的呢？ 
+用函数：glMatrixMode(GL_MODELVIEWING或GL_PROJECTION);本命令执行后参数所指矩阵栈就成为当前矩阵栈，以后的矩阵栈操纵命令将作用于它。 
+
+
+
+注意，
+
+这里的平移旋
+
+           转是将当前绘图坐标系看做一个整体在世界坐标系中进行旋转平移。然后，改变以
+
+           后，再用glVertex3f()等绘图函数绘图时，都是在当前绘图坐标系进行绘图，所有的
+
+           函数参数也都是相对当前绘图坐标系来讲的。
+
+           https://blog.csdn.net/jeffasd/article/details/52213412
+
+P * V *M * Vector
+
+glBegin设置了即将绘制的几何图形
+
+glLoadIdentity() ——设置当前矩阵为等同矩阵
+
+
+
+glLoadMatrix{fd}(m)——将当前矩阵替换成矩阵m
+glLoadTransposeMatrix{fd}(m)——将当前矩阵换成其转置矩阵
+glMultMatrix{fd}(m)——将当前矩阵乘以矩阵m，并且更新当前矩阵
+glMultTransposeMatrix{fd}(m)——将当前矩阵乘以其转置矩阵，并且更新当前矩阵
+
+
+注意：glTranslate* 等都是实际调用的是glMultMatrixf
+
+由于M是正交的,因此其逆矩阵就是其转置矩阵
+
+转置操作，因为我觉得在外部我已经构造了column-major形式的矩阵了。
+
+        也就是说，OpenGL在使用column-major矩阵的时候，使用的很彻底，不仅运算上面使用的是column-major的形式，在内存中也是以column-vector数组的形式保存的。而我构造的虽然是column-major形式的矩阵，但是在内存中保存的实际上还是以row-vector的形式保存的。这就导致了我的矩阵和OpenGL实际需要的矩阵是转置的关系。这也就解释了为什么，前面的Translate实验没有成功，而另外两个Scale和RotateZ的却成功了。这是因为Scale矩阵的转置和它本身是一样的，而RotateZ矩阵是正交的，它的转置相当于它的逆矩阵，也就是说实际上上面旋转的实验应该也是错误的，正确的结果应该是逆时针旋转30度。而由于Translate不是正交矩阵，它的转置矩阵导致的结果就将图像拉扯变形了。所以，最终矩阵依然保持以row-vector形式进行保存，这是因为在我们去观察和构造column-major矩阵的时候，这中形式保存的矩阵能够很直观，然后我将对函数glUniformMatrix4fv的调用改为:
+
+
+
+
+
+
+
+
+
+在三维变换中，经常要用到旋转变换，而且很多变换是围绕任意轴的。那么下面就介绍绕任意单位轴旋转的两种方法。
+假设要旋转的角度是a，围绕的轴是r。
+方法一：
+（1）构建新的基
+寻找另外两条单位长度的坐标轴s、t，他们相互垂直，而且与r垂直。这样r、s、t组成了一组新基。
+具体求s的方法：
+找到r中的最小分量，将其设置为0.然后交换其他两个分量，接着将第一个非零的分量取反（实际上也可以对另外一个非零分量取反）。
+要求t，只需求r、s的叉积即可。
+详细计算公式：
+这样就确保了r、s、t组成了一组正交单位基。
+（2）将标准基变换到新的基。
+需要通过变换使得r和x轴重合，这样之后的旋转就是绕x轴的普通旋转。另外的两个轴也相互重合。
+变换矩阵由上面的r、s、t向量组成：
+（3）旋转
+因为r与x重合，在新的基中我们只需围绕x轴进行旋转（正常情况下的旋转）即可。
+假设旋转矩阵是Rx(a)。
+（4）变换回到原来的标准基。
+变换矩阵应该是M的逆矩阵，由于M是正交的，因此其逆矩阵就是其转置矩阵。
+因此，最终的绕任意单位轴的变换矩阵是：
+
+
+gluLookAt()
+
+OpenGL 矩阵变换
+OpenGL 矩阵变换
+OpenGL 矩阵变换
+
+
+
 
 ## three.js
 
@@ -4111,6 +4287,12 @@ keras
 NIO之前，恐怕十个Java程序员里只一个可能写出高质量的网络应用
 
 备份数据库
+
+## 统计
+
+SVD PCA
+
+
 
 ## References
 
