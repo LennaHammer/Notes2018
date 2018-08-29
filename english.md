@@ -98,6 +98,68 @@ https://en.wikipedia.org/wiki/Stress_and_vowel_reduction_in_English
 
 规则动词 不规则动词
 
+## 字母
+
+
+A a /eɪ/  	B b /bi:/ 	C c /si:/ 	D d /di:/ 	E e /i:/ 	F f /ef/ 
+G g /dʒi:/	H h /eɪt∫/	I i /aɪ/	J j /dʒeɪ/ 	K k /keɪ/ 	L l /el/
+M n /em/	N n /en/	O o /əu/ 	P p /pi:/ 	Q q /kju:/ 	R r /a:/ 
+S s /es/ 	T t /ti:/	U u /ju:/ 	V v /vi:/ 	W w /′d∧blju:/ 	X x /eks/
+Y y /waɪ/	Z z /zed/  /zi:/	 
+
+
+1)含元音音素[ei]
+
+Aa /ei/        Hh /eit∫/         Jj  /d3ei/          Kk  /kei/          
+
+2) 含元音音素[i:]
+
+Bb /bi:/       Cc /si:/     Dd /di:/     Ee /i:/     Gg /dʒi:/     Pp /pi:/     Tt /ti:/     Vv /vi:/      Zz /zi:/ 
+
+3) 含元音音素[e]
+
+Ff  /ef/    Ll /el/    Mm /em/    Nn /en/     Ss /es/     Xx  /eks/      Zz /zed/    
+
+4) 含元音音素[ju:]
+
+Uu /ju:/      Qq /kju:/      Ww /d∧blju:/    
+5) 含元音音素[ai]
+
+Ii /ai/     Yy /wai/  
+
+
+one 一[wʌn] two 二[tu:]
+
+three 三[θri:] four 四[fɔ:]
+
+five 五[faiv] six 六[siks]
+
+seven 七[ˈsevn] eight 八[eit]
+
+nine 九[nain] ten 十[ten]
+
+eleven 十一[iˈlevn] twelve 十二[twelv]
+
+thirteen 十三[ˌθə:ˈti:n] fourteen 十四[ˈfɔ:ˈti:n]
+
+fifteen 十五[ˈfifˈti:n] sixteen 十六[sikˈsti:n]
+
+seventeen十七[ˌsevnˈti:n] eighteen 十八[ˌeiˈti:n]
+
+nineteen 十九[ˈnainˈti:n] twenty 二十[ˈtwenti]
+
+twenty-one二十一 thirty 三十[ˈθə:ti]
+
+forty 四十[ˈfɔ:ti] fifty 五十[ˈfifti]
+
+sixty 六十[ˈsiksti] seventy 七十[ˈsevnti]
+
+eighty 八十[ˈeiti] ninety 九十[ˈnainti]
+
+one hundred一百 [wʌn] [ˈhʌndrəd]
+
+
+
 ## 单词
 
 
