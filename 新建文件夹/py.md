@@ -438,7 +438,7 @@ Miniconda
 coda install anaconda
 ```
 
-## Matlab
+
 ### 数据库
 
 sql
@@ -467,21 +467,22 @@ conn.commit()
 
 cursor.lastrowid
 
-## matlab
+## Matlab
 
 
-plot
+### plot
 
-nnet
-
-[x,t] = simplefit_dataset;
-net = feedforwardnet(10);
-net = train(net,x,t);
-view(net)
-y = net(x);
-perf = perform(net,y,t)
+### nnet
 
 
+newff
+
+
+### stats
+
+### image
+
+imread
 
 
 Octave
@@ -490,8 +491,6 @@ nnet Neural Network Package for Octave
 
 
 ## Socket
-
-## Processing
 
 
 ## 其他
