@@ -40,9 +40,9 @@ Configuration
    ```
 
 + annotation
-  + `@Component` bean
+  + `@Component` bean 用于自动扫描
   + `@Autowired` + interface 用于 field setter constructor
-  + `@bean`
+  + `@Bean` 用于 @Configuration
 
 
 
@@ -1506,7 +1506,7 @@ http://tutorials.jenkov.com/java-concurrency/index.html
 
 
 
-### Date time 
+### Datetime 
 
 
 
@@ -1571,6 +1571,12 @@ Arrays.asList
 
 Jackson
 
+### Stream
+
+去重
+```java
+list = list.stream().distinct().collect(Collectors.toList());
+```
 
 
 ## IDE
@@ -1810,7 +1816,25 @@ float:left
 
 ### Mobile
 
+### components
 
+Thumbnails
+
+```html
+<div class="row">
+  <div class="col-xs-6 col-md-3">
+    <a href="#" class="thumbnail">
+      <img src="..." alt="...">
+    </a>
+  </div>
+  ...
+</div>
+```
+
+栏数可以根据屏幕宽度变化
+显示的图片加了底框
+
+http://www.tutorialspoint.com/bootstrap/bootstrap_thumbnails.htm
 
 ## Angular
 
@@ -1896,18 +1920,26 @@ HTML 4
 
 ## CSS
 
-文本
-+ 字体 颜色 color 字体 font 修饰 大小 font-size
-+ 段落 对齐 text-align 行高 line-height 缩进
+### 文本
 
-边框底纹
+字体
++颜色 color 
++字体 font 大小 font-size (单位 px 像素 em 继承父元素的字体倍数)
++修饰 text-decoration
+
+段落
++ 对齐 text-align 
++ 行高 line-height 缩进
+
+### 边框底纹
 + 背景 颜色 图片
 + 边框 样式 宽度 颜色
 + 衬距 padding
 
-编号方式 列表样式
+### 编号方式
+列表样式
 
-定位
+### 定位
 
 + 环绕样式 `float:left` `clear:both`
 + 定位样式
@@ -1915,16 +1947,17 @@ HTML 4
 
 Box
 
+### 布局
 
-
-
-overflow
+滚动条 `overflow : auto`
 
 布局
-+ 居中 `margin：0 auto`
++ 居中 `margin: 0 auto`, `text-align:center`
 绝对布局
-+ position: absolute; width: 451px; height: 92px; z-index: 1; left: 243px; top: 51px;
++ `position: absolute; width: 451px; height: 92px; z-index: 1; left: 243px; top: 51px;`
++ `margin:0; padding:0; `
 分栏布局
++ `float:left:width:50%`,
 
 
 
@@ -1937,11 +1970,10 @@ box-sizing: border-box;
 
 Normalize.css
 
-居中
-margin：auto
 响应式图片
 max-width 100%，height:auto
 
+## CSS （废弃）
 ### text
 
 颜色
@@ -2068,7 +2100,7 @@ border-radius: 5px; */
 分栏布局
 
 + 分栏浮动 `<div style="float: left; width=30%;"></div>`
-+ 清除浮动`<div style="clear: both;"></div>`
++ 清除浮动 `<div style="clear: both;"></div>`
 
 绝对布局
 
@@ -2084,7 +2116,7 @@ position: absolute;
 
 ## JavaScript
 
-### core
+### Core
 
 
 
@@ -2107,23 +2139,28 @@ Date.parse 使用本地时区
 
 
 
+隐式类型转换规则
+
 等号规则
-
++ 
+加号规则
++ 
 类型转换规则
-
+转换成数字
 
 
 正则表达式
 
-search -> Number
++ search -> Number
++ match -> array
++ test boolean
++ exec -> match
++ lastIndex 
 
-match -> array
+### DOM
 
-test boolean
-
-exec -> match
-
-lastIndex 
++ byid
++ document.createElement .appendChild
 
 ### Vanilla
 
@@ -2291,7 +2328,6 @@ a.href = uri + base64(format(template, ctx));
 document.body.appendChild(a);
 a.click();
 ```
-<<<<<<< HEAD
 ### 效果
 
 拖动图层
@@ -2300,7 +2336,6 @@ a.click();
 
 zTree
 debugger;
-=======
 
 ### Vue
 
@@ -2309,7 +2344,6 @@ debugger;
 
 
 
->>>>>>> 488243b6eb22e756a2b98a18c00fdec4cd04dba2
 
 
 ## HTTP
@@ -2752,6 +2786,12 @@ Future<String>
 
 ## Netty
 
+### java.Nio
+
+buffer 是一个 queue
+select 是同步阻塞的
+
+### 拆包
 
 
 ## Back-end
@@ -3105,6 +3145,28 @@ shp 文件 转 wkt 格式的文本 MULTIPOLYGON
 
 
 
+
+
+
+ArcGlobe
+ArcMap
+ArcServer
+
+wms、wmts协议
+
+### Leaflet
+
+
+图层
+
+地图 多图层 天地图服务
+
+标注 
++ 标注信息点（经纬度） 折线Polygon（边界） 鼠标事件（显示信息图层）onMouseMove
++ 标绘工具
+
+投影
+
 ```js
 var crs = new L.Proj.CRS(
                 'EPSG:4326',
@@ -3114,7 +3176,33 @@ var crs = new L.Proj.CRS(
                 });
 ```
 
+### CesiumJS
 
+Cesium3DTileset
+contesxtcapture4.3
+倾斜摄影无人机倾斜摄影
+
+```js
+function createTdtiImageryProvider(){
+var tdtImageryProvider=new Cesium.WebMapTileServiceImageryProvider({
+url: "http://t0.tianditu.com/img_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=img&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default&format=tiles",
+layer: "tdtBasicLayer",
+style: "default",
+format: "image/jpeg",
+tileMatrixSetID: "GoogleMapsCompatible",
+show: true
+});
+return tdtImageryProvider;
+}
+/* viewer.imageryLayers.addImageryProvider(new Cesium.WebMapTileServiceImageryProvider({
+   url: "http://t0.tianditu.com/cia_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=cia&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default.jpg",
+   layer: "tdtAnnoLayer",
+   style: "default",
+   format: "image/jpeg",
+   tileMatrixSetID: "GoogleMapsCompatible",
+   show: false
+}));*/
+```
 
 ## 数据可视化
 
@@ -3134,6 +3222,541 @@ ECharts - Java类库 ECharts-Ja
 导出 Excel
 
 导出 Pdf
+
+## 3D
+
+参考资料 OpenGL Red Book
+
+
+坐标系
+
+
+y=PVMx `屏幕*投影*摄像机*模型*局部坐标系下的点` 构造变换矩阵也按照这个顺序。（也是函数的调用顺序）
+
+矩阵列优先的顺序。
+
+变换
+glTranslatef(); glScaled(); glRotatef() 右手原则。
+顺序 对坐标轴按调用顺序变换坐标轴（不是变换图形）。从世界坐标系到物体坐标系。
+矩阵变换的顺序问题。
+注意，OpenGL在多种变换同时施加到顶点上时以相反的顺序矩阵相乘。
+model view Matrix
+
+摄像机 相反的方向变换
+gluLookAt
+如果并没有调用gluLookAt(),那么照相机就被设置为默认的位置和方向。在默认情况下，照相机位于原点，指向z轴的负方向，朝上向量为(0,1,0)。
+
+     x向右，y向上，z向自己 右手坐标系
+
+```
+     z
+     |
+     |
+     |
+     |
+      ----------y
+   /
+  /
+ /
+x
+
+
+
+     y
+     |
+     |
+     |
+     |
+      ----------x
+   /
+  /
+ /
+z
+
+
+
+
+
+```
+投影 Projection
+
+glFrustum() 产生投影视角。glOrtho() 产生正交（或者平行）投影
+两个函数都需要6个参数决定6个剪切面：left, right, bottom, top, near, 和far 平面。
+gluPerspective()只需要4个参数：视图的垂直区域(vertical field of view(FOV)),
+
+画图
+点
+线
+面
+
+Vertices
+
+渲染
+光
+纹理贴图
+
+
+gluLookAt - define a viewing transformation
+
+```
+       
+
+       void gluLookAt( GLdouble eyeX,
+                       GLdouble eyeY,
+                       GLdouble eyeZ,
+                       GLdouble centerX,
+                       GLdouble centerY,
+                       GLdouble centerZ,
+                       GLdouble upX,
+                       GLdouble upY,
+                       GLdouble upZ )
+```
+
+OpenGL提供2个函数用来GL_PROJECTION变换。glFrustum()产生投影视角。glOrtho()产生正交（或者平行）投影。
+
+两个函数都需要6个参数决定6个剪切面：left, right, bottom, top, near, 和far 平面。截锥体的8个顶点如下所示：
+
+gluPerspective()只需要4个参数：视图的垂直区域(vertical field of view(FOV)),
+
+width/height的ratio，还有近端平面和远端平面的距离。
+
+```
+       glFrustum - multiply the current matrix by a perspective matrix
+
+
+
+C SPECIFICATION
+       void glFrustum( GLdouble left,
+                       GLdouble right,
+                       GLdouble bottom,
+                       GLdouble top,
+                       GLdouble zNear,
+                       GLdouble zFar )
+
+
+
+glFrustum(GLdouble left,GLdouble right,GLdouble bottom,GLdouble top,GLdouble zNear,GLdouble zFar);
+gluPerspective(GLdouble fovy,GLdouble aspect,GLdouble zNear,GLdouble zFar);                       
+
+
+```
+
+A frustum is a geometric form: a pyramid with its top cut off. With the viewer's **eye** at the imaginary top of the pyramid, the six planes of the frustum act as clipping planes when rendering a 3D view. Thus, any form inside the clipping planes is rendered and visible; anything outside those planes is not visible.
+
+gluPerspective 是对称的视觉空间。非对称的视觉空间，你可以直接使用glFrustum()。
+
+
+GL_COLOR
+
+glBegin()
+glEnd()
+
+
+法线
+
+标准向量(Normal vectors)——从对象坐标系(Object coordinates)变换到视觉坐标系(eye coordinates)，它是用来计算光照(lighting calculation)的.注意标准向量(Normal vectors)的变换和顶点的不同。其中视觉矩阵(view matrix)是GL_MODELVIEW逆矩阵的转置矩阵和标准向量（Normal vector是）相乘所得，即：
+
+
+
+OpenGL在处理光照时把光照系统分为三部分，分别是光源、材质和光照模型。
+
+光源、材质和光照模式都有各自的属性，尽管属性种类繁多，但这些属性都只用很少的几个函数来设置。
+
+使用glLight*函数可设置光源的属性，
+
+使用glMaterial*函数可设置材质的属性，
+
+使用glLightModel*函数可设置光照模式。
+
+GL_AMBIENT、GL_DIFFUSE、GL_SPECULAR这三种属性是光源和材质所共有的，如果某光源发出的光线照射到某材质的表面，则最终的漫反射强度由两个GL_DIFFUSE属性共同决定，最终的镜面反射强度由两个GL_SPECULAR属性共同决定。
+
+在OpenGL中，仅仅支持有限数量的光源。使用GL_LIGHT0表示第0号光源，GL_LIGHT1表示第1号光源，依次类推，OpenGL至少会支持8个光源，即GL_LIGHT0到GL_LIGHT7。使用glEnable函数可以开启它们。例如，glEnable(GL_LIGHT0);可以开启第0号光源。使用glDisable函数则可以关闭光源。一些OpenGL实现可能支持更多数量的光源，但总的来说，开启过多的光源将会导致程序运行速度的严重下降，
+
+光源GL_LIGHT0与其他几个光源不同，其他光源的默认颜色时黑色。
+
+GL_DIFFUSE,GL_SPECULAR的默认值是（1.0，1.0,1.0,1.0）
+
+而其他光源的默认值是              （0.0,0.0,0.0,1.0）。
+
+ 
+
+为了在场景中增加光照，需要执行如下步骤：
+
+1 创建和选择一个或多个光源，并设置它们的位置。
+
+2 定义每个物体的每个顶点的法线向量，这些法线决定了物体相对于光源的方向。
+
+3 定义场景中物体的材质属性
+
+4 创建和选择一种光照模型（lighting model）,它定义了全局环境光的层次以及观察点的有效位置（便于进行光照计算）
+
+
+环境光 AMBIENT
+漫反射 DIFFUSE
+镜面反射 SPECULAR
+
+设置环境光
+
+glLightfv(GL_LIGHT0,GL_AMBIENT,ambientLight);
+
+设置漫射光成分
+
+glLightfv(GL_LIGHT0,GL_DIFFUSE,DiffuseLight)
+
+设置镜面光成分
+
+glLightfv(GL_LIGHT0,GL_SPECULAR,SpecularLight);
+
+光源的属性GL_SPECULAR影响镜面反射区域的颜色，一般物体的镜面反射区域的颜色为入射光线的颜色，要实现真实感，应该将它的值设置成与GL_DIFFUSE相同。
+
+
+环境光的特点是：照射在物体上的光来自周围各个方向，又均匀地向各个方向反射。
+
+
+漫反射光是一组来自特定方向，具有方向性的光。根据入射光线的角度在表面上均匀地向各个方向反射。因此，如果从正面照射表面，它看起来显得更亮一些。反之，如果它斜着掠过表面，它看起来就显得暗一些。漫反射的特点是：光源来自一个方向，反射光均匀地射向各个方向。漫反射光采用点光源照射物体。点光源是位于空间某个位置的一个点，向周围所有的方向上辐射等光强的光。在点光源的照射下，物体表面的不同部分亮度不同，亮度的大小依赖于它的朝向以及它与点光源之间的距离。
+
+
+镜面光与漫反射光一样是具有方向性的。高强度的镜面光会在被照射的物体的表面上形成亮点。对于理想的高光泽度反射面，反射角等于入射角时，光线才会被反射，即只有在等于入射角的反射角方向上，观察者才能看到反射光。对于这种理想的反射面，镜面反射的光强要比环境光和漫反射的光强高出很多倍，这时，如果观察者正好处在P点的镜面反射方向上，就会看到一个比周围亮得多的高光点。
+
+ 
+ 除了环境、散射和镜面颜色之外，材料还可能具有一种发射颜色（emissive color）,它模拟那些源自某个物体的光。
+
+
+可以选择让光源位于无限远处，也可以让它靠近场景。第一种类型称为方向性光源。由于光源位于无限远处，当光线到达物体表面时，可以认为所有的光线都是平行的。
+
+方向性光源（Directional Light）
+
+位置性光源 (Positional Light) 
+
+glLightfv(GL_LIGHT0, GL_POSITION, sun_light_position);
+
+GL_POSITION属性。表示光源所在的位置。由四个值（X, Y, Z, W）表示。
+
+方向性光源（Directional Light） 第四个值W为零，则表示该光源位于无限远处，前三个值表示了它所在的方向。通常，太阳可以近似的被认为是方向性光源。
+
+位置性光源 (Positional Light)   第四个值W不为零，则X/W, Y/W, Z/W表示了光源的位置。这种光源称为位置性光源。
+
+聚光灯 GL_SPOT_DIRECTION、GL_SPOT_EXPONENT、GL_SPOT_CUTOFF属性。
+光线衰减系数  GL_CONSTANT_ATTENUATION、GL_LINEAR_ATTENUATION、GL_QUADRATIC_ATTENUATION
+对位置性光源所发出的光进行衰减。环境光，散射光和镜面反射光的贡献都是衰减的，只有发射光和全局环境光不会衰减。
+
+
+
+表面法线必须为单位长度。还必须保证对物体所进行的模型视图变换并没有对表面法线进行缩放，最终的法线仍然保持为单位长度。为了保证法线仍然为单位长度，可能需要以GL_NORMALIZE或GL_RESCALE_NORMAL为参数调用glEnable();
+
+
+
+使用glTranslate*函数或者glRotate*函数可以改变物体的外观，但法线向量并不会随之改变。然而，使用glScale*函数，对每一坐标轴进行不同程度的缩放，很有可能导致法线向量的不正确，虽然OpenGL提供了一些措施来修正这一问题，但由此也带来了各种开销。
+
+
+
+对于材质，R、G、B 值为材质对光的R、G、B 成分的反射率。
+
+
+
+
+
+
+
+```c
+glMatrixMode(GL_PROJECTION); glLoadIdentity(); gluPerspective(50.0, 1.0, 3.0, 7.0); 
+
+glMatrixMode(GL_MODELVIEW); glLoadIdentity(); gluLookAt(0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+
+// It's important to note how the Projection and ModelView transforms work together.
+// https://www.opengl.org/archives/resources/faq/technical/viewing.htm
+```
+
+指定了图元的法线之后，我们还需要为其指定相应的材质以决定物体对各种颜色的光的反射程度，这将影响物体表现为何种颜色
+
+指定材质
+
+glMaterialfv(GL_FRONT,GL_DIFFUSE,@Diffuse);
+
+1  GL_FRONT(正面)，GL_BACK(反面)，GL_FRONT_AND_BACK(正反两面)。
+
+2  GL_AMBIENT、GL_DIFFUSE、GL_SPECULAR属性。这三个属性与光源的三个对应属性类似，每一属性都由四个值组成。
+
+GL_AMBIENT表示各种光线照射到该材质上，经过很多次反射后最终遗留在环境中的光线强度（颜色）。
+
+GL_DIFFUSE 表示光线照射到该材质上，经过漫反射后形成的光线强度（颜色）。
+
+GL_SPECULAR表示光线照射到该材质上，经过镜面反射后形成的光线强度（颜色）。
+
+通常，GL_AMBIENT和GL_DIFFUSE都取相同的值，可以达到比较真实的效果。使用GL_AMBIENT_AND_DIFFUSE可以同时设置GL_AMBIENT和GL_DIFFUSE属性。
+
+3  GL_SHININESS属性。该属性只有一个值，称为“镜面指数”，取值范围是0到128。该值越小，表示材质越粗糙，点光源发射的光线照射到上面，也可以产生较大的亮点。该值越大，表示材质越类似于镜面，光源照射到上面后，产生较小的亮点。
+
+4  GL_EMISSION属性。该属性由四个值组成，表示一种颜色。OpenGL认为该材质本身就微微的向外发射光线，以至于眼睛感觉到它有这样的颜色，但这光线又比较微弱，以至于不会影响到其它物体的颜色。
+
+5   GL_COLOR_INDEXES属性。该属性仅在颜色索引模式下使用，由于颜色索引模式下的光照比RGBA模式要复杂，并且使用范围较小，这里不做讨论。 
+
+
+使用颜色跟踪 （这将导致正面的DIFFUSE总是设置为当前颜色）？
+
+在启用光照系统之后，为图元指定颜色变得不太方便。首先我们需要创建一个数组，然后调用glMaterial函数将数组传给材质，以此决定物体的颜色。为了简便，我们可以开启颜色跟踪来简化代码。调用
+
+glEnable(GL_CORLOR_MATERIAL);
+
+
+光照模型
+
+openGL光照模型的概念由下面4个部分组成：1）全局环境光强度 2）视点位置在景物附近还是在无穷远处 3）物体的正面和背面是否分别进行光照计算 4）镜面颜色是否应该从环境和散射颜色中分离出来，并在纹理操作之后再应用。
+
+GLfloat ambient[]={0.3,0.3,0.3,1.0};
+
+glLightModelfv(GL_LIGHT_MODEL_AMBIENT,ambient);
+
+
+
+```c
+　glPushMatrix();
+　　　　glTranslatef (1.25, 3.0, 0.0);
+　　　　glMaterialfv(GL_FRONT, GL_AMBIENT, no_mat);
+　　　　glMaterialfv(GL_FRONT, GL_DIFFUSE,mat_diffuse);
+　　　　glMaterialfv(GL_FRONT, GL_SPECULAR,mat_specular);
+　　　　glMaterialfv(GL_FRONT, GL_SHININESS,high_shininess);
+　　　　glMaterialfv(GL_FRONT, GL_EMISSION,no_mat);
+　　　　auxSolidSphere(1.0);
+　　　　glPopMatrix();
+```
+
+
+
+glColorMaterial(GL_FRONT,GL_AMBIENT_AND_DIFFUSE);
+
+
+
+
+OPENGL把纹理坐标规范化到0与1之间，就是说如果一张正方形的纹理，从左下角开始逆时针方向四个顶点的坐标分别是(0, 0), (1, 0), (1, 1), (0, 1)
+
+纹理颜色与反射的光强也会叠加
+
+
+
+Most materials take textures as a parameter. There are many cases where a material takes multiple textueres. For example one texture might define colour, another transparency, another normals and so forth.
+
+
+
+Point lights vs. directional lights vs. spot lights. 
+
+
+The most common textures you're familiar with, "color textures", are simply varying the diffuse reflectance of the surface. The texture provides the diffuse color at each point along the surface.
+
+
+GL_AMBIENT
+（0.2，0.2，0.2，1.0）
+材质的环境颜色
+GL_DIFFUSE
+（0.8，0.8，0.8，1.0）
+材质的散射颜色
+GL_AMBIENT_AND_DIFFUSE
+
+　　	
+材质的环境颜色和散射颜色
+GL_SPECULAR
+（0.0，0.0，0.0，1.0）
+材质的镜面反射颜色
+GL_SHININESS
+0.0
+镜面反射指数
+GL_EMISSION
+（0.0，0.0，0.1，1.0）
+材质的发射光颜色
+GL_COLOR_INDEXES
+（0， 1， 1）
+环境颜色索引、散射颜色索引和镜面反射颜色索引
+
+
+
+
+用到的OpenGL函数
+
+GLAPI void APIENTRY glGenTextures( GLsizei n, GLuint *textures );
+生成n个纹理，将纹理索引存放在textures中
+
+GLAPI void APIENTRY glBindTexture( GLenum target, GLuint texture );
+target —— 纹理被绑定的目标，它只能取值
+
+
+
+
+
+窗口坐标系（Window Coordinates）/屏幕坐标系(Screen Coordinates)
+
+将标准化设备坐标系(NDC)应用于视口转换。NDC将缩小和平移以便适应屏幕的透视。窗口坐标系最终传递给OpenGL的管道处理变成了fragment。glViewPort()函数
+
+用来定义最终图片映射的投影区域。同样，glDepthRange()用来决定窗口坐标系的z坐标。窗口坐标系由下面两个方法给出的参数计算出来
+
+https://blog.csdn.net/lyx2007825/article/details/8792475/
+
+
+
+
+
+
+
+
+
+
+
+
+
+这个是矩阵乘法的问题。
+对一个 矩阵/图 X 依次做AB两个线形变换
+第一步：X' = AX
+第二步：X'' = B(X') = (BA)X
+
+显然也就相当于是做了 （BA）这一个线性变换
+
+上面的当我没说……得查一下资料。lz可以：看一下实际编程效果 或者把translate和rotate的矩阵的值贴上来看看
+
+
+另外，translate和rotate的问题。
+旋转的是ModelView矩阵（模型矩阵）的坐标系而不是投影矩阵（名字忘了）
+所以translate(1, 0, 0)相当于Model坐标系的原点，从Perspective坐标系的(0, 0, 0)移到了(1, 0, 0)
+
+
+
+```c
+void drawTriangle(void)
+{
+　glBegin(GL_TRIANGLES);//开始画三角形
+　glShadeModel(GL_SMOOTH);//设置为光滑明暗模式
+
+　glColor3f(1.0,0.0,0.0);//设置第一个顶点为红色
+　glVertex2f(-1.0,-1.0);//设置第一个顶点的坐标为（-1.0，-1.0） 
+　glColor3f(0.0,1.0,0.0);//设置第二个顶点为绿色
+　glVertex2f(0.0,-1.0);//设置第二个顶点的坐标为（0.0，-1.0）
+
+　glColor3f(0.0,0.0,1.0);//设置第三个顶点为蓝色
+　glVertex2f(-0.5,1.0);//设置第三个顶点的坐标为（-0.5，1.0）
+　glEnd();//三角形结束
+
+}
+
+void myDisplay(void)
+{
+　glClear(GL_COLOR_BUFFER_BIT);//buffer设置为颜色可写
+
+　drawTriangle();
+　glTranslatef(1,0,0);//坐标变换
+　drawTriangle();
+
+　glFlush();//强制OpenGL函数在有限时间内运行
+}
+```
+
+glTranslate是对坐标进行平移，glRotate对坐标进行旋转，glScale实际上是对坐标的缩放。
+
+Z轴正方向由屏幕内指向屏幕外，
+
+由这三个例子可知，所有对图形进行平移旋转等操作的语句的执行顺序都是从下到上执行的。
+而且旋转语句的旋转中心知（0.0f， 0.0f, 0.0f）这个点。
+
+https://blog.csdn.net/lyx2007825/article/details/8792475/
+
+它有一个漂亮的学名：右手笛卡尔坐标系统,这个坐标系常用来描述物体及光源的位置。 
+在移动设备中，屏幕中心为坐标三点，水平向右为X轴，在原点垂直X轴向上为Y轴，在原点垂直X,Y轴指向屏幕外为Z轴（正面对手机屏幕，直戳你眼睛的就是Z轴），同样如下图： 
+
+纹理坐标系 UV坐标系 根据在世界坐标系中绘制顶点的先后顺序，把UV坐标系中的坐标与其一一对应
+
+我们上面说到了ModelViewMatrix 与ProjectionMatrix两个矩阵栈，那矩阵栈是怎么切换的呢？ 
+用函数：glMatrixMode(GL_MODELVIEWING或GL_PROJECTION);本命令执行后参数所指矩阵栈就成为当前矩阵栈，以后的矩阵栈操纵命令将作用于它。 
+
+
+
+注意，
+
+这里的平移旋
+
+           转是将当前绘图坐标系看做一个整体在世界坐标系中进行旋转平移。然后，改变以
+
+           后，再用glVertex3f()等绘图函数绘图时，都是在当前绘图坐标系进行绘图，所有的
+
+           函数参数也都是相对当前绘图坐标系来讲的。
+
+           https://blog.csdn.net/jeffasd/article/details/52213412
+
+P * V *M * Vector
+
+glBegin设置了即将绘制的几何图形
+
+glLoadIdentity() ——设置当前矩阵为等同矩阵
+
+
+
+glLoadMatrix{fd}(m)——将当前矩阵替换成矩阵m
+glLoadTransposeMatrix{fd}(m)——将当前矩阵换成其转置矩阵
+glMultMatrix{fd}(m)——将当前矩阵乘以矩阵m，并且更新当前矩阵
+glMultTransposeMatrix{fd}(m)——将当前矩阵乘以其转置矩阵，并且更新当前矩阵
+
+
+注意：glTranslate* 等都是实际调用的是glMultMatrixf
+
+由于M是正交的,因此其逆矩阵就是其转置矩阵
+
+转置操作，因为我觉得在外部我已经构造了column-major形式的矩阵了。
+
+        也就是说，OpenGL在使用column-major矩阵的时候，使用的很彻底，不仅运算上面使用的是column-major的形式，在内存中也是以column-vector数组的形式保存的。而我构造的虽然是column-major形式的矩阵，但是在内存中保存的实际上还是以row-vector的形式保存的。这就导致了我的矩阵和OpenGL实际需要的矩阵是转置的关系。这也就解释了为什么，前面的Translate实验没有成功，而另外两个Scale和RotateZ的却成功了。这是因为Scale矩阵的转置和它本身是一样的，而RotateZ矩阵是正交的，它的转置相当于它的逆矩阵，也就是说实际上上面旋转的实验应该也是错误的，正确的结果应该是逆时针旋转30度。而由于Translate不是正交矩阵，它的转置矩阵导致的结果就将图像拉扯变形了。所以，最终矩阵依然保持以row-vector形式进行保存，这是因为在我们去观察和构造column-major矩阵的时候，这中形式保存的矩阵能够很直观，然后我将对函数glUniformMatrix4fv的调用改为:
+
+
+
+
+
+
+
+
+
+在三维变换中，经常要用到旋转变换，而且很多变换是围绕任意轴的。那么下面就介绍绕任意单位轴旋转的两种方法。
+假设要旋转的角度是a，围绕的轴是r。
+方法一：
+（1）构建新的基
+寻找另外两条单位长度的坐标轴s、t，他们相互垂直，而且与r垂直。这样r、s、t组成了一组新基。
+具体求s的方法：
+找到r中的最小分量，将其设置为0.然后交换其他两个分量，接着将第一个非零的分量取反（实际上也可以对另外一个非零分量取反）。
+要求t，只需求r、s的叉积即可。
+详细计算公式：
+这样就确保了r、s、t组成了一组正交单位基。
+（2）将标准基变换到新的基。
+需要通过变换使得r和x轴重合，这样之后的旋转就是绕x轴的普通旋转。另外的两个轴也相互重合。
+变换矩阵由上面的r、s、t向量组成：
+（3）旋转
+因为r与x重合，在新的基中我们只需围绕x轴进行旋转（正常情况下的旋转）即可。
+假设旋转矩阵是Rx(a)。
+（4）变换回到原来的标准基。
+变换矩阵应该是M的逆矩阵，由于M是正交的，因此其逆矩阵就是其转置矩阵。
+因此，最终的绕任意单位轴的变换矩阵是：
+
+
+gluLookAt()
+
+OpenGL 矩阵变换
+OpenGL 矩阵变换
+OpenGL 矩阵变换
+
+
+二、法线变换：应该用变换矩阵的逆转置矩阵
+
+ 
+
+假设Model space中的某条切线向量是T，法线向量是N。那么由他们是垂直的可得到：TTN=0
+
+假设他们变换到Eye space中后分别是T'和N'。那么他们应该仍然是相互垂直的：T’TN’=0
+
+假设切线向量和法线的变换矩阵为M、G。则有：(MT)T(GN)=0
+
+ 
+
+进一步推出：TTMTGN=0
+
+由于TTN=0，因此我们猜想MTG=0.因此：《注：我觉得这里该写 MTG=E. E:为单位矩阵》
+
+ 
+
+G=(M-1)T
+
+即：应用于法线向量的变换矩阵是顶点变换矩阵的逆转置矩阵。
 
 ## three.js
 
@@ -3325,21 +3948,24 @@ Cache
 
 
 
-## [分布式 RPC 服务框架 Dubbo [推](https://www.oschina.net/p/dubbo) 
+## 分布式 RPC 服务框架 Dubbo
 
 分布式系统协调 ZooKeeper
 
 
 
-## [分布式系统基础架构 Hadoop ](https://www.oschina.net/p/hadoop) 
+## 分布式系统基础架构 Hadoop 
 
-## [分布式搜索引擎 ElasticSearch ](https://www.oschina.net/p/elasticsearch) 
+##[分布式搜索引擎 ElasticSearch
 
 提交更新
 
 AOP？
 
-## nginx
+## Nginx
+
+反向代理
+负载均衡
 
 
 
@@ -4026,7 +4652,15 @@ NIO之前，恐怕十个Java程序员里只一个可能写出高质量的网络�
 
 备份数据库
 
+## 统计
+
+SVD PCA
+
+
+
 ## References
+
+参考链接
 
 + https://docs.oracle.com/javase/tutorial/index.html
   + https://docs.oracle.com/javase/tutorial/jdbc/index.html
@@ -4271,4 +4905,10 @@ http://lbs.tianditu.gov.cn/home.html
 
 
 
+
+
+
+GL学习笔记(2) - 终于搞明白gluPerspective和gluLookAt的关系了(zz) - cowboy小屋的日志 - 网易博客
+
+http://cowboy.1988.blog.163.com/blog/static/751057982010101574732212/
 

@@ -98,6 +98,68 @@ https://en.wikipedia.org/wiki/Stress_and_vowel_reduction_in_English
 
 规则动词 不规则动词
 
+## 字母
+
+
+A a /eɪ/  	B b /bi:/ 	C c /si:/ 	D d /di:/ 	E e /i:/ 	F f /ef/ 
+G g /dʒi:/	H h /eɪt∫/	I i /aɪ/	J j /dʒeɪ/ 	K k /keɪ/ 	L l /el/
+M n /em/	N n /en/	O o /əu/ 	P p /pi:/ 	Q q /kju:/ 	R r /a:/ 
+S s /es/ 	T t /ti:/	U u /ju:/ 	V v /vi:/ 	W w /′d∧blju:/ 	X x /eks/
+Y y /waɪ/	Z z /zed/  /zi:/	 
+
+
+1)含元音音素[ei]
+
+Aa /ei/        Hh /eit∫/         Jj  /d3ei/          Kk  /kei/          
+
+2) 含元音音素[i:]
+
+Bb /bi:/       Cc /si:/     Dd /di:/     Ee /i:/     Gg /dʒi:/     Pp /pi:/     Tt /ti:/     Vv /vi:/      Zz /zi:/ 
+
+3) 含元音音素[e]
+
+Ff  /ef/    Ll /el/    Mm /em/    Nn /en/     Ss /es/     Xx  /eks/      Zz /zed/    
+
+4) 含元音音素[ju:]
+
+Uu /ju:/      Qq /kju:/      Ww /d∧blju:/    
+5) 含元音音素[ai]
+
+Ii /ai/     Yy /wai/  
+
+
+one 一[wʌn] two 二[tu:]
+
+three 三[θri:] four 四[fɔ:]
+
+five 五[faiv] six 六[siks]
+
+seven 七[ˈsevn] eight 八[eit]
+
+nine 九[nain] ten 十[ten]
+
+eleven 十一[iˈlevn] twelve 十二[twelv]
+
+thirteen 十三[ˌθə:ˈti:n] fourteen 十四[ˈfɔ:ˈti:n]
+
+fifteen 十五[ˈfifˈti:n] sixteen 十六[sikˈsti:n]
+
+seventeen十七[ˌsevnˈti:n] eighteen 十八[ˌeiˈti:n]
+
+nineteen 十九[ˈnainˈti:n] twenty 二十[ˈtwenti]
+
+twenty-one二十一 thirty 三十[ˈθə:ti]
+
+forty 四十[ˈfɔ:ti] fifty 五十[ˈfifti]
+
+sixty 六十[ˈsiksti] seventy 七十[ˈsevnti]
+
+eighty 八十[ˈeiti] ninety 九十[ˈnainti]
+
+one hundred一百 [wʌn] [ˈhʌndrəd]
+
+
+
 ## 单词
 
 
@@ -300,3 +362,29 @@ My name is ...
 | dd | ff |
 | ff | ff |
 
+走遍美国
+
+Family Album, U.S.A. 
+
+http://www.tingroom.com/lesson/album/105.html
+
+My name is Richard Stewart.
+I'm a photographer.
+You're writing a book?
+
+
+What's it for? It's for a book.
+What's your name? Gerald.
+How old are you, Gerald? Five.
+And where do you live? We live in California.
+Can I help you? Oh, please.
+Are you from New York? No, I'm from Greece.
+When did you come here? Three months ago.
+Would you like some coffee? No, thank you.
+Would you like to see them? Yes. I'd like that.
+What's her name?
+
+
+Excuse me.
+Thank you. I appreciate your help.
+Oh, you're welcome.
