@@ -1407,6 +1407,30 @@ Project
  Filter
 
 
+### 性能优化
+
+
+### 数据分析
+
+
+A window function performs an aggregate-like operation on a set of query rows. However, whereas an aggregate operation groups query rows into a single result row, a window function produces a result for each query row:
+
+The row for which function evaluation occurs is called the current row.
+
+The query rows related to the current row over which function evaluation occurs comprise the window for the current row.
+
+### 分布式
+
+Partitioning
+Replication
++ Replication Slaves
+Cluster
+Backup 
++ mysqldump 
+
+### 多进程死锁
+
+
 ## Design Pattern
 
 动机
@@ -2983,7 +3007,7 @@ Access
 
 
 
-## Advance
+## 进阶
 
 进阶
 
@@ -3226,6 +3250,9 @@ ECharts - Java类库 ECharts-Ja
 ## 3D
 
 参考资料 OpenGL Red Book
+
+https://www.opengl.org/archives/resources/faq/technical/
+
 
 
 坐标系
@@ -3593,11 +3620,38 @@ https://blog.csdn.net/lyx2007825/article/details/8792475/
 
 
 
+使用
+ glBindTexture(GL_TEXTURE_2D, texture[filter]);
+
+创建
+    glGenTextures(3, &texture[0]);//开辟3个纹理内存，索引指向texture[0]
+
+    /*建立第一个纹理*/
+    glBindTexture(GL_TEXTURE_2D, texture[0]);//将创建的纹理内存指向的内容绑定到纹理对象GL_TEXTURE_2D上，经过这句代码后，以后对
+                                            //GL_TEXTURE_2D的操作的任何操作都同时对应与它所绑定的纹理对象
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, tex.width(), tex.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, tex.bits());//开始真正创建纹理数据
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);//当所显示的纹理比加载进来的纹理小时，采用GL_NEAREST的方法来处理
+                                                                      //GL_NEAREST方式速度非常快，因为它不是真正的滤波，所以占用内存非常
+                                                                      // 小，速度就快了
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);//当所显示的纹理比加载进来的纹理大时，采用GL_NEAREST的方法来处理
 
 
 
 
+OpenGL使用glColorMaterial设置材质 - 阿英的日志 - 网易博客
 
+
+You need to be carefull when to setup your lights since lights in OpenGL are affected by modelview transformations. So when you rotate your object and the light follows you won''t see any lighting effects...
+
+Hope this helps!
+
+ALex
+
+In the old, fixed function world:
+Materials are for per-vertex lighting. The results of the lit vertex color are then fed into the fragment stage. What happens with the texturing depends on the TexEnv settings. By default, texture values are modulated with the vertex color (and the specular lighting component optionally added afterwards, in the color sum stage.)
+
+In the new, shader world:
+You do whatever you want in the vertex shader, and then you do whatever you want in the fragment shader. You can access the builtin material state if you really want to, but it's probably better to just roll your own lighting completely.
 
 
 
@@ -3757,6 +3811,19 @@ OpenGL 矩阵变换
 G=(M-1)T
 
 即：应用于法线向量的变换矩阵是顶点变换矩阵的逆转置矩阵。
+
+
+glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE,
+                       7*sizeof(float), 0);
+glVertexAttribPointer(colAttrib, 3, GL_FLOAT, GL_FALSE,
+                       7*sizeof(float), (void*)(2*sizeof(float)));
+
+GLint texAttrib = glGetAttribLocation(shaderProgram, "texcoord");
+glEnableVertexAttribArray(texAttrib);
+glVertexAttribPointer(texAttrib, 2, GL_FLOAT, GL_FALSE,
+                       7*sizeof(float), (void*)(5*sizeof(float)));
+
+
 
 ## three.js
 
