@@ -151,6 +151,7 @@ one hundred一百 [wʌn] [ˈhʌndrəd]
 ## 词组与句子
 
 
+
 动词短语 close the door，look at the cat 动词+宾语 动词+介词+宾语
 名词短语 a red hat 形容词+名词
 介词短语 for three weeks
@@ -163,6 +164,16 @@ one hundred一百 [wʌn] [ˈhʌndrəd]
 + 
 
 同位语从句
+
+
+名词 + be | 代词 + be
+be + 形容词 
+be + a 名词单数 | be + 复数 | be + 专有名词
+be + 现在分词
+be + 过去分词
+
+
+
 
 
 ## 单词
@@ -396,44 +407,86 @@ Thank you. I appreciate your help.
 Oh, you're welcome.
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### 新概念英语
 
 
 NCE3L1 A Puma at large
 
-Pumas are animals | be+复数名词
+P1 
 
-large, cat-like animals 形容词加名词构成名词短语
++ Pumas are animals | be+复数名词
 
-animals which are found in America 名词+which 定语从句，which前停顿，be+被动语态
++ large, cat-like animals 形容词加名词构成名词短语，形容词顺序
 
-When reports came into London Zoo 时间状语从句
++ animals which are found in America 名词+which 定语从句，which前停顿，be+被动语态
 
-reports that a wild puma 名词reports+that 同位语从句，that前停顿
++ When reports came into London Zoo 时间状语从句
 
-as the evidence began to accumulate 时间状语
++ reports that a wild puma 名词reports+that 同位语从句，that前停顿
 
-experts from the Zoo 介词短语作定语
++ forty-five miles south of London 
 
-for the descriptions were extraordinarily similar. 原因状语，程度副词修饰形容词
++ However, | 转折
 
-the descriptions given by people 过去分词作后置定语
++ as the evidence began to accumulate 时间状语
 
-people who claimed to 名词people+who 定语从句 who前停顿
++ experts from the Zoo 介词短语作名词的定语
 
-The hunt for the puma 名词加介词短语作名词短语
++ for the descriptions were extraordinarily similar. for原因状语，程度副词修饰形容词
 
-in a small village where
++ the descriptions given by people | 过去分词作后置定语
 
-a woman picking blackberries 现在分词后置定语
++ people who claimed to 名词people+who 定语从句 who前停顿
 
-for the puma was 
+P2
 
-complained of 动词加介词，动词短语
++ The hunt for the puma 名词加介词短语构成名词短语
 
-for several weeks 介词短语作时间状语
++ in a small village where 介词短语+where 定语从句
 
-in the possession of 介词短语作介词
++ a woman picking blackberries 现在分词作后置定语
+
++ only five yards away from her
+
++ for the puma was often | for原因状语
+
++ complained of 动词加介词构成动词短语
+
++ for several weeks 介词短语作时间状语
+
++ in the possession of 介词短语作介词
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ### 托福
 

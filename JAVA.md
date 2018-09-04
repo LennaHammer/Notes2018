@@ -1423,6 +1423,8 @@ The query rows related to the current row over which function evaluation occurs 
 
 ### 分布式
 
+部署
+
 Partitioning
 Replication
 + Replication Slaves
@@ -1434,6 +1436,8 @@ Backup
 
 
 ## Design Pattern
+
+通过名词进行抽象，方便交流
 
 动机
 
@@ -2001,6 +2005,33 @@ Normalize.css
 响应式图片
 max-width 100%，height:auto
 
+### 响应式布局
+
+宽度变化（桌面，手机）
+
+不使用绝对宽度
+
+由于网页会根据屏幕宽度调整布局，所以不能使用绝对宽度的布局，也不能使用具有绝对宽度的元素。这一条非常重要。
+
+具体说，CSS代码不能指定像素宽度：width:xxx px;只能指定百分比宽度：width: xx%;或者width:auto;
+
+ 
+
+相对大小的字体
+
+字体也不能使用绝对大小（px），而只能使用相对大小（em）。
+
+.leftBar{float: left;width: 25%;}
+float的好处是，如果宽度太小，放不下两个元素，后面的元素会自动滚动到前面元素的下方，不会在水平方向overflow（溢出），避免了水平滚动条的出现。
+
+@media screen and (max-device-width: 400px) { .column {float: none;width: auto;} #sidebar { display: none'}}
+
+上面的代码意思是，如果屏幕宽度小于400像素，则column块取消浮动（float:none）、宽度自动调节（width:auto），sidebar块不显示（display:none）。
+
+
+img { max-width: 100%;}
+图片的自适应
+
 
 ### 例子
 
@@ -2548,6 +2579,15 @@ debugger;
 
 
 ### webpack/babel
+
+## 手机 App
+
+
+taskbar 底部状态栏（是一个列表框）
+
+下拉菜单（相应鼠标，显示）
+
+
 
 
 

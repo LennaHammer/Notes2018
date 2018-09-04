@@ -272,9 +272,34 @@ plt.show()
 数据挖掘
 
 
-## 拟合
+### 拟合
 
 ## ML
+
+
+### 特征提取和预处理
+
+### 模型
+
+
+
+### 调参
+超参数
+验证
+损失函数 正则化
+梯度下降
+
+
+
+### 最优化
+
+梯度下降
+拟牛顿法
+
+### 协同过滤
+
+
+
 
 sklearn
 
@@ -543,7 +568,7 @@ pool
 map
 
 
-## OpenGL
+### OpenGL
 
 
 ```python
@@ -586,6 +611,75 @@ if __name__ == '__main__':
 
 
 ```
+
+### sklearn
+
+数据类型 numpy
+
+```python
+#%%
+
+# Loading a dataset
+from sklearn import datasets
+iris = datasets.load_iris()
+X, y = iris.data, iris.target
+print(X) # (n_samples, n_features)
+
+# Estimator
+from sklearn import svm
+clf = svm.SVC(gamma=0.001, C=100.) # Choosing the parameters of the model
+clf.fit(X[:-1], y[:-1])
+
+# 
+clf.predict(X[-1:])
+
+# Model persistence
+import pickle
+s = pickle.dumps(clf)
+
+```
+
+Datasets
+preprocessing
+set_params
+
+
+Estimators
++ parameters
++ 超参数
+
+
+KNN k-Nearest neighbors classifier
+Linear regression
+Shrinkage and sparsity with logistic regression
+Support vector machines
+
+
+OneVsRest
+
+Model selection
+
+test set
+
+Score
+
+Cross-validation
+
+
+Choosing the right estimator
+
+挑选的步骤
+1 问题类型，2 样本数，3 数据类型，4 效果如何
+
+
+判别 聚类
+回归 降维
+
+
+数据
+文本 Tokenizing  tf–idf
+图像
+数值
 
 ## Processing
 
