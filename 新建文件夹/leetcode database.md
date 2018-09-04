@@ -1,5 +1,6 @@
 # Leetcode Database
 
+
 175. Combine Two Tables
 
 ```mysql
@@ -12,7 +13,7 @@ select FirstName, LastName, City, State from Person p left join Address a on p.P
 select ifnull((select distinct Salary from Employee order by Salary desc limit 1,1),null)  as SecondHighestSalary
 ```
 
-  177. Nth Highest Salary 
+177. Nth Highest Salary 
 
 ```mysql
 CREATE FUNCTION getNthHighestSalary(N INT) RETURNS INT
@@ -26,7 +27,7 @@ END
 
 
 
-  181. Employees Earning More Than Their Managers 
+181. Employees Earning More Than Their Managers 
 
 ```mysql
 select Name as Employee  from Employee e where Salary > (select Salary from Employee where Id=e.ManagerId)
@@ -46,7 +47,7 @@ select employee.Name as Employee from Employee employee join Employee manager on
 select Email from Person group by Email having count(1)>1
 ```
 
-  183. Customers Who Never Order 
+183. Customers Who Never Order 
 
 in (select ...)
 
@@ -71,11 +72,15 @@ delete from Person where Id not in (select t.Id from (select min(Id) Id from Per
 ```mysql
 select today.Id from Weather today join Weather yesterday on TO_DAYS(today.RecordDate)=TO_DAYS(yesterday.RecordDate)+1 where today.Temperature>yesterday.Temperature
 ```
+
+
 595. Big Countries
 
 ```mysql
 select  name, population,area from World where area>3000000 or population>25000000
 ```
+
+
 596. Classes More Than 5 Students
 
 
@@ -101,7 +106,6 @@ update salary set sex=if(sex='m','f','m')
 ```
 
 
-
 常见用法
 
 + in (select ...)
@@ -113,4 +117,21 @@ update salary set sex=if(sex='m','f','m')
 + 选择 投影 汇总
 
 
++ select count(*) from table limit 1
+
+
 https://www.cnblogs.com/grandyang
+
+
+语句
+
+
+常用函数
+
+日期时间 date
+字符串
+
+参考资料
++ mysql
++ sqlite
++ sql server

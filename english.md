@@ -41,7 +41,7 @@ iː  see  /siː/ 字母 e
 ɪ  sit  /sɪt/ 字母 i y
 
 e  ten  /ten/ 字母 e
-æ  cat  /kæt/ 字母 a
+æ  cat  /kæt/ 字母 a （不常见？）
 
 ɑː  father  /ˈfɑːðə(r)/ 字母 a
 ʌ  cup  /kʌp/ 字母 u
@@ -98,7 +98,7 @@ https://en.wikipedia.org/wiki/Stress_and_vowel_reduction_in_English
 
 规则动词 不规则动词
 
-## 字母
+### 字母的读音
 
 
 A a /eɪ/  	B b /bi:/ 	C c /si:/ 	D d /di:/ 	E e /i:/ 	F f /ef/ 
@@ -109,55 +109,60 @@ Y y /waɪ/	Z z /zed/  /zi:/
 
 
 1)含元音音素[ei]
-
 Aa /ei/        Hh /eit∫/         Jj  /d3ei/          Kk  /kei/          
 
 2) 含元音音素[i:]
-
 Bb /bi:/       Cc /si:/     Dd /di:/     Ee /i:/     Gg /dʒi:/     Pp /pi:/     Tt /ti:/     Vv /vi:/      Zz /zi:/ 
 
 3) 含元音音素[e]
-
 Ff  /ef/    Ll /el/    Mm /em/    Nn /en/     Ss /es/     Xx  /eks/      Zz /zed/    
 
 4) 含元音音素[ju:]
+Uu /ju:/      Qq /kju:/      Ww /d∧blju:/   
 
-Uu /ju:/      Qq /kju:/      Ww /d∧blju:/    
 5) 含元音音素[ai]
-
 Ii /ai/     Yy /wai/  
 
 
 one 一[wʌn] two 二[tu:]
-
 three 三[θri:] four 四[fɔ:]
-
 five 五[faiv] six 六[siks]
-
 seven 七[ˈsevn] eight 八[eit]
-
 nine 九[nain] ten 十[ten]
-
 eleven 十一[iˈlevn] twelve 十二[twelv]
-
 thirteen 十三[ˌθə:ˈti:n] fourteen 十四[ˈfɔ:ˈti:n]
-
 fifteen 十五[ˈfifˈti:n] sixteen 十六[sikˈsti:n]
-
 seventeen十七[ˌsevnˈti:n] eighteen 十八[ˌeiˈti:n]
-
 nineteen 十九[ˈnainˈti:n] twenty 二十[ˈtwenti]
-
 twenty-one二十一 thirty 三十[ˈθə:ti]
-
 forty 四十[ˈfɔ:ti] fifty 五十[ˈfifti]
-
 sixty 六十[ˈsiksti] seventy 七十[ˈsevnti]
-
 eighty 八十[ˈeiti] ninety 九十[ˈnainti]
-
 one hundred一百 [wʌn] [ˈhʌndrəd]
 
+
+单词表，听读
+
+
+构词法
+-ly 副词
+
+
+## 词组与句子
+
+
+动词短语 close the door，look at the cat 动词+宾语 动词+介词+宾语
+名词短语 a red hat 形容词+名词
+介词短语 for three weeks
+
+定语
++ 前置
++ 后置 形容词 介词短语 现在分词 过去分词 不定式 从句
+
+状语
++ 
+
+同位语从句
 
 
 ## 单词
@@ -305,6 +310,7 @@ afternoon noon morning night
 
 now later
 
+
 ## 附录
 
 数字1 one two three four five six seven eight nine ten
@@ -362,15 +368,15 @@ My name is ...
 | dd | ff |
 | ff | ff |
 
-走遍美国
+### 走遍美国
 
 Family Album, U.S.A. 
 
 http://www.tingroom.com/lesson/album/105.html
 
-My name is Richard Stewart.
-I'm a photographer.
-You're writing a book?
+My name is Richard Stewart. | 
+I'm a photographer. | be+a+单数名词
+You're writing a book? | be+现在分词 现在进行时
 
 
 What's it for? It's for a book.
@@ -388,3 +394,49 @@ What's her name?
 Excuse me.
 Thank you. I appreciate your help.
 Oh, you're welcome.
+
+
+### 新概念英语
+
+
+NCE3L1 A Puma at large
+
+Pumas are animals | be+复数名词
+
+large, cat-like animals 形容词加名词构成名词短语
+
+animals which are found in America 名词+which 定语从句，which前停顿，be+被动语态
+
+When reports came into London Zoo 时间状语从句
+
+reports that a wild puma 名词reports+that 同位语从句，that前停顿
+
+as the evidence began to accumulate 时间状语
+
+experts from the Zoo 介词短语作定语
+
+for the descriptions were extraordinarily similar. 原因状语，程度副词修饰形容词
+
+the descriptions given by people 过去分词作后置定语
+
+people who claimed to 名词people+who 定语从句 who前停顿
+
+The hunt for the puma 名词加介词短语作名词短语
+
+in a small village where
+
+a woman picking blackberries 现在分词后置定语
+
+for the puma was 
+
+complained of 动词加介词，动词短语
+
+for several weeks 介词短语作时间状语
+
+in the possession of 介词短语作介词
+
+### 托福
+
+
+### 报刊杂志新闻
+
