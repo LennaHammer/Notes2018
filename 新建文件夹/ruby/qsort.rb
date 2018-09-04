@@ -1,4 +1,6 @@
-﻿def _partition(xs, a, b)
+﻿# 快速排序
+
+def _partition(xs, a, b)
   pvt = xs[b]
   s = a
   for i in a...b

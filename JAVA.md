@@ -1098,7 +1098,7 @@ BEGIN 或 START TRANSACTION
 内置函数
 
 + 字符串 LEFT
-+ 日期时间 datediff todays
++ 日期时间 datediff toDays
 + 地理信息 
 
 用户定义函数
@@ -1140,6 +1140,8 @@ select row_number() over+
 CONVERT
 
 DATEDIFF
+
+
 
 ### Tools
 
@@ -1728,6 +1730,8 @@ stage 暂存区
 
 ## Bootstrap
 
+版本 Bootstrap 3 实现方式上兼容性最好
+
 layout
 
 content
@@ -1997,6 +2001,175 @@ Normalize.css
 响应式图片
 max-width 100%，height:auto
 
+
+### 例子
+
+```html
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"> 
+<title>菜鸟教程(runoob.com)</title> 
+<style>
+* {
+    box-sizing: border-box;
+}
+img {
+    width: 100%;
+    height: auto;
+}
+.row:after {
+    content: "";
+    clear: both;
+    display: block;
+}
+[class*="col-"] {
+    float: left;
+    padding: 15px;
+    width: 100%;
+}
+@media only screen and (min-width: 600px) {
+    .col-s-1 {width: 8.33%;}
+    .col-s-2 {width: 16.66%;}
+    .col-s-3 {width: 25%;}
+    .col-s-4 {width: 33.33%;}
+    .col-s-5 {width: 41.66%;}
+    .col-s-6 {width: 50%;}
+    .col-s-7 {width: 58.33%;}
+    .col-s-8 {width: 66.66%;}
+    .col-s-9 {width: 75%;}
+    .col-s-10 {width: 83.33%;}
+    .col-s-11 {width: 91.66%;}
+    .col-s-12 {width: 100%;}
+}
+@media only screen and (min-width: 768px) {
+    .col-1 {width: 8.33%;}
+    .col-2 {width: 16.66%;}
+    .col-3 {width: 25%;}
+    .col-4 {width: 33.33%;}
+    .col-5 {width: 41.66%;}
+    .col-6 {width: 50%;}
+    .col-7 {width: 58.33%;}
+    .col-8 {width: 66.66%;}
+    .col-9 {width: 75%;}
+    .col-10 {width: 83.33%;}
+    .col-11 {width: 91.66%;}
+    .col-12 {width: 100%;}
+}
+html {
+    font-family: "Lucida Sans", sans-serif;
+}
+.header {
+    background-color: #9933cc;
+    color: #ffffff;
+    padding: 15px;
+}
+.menu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+.menu li {
+    padding: 8px;
+    margin-bottom: 7px;
+    background-color :#33b5e5;
+    color: #ffffff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+.menu li:hover {
+    background-color: #0099cc;
+}
+.aside {
+    background-color: #33b5e5;
+    padding: 15px;
+    color: #ffffff;
+    text-align: center;
+    font-size: 14px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+.footer {
+    background-color: #0099cc;
+    color: #ffffff;
+    text-align: center;
+    font-size: 12px;
+    padding: 15px;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+<h1>Chania</h1>
+</div>
+
+<div class="row">
+<div class="col-3 col-s-3 menu">
+<ul>
+<li>The Flight</li>
+<li>The City</li>
+<li>The Island</li>
+<li>The Food</li>
+</ul>
+</div>
+
+<div class="col-6 col-s-9">
+<h1>The City</h1>
+<p>Chania is the capital of the Chania region on the island of Crete. The city can be divided in two parts, the old town and the modern city.</p>
+<img src="img_chania.jpg" width="460" height="345">
+</div>
+
+<div class="col-3 col-s-12">
+<div class="aside">
+<h2>What?</h2>
+<p>Chania is a city on the island of Crete.</p>
+<h2>Where?</h2>
+<p>Crete is a Greek island in the Mediterranean Sea.</p>
+<h2>How?</h2>
+<p>You can reach Chania airport from all over Europe.</p>
+</div>
+</div>
+
+</div>
+
+<div class="footer">
+<p>调整浏览器窗口大小查看内容变化。</p>
+</div>
+
+</body>
+</html>
+
+```
+
+一、为何要清除浮动
+
+                          ［主要涉及关键词：文档流、高度塌陷。］
+
+作为一个前端er肯定会要用到float属性。浮动的框可以左右移动，直到遇到另一个浮动框或者遇到它外边缘的包含框。浮动框不属于文档流中的普通流，当元素浮动之后，不会影响块级元素的布局，只会影响内联元素布局。此时文档流中的普通流就会表现得该浮动框不存在一样的布局模式。当包含框的高度小于浮动框的时候，此时就会出现“高度塌陷”。即为何我们需要清楚浮动。下面的例子即展示何为塌陷。
+
+
+两栏
+
+```css
+#aside{
+    float: left;
+    width: 200px;
+    background-color: red;
+}
+#content{
+    margin-left: 200px;
+    background-color: blue;
+}
+```
+
+图片自适应
+
+```css
+
+```
+
+
 ## CSS （废弃）
 ### text
 
@@ -2067,7 +2240,7 @@ Flexbox
 
 
 
-HSL **色相**、**饱和度**以及**明度值** 
+HSL **色相**、**饱和度** 以及 **明度值** 
 
 函数
 
@@ -2185,6 +2358,16 @@ Date.parse 使用本地时区
 
 + byid
 + document.createElement .appendChild
+
+
+
+在此简化的元素树中，源Click事件是之一Button元素，而所Button被单击有机会处理该事件的第一个元素。 该事件将向上冒泡到Button在元素树中，这是父StackPanel。 可能的事件将冒泡到Border，然后会到达到页树的根的元素 （未显示）。
+
+换而言之，此事件路由Click事件是：
+
+Button-->StackPanel-->Border-->...
+
+无论是body，body 的子元素div1，还是 div的子元素div2，还有 span, 当这些元素被点击click时，都会产生click事件，并且body都会捕获到，然后调用相应的事件处理函数。就像水中的气泡从底往上冒一样，事件也会往上传递。
 
 ### Vanilla
 
@@ -3049,8 +3232,21 @@ BCNF
 
 
 
-## Redis教程
+## Redis
 
+内存数据库，性能好，可靠性差
+
+数据类型
++ 
+
+集群
++ 主从
++ 分片
++ 备份
+
+使用
++ cache
++ 
 
 
 ## GIS
@@ -3246,6 +3442,35 @@ ECharts - Java类库 ECharts-Ja
 导出 Excel
 
 导出 Pdf
+
+## CV
+
+工具
++ Matlab
++ OpenCV
+概念
++ 黑白
++ RGB
++ 
+
+基本操作
++ 读取 imread 显示 imshow 保存 imwrite
++ 矩阵操作
++ 图片编辑的转换
+
+图片预处理
++ 模糊 去除
++ 直方图
+
+特征提取
++ 边
++ 角
++ 直方图
+
+匹配，识别
++ 人脸监测
+
+
 
 ## 3D
 
@@ -4015,15 +4240,8 @@ Cache
 
 
 
-## 分布式 RPC 服务框架 Dubbo
 
-分布式系统协调 ZooKeeper
-
-
-
-## 分布式系统基础架构 Hadoop 
-
-##[分布式搜索引擎 ElasticSearch
+##分布式搜索引擎 ElasticSearch
 
 提交更新
 
@@ -4431,6 +4649,9 @@ Java Spring AMQP
 
 
 
+## 集群
+
+
 
 
 ## 分布式
@@ -4469,6 +4690,20 @@ ZooKeeper 提供的通用服务如下-
 
 高可靠的数据注册表 − 一个或几个节点的可用性的数据向下。
 
+## 分布式 RPC 服务框架 Dubbo
+
+RPC 远程调用
+
+## 分布式系统协调 ZooKeeper
+
+注册发现
+
+## 分布式系统基础架构 Hadoop 
+
+## Kafka
+
+消息
+
 ## Spring Cloud
 
 熔断，降级
@@ -4495,7 +4730,7 @@ Filter
 
  [spring cloud 学习(6) - zuul 微服务网关](https://www.cnblogs.com/yjmyzz/p/spring-cloud-zuul-demo.html)
 
-## Debug
+## Debug 技巧
 
 断点 breakpoint
 
@@ -4512,6 +4747,12 @@ step over
 IETester
 
 https://www.my-debugbar.com/wiki/IETester/HomePage
+
+## 项目设计
+
+模块
+
+
 
 ## Excel
 
@@ -4569,11 +4810,14 @@ Netcat
 
 词频
 
-## Linux
+## Linux 系统编程
 
 文件锁
 
 socket
+
+
+
 
 ## Docker
 
@@ -4583,7 +4827,7 @@ socket
 
 原型工具
 
-box-shadow: 0 0 8px #ccc;
+`box-shadow: 0 0 8px #ccc;`
 
 。拟合的公式参照前面发的网页文章，里面有详细的正交多项式拟合公式，和检验偏差的方法，一些偏离曲线多的点值要去掉移除，
 
@@ -4592,10 +4836,37 @@ box-shadow: 0 0 8px #ccc;
 LIKE CONCAT(?, '%');
 
 
+## MapReduce
 
-## Data
+map :: (k1, v1) -> (k2, v2)
 
-MapReduce
+reduce :: (k1, v1) -> (k2, v2)
+
+多步 mapreduce
+
+
+数据存储 DBFS
+
+常见算法
+
++ 单词统计
+
+## Pig
+
+## Spark
+
+flatMap
+reduce groupBy
+
+http://spark.apache.org/docs/latest/ml-statistics.html
+
+案例
+
+
+
+## MapReduce
+
+论文
 
 文件储存 hdfs://
 
@@ -4640,20 +4911,30 @@ groupByKey
 
 
 
-算法
+常见算法
 
 求最大值最小值
 
 平均值问题
 
-TopN问题
+TopN 问题
 
 词频数统计
+
+```
+
+```
 
 
 ## 推荐系统
 
-## 过滤
+## spam 过滤
+
+垃圾邮件过滤
+
+有害信息过滤
+
+## 搜索排序
 
 ## 日志系统
 
@@ -4666,36 +4947,9 @@ TopN问题
 错误处理
 
 
-## MapReduce
-
-map :: (k1,v1) -> (k2,v2)
-
-reduce :: (k1,v1) -> (k2,v2)
-
-多步骤
-
-数据存储 DBFS
 
 
-
-
-
-常见算法
-
-+ 单词统计
-
-
-
-## Pig
-
-## Spark
-
-flatMap
-reduce groupBy
-
-http://spark.apache.org/docs/latest/ml-statistics.html
-
-## 功能
+## 草稿
 
 
 推荐算法
@@ -4719,10 +4973,28 @@ NIO之前，恐怕十个Java程序员里只一个可能写出高质量的网络�
 
 备份数据库
 
-## 统计
+## ML
 
 SVD PCA
 
+
+数据
++ iris
+
+问题
++ 统计
++ 拟合（分类，回归），有监督，
++ 聚类，无监督
++ 判别，生成
++ 推荐系统，协同过滤
+
+特征提取与处理
+文本
+
+模型
++ 参数
++ 最优化 损失函数
++ 评测
 
 
 ## References

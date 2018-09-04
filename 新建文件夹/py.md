@@ -6,16 +6,17 @@
 ### 向量
 
 向量 
-+ 向量加法、数乘 $c=xa+yb$
++ 向量加法、数乘 $c=xa+yb$、矩阵形式 c=Ax
 + 坐标 (x,y)' 基 a b 标准正交基
 线性运算
 + T(a+b) = T(a)+T(b)
 + 基变换，同一个向量在不同基下的坐标
-+ 拉伸
++ 拉伸（对角矩阵）
 矩阵分解
-+ 相似，
++ 相似，特征值不变
++ 合同，内积不变
 内积
-+ 
++ y=x'x
 多项式
 + y = x'Ax+x'B+C
 
@@ -25,19 +26,38 @@
 + 均值
 + 方差 标准差
 + 协方差 相关系数
++ 统计量的分布
 分布
 + 大数定律，正态分布，叠加
-+ 统计量的分布
-+ 
-估计
++ 正态分布 3 sigma
++ 分布函数
+参数估计
 + 最大似然估计
 + 区间估计
 检验
-+ 均值，方差，两个
-+ 
++ 均值，方差，双侧
++ 显著性
+概率问题的计算
++ 条件概率
 
 ### 微分
 
+级数
++ 泰勒级数
+
+极限
+
+微分
++ 定义，通过极限求微分，常见的微分，法则
++ 应用
++ 多元微分的应用
+积分
++ 微分的逆运算
++ 计算，多元积分
++ 几何和物理应用
+
+微分方程
++ 求解
 
 
 ## 模型
@@ -415,6 +435,10 @@ par(mfrow=c(2, 2))
 plot(m)
 ```
 
+## 数据库接口
+
+sql
+
 ## 工具箱
 
 
@@ -439,11 +463,49 @@ coda install anaconda
 ```
 
 
-### 数据库接口
 
-sql
 
-sqlite3
+## Matlab
+
+版本 5.3 7.1
+
+
+### 绘图
+折线图 plot
+
+其他类型
++ bar
++ pie
++ mesh
++ area
++ hist
++ scatter 散点图
++ surf
++ contour
+
+
+newff
+
+
+### stats
+
+### image
+
+imread
+imshow
+
+
+Octave
+
+nnet Neural Network Package for Octave
+
+### nnet
+
+## Python
+
+
+
+### sqlite3
 
 ```python
 import sqlite3
@@ -452,7 +514,7 @@ conn.execute("...")
 conn.commit()
 ```
 
-mysql
+### mysql
 
 ```python
 import mysql.connector
@@ -467,29 +529,19 @@ conn.commit()
 
 cursor.lastrowid
 
-## matlab
+
+### requests
 
 
-plot
+### Socket
 
-nnet
+TCP ACK
 
-[x,t] = simplefit_dataset;
-net = feedforwardnet(10);
-net = train(net,x,t);
-view(net)
-y = net(x);
-perf = perform(net,y,t)
+### thread
 
+pool
+map
 
-
-
-Octave
-
-nnet Neural Network Package for Octave
-
-
-## Socket
 
 ## OpenGL
 
