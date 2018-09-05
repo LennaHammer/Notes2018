@@ -1421,6 +1421,7 @@ The row for which function evaluation occurs is called the current row.
 
 The query rows related to the current row over which function evaluation occurs comprise the window for the current row.
 
+
 ### 分布式
 
 部署
@@ -1472,6 +1473,44 @@ Concurrency patterns
 
 + Lock
 + ​
+
+
+设计模式
+
++ 工厂模式
++ 抽象工厂模式
++ 单例模式
++ 建造者模式
++ 原型模式
++ 适配器模式
++ 桥接模式
++ 过滤器模式
++ 组合模式
++ 装饰器模式
++ 外观模式
++ 享元模式
++ 代理模式
++ 责任链模式
++ 命令模式
++ 解释器模式
++ 迭代器模式
++ 中介者模式
++ 备忘录模式
++ 观察者模式
++ 状态模式
++ 空对象模式
++ 策略模式
++ 模板模式
++ 访问者模式
++ MVC 模式
++ 业务代表模式
++ 组合实体模式
++ 数据访问对象模式
++ 前端控制器模式
++ 拦截过滤器模式
++ 服务定位器模式
++ 传输对象模式
+
 
 ## Java 基础
 
@@ -2032,6 +2071,31 @@ float的好处是，如果宽度太小，放不下两个元素，后面的元素
 img { max-width: 100%;}
 图片的自适应
 
+```css
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    [class*="col-"] {
+        width: 100%;
+    }
+}
+```
+
+```html
+<div class="row">
+<div class="col-3 col-m-3">...</div>
+<div class="col-6 col-m-9">...</div>
+<div class="col-3 col-m-12">...</div>
+</div>
+```
+
+```css
+img {
+    max-width: 100%;
+    height: auto;
+}
+```
+
+不占文档流 position: absolute;
 
 ### 例子
 
@@ -2329,13 +2393,19 @@ border-radius: 5px; */
 
 + 分栏浮动 `<div style="float: left; width=30%;"></div>`
 + 清除浮动 `<div style="clear: both;"></div>`
++ 浮动+正文+清除浮动
+
 
 绝对布局
 
-position: absolute;
++ position: absolute;
++ top left width height
 
 
+dashboard 
 
+box-sizing: border-box 用两层 padding 用来控制内外边距
+外层是分栏用的div，内层是实际显示的框/卡片
 
 
 
@@ -2583,11 +2653,38 @@ debugger;
 ## 手机 App
 
 
-taskbar 底部状态栏（是一个列表框）
+小程序 tabbar 底部状态栏（是一个列表框，选中一项）
 
-下拉菜单（相应鼠标，显示）
+下拉菜单（相应鼠标，显示隐藏）
 
+```css
+.icon{
+  width:54rpx;
+  height: 54rpx;
+}
+.tabBar{
+  width:100%;
+  position: fixed;
+  bottom:0;
+  padding:10rpx;
+  margin-left:-4rpx;
+  background:#F7F7FA;
+  font-size:20rpx;
+  color:#8A8A8A;
+  box-shadow: 6rpx 6rpx 6rpx 6rpx #aaa;
+}
 
+ .tabBar-item{
+  float:left;
+  width:25%;
+  text-align: center;
+  overflow: hidden;
+}
+/*当前字体颜色*/
+.tabBartext{
+  color:red;
+}
+```
 
 
 
@@ -2637,11 +2734,26 @@ URLConnection
 
 ## TCP/IP
 
+
+
+没有收到 ACK 可能是 1 对方不在，2 请求丢失，3 ACK丢失(对方收到请求)
+
+措施 请求方重试，服务方发送ACK后需要等待一会。
+
+
+
+
 socket
 
 frame
 
 packet
+
+
+
+
+
+
 
 网际互联及OSI七层模型：
 
@@ -4088,7 +4200,67 @@ glEnableVertexAttribArray(texAttrib);
 glVertexAttribPointer(texAttrib, 2, GL_FLOAT, GL_FALSE,
                        7*sizeof(float), (void*)(5*sizeof(float)));
 
+## OpenGL
+```c
+// init
+    glShadeModel(GL_SMOOTH);
+    glClearColor(0.5,0.5,0.5,0.5);
+    glClearDepth(1.0);
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_LEQUAL);
+    glHint(GL_PERSPECTIVE_CORRECTION_HINT,GL_NICEST);
 
+// resharp
+glViewport(0,0,width,height);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPerspective(45.0,(GLfloat)width/(GLfloat)height,0.1,3000.0);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
+// paint
+glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glLoadIdentity();
+    //gluLookAt(9.0,0.0,10.0,0.0,0.0,-10.0,0.0,1.0,0.0);
+    //to look at the second lines
+    gluLookAt(eyeX,eyeY,eyeZ,0.0,0.0,0.0,1.0,0.0,0.0);
+
+    //glTranslatef(0.0,0.0,-10.0);
+    /*glBegin(GL_TRIANGLES);
+        glColor3f(1.0,0.0,0.0);
+        glVertex3f(0.0,1.0,0.0);
+        glVertex3f(-1.0,0.0,0.0);
+        glVertex3f(1.0,0.0,0.0);
+    glEnd();*/
+
+    glColor3f(0.5f,0.7f,1.0f);
+    //glBegin(GL_LINES);
+    //    for(int i = -1000;i <= 1000;i+=10)
+    //    {
+    //        glVertex3f(0.0,0.0,i);
+    //        glVertex3f(10.0,10.0,i);
+    //        glVertex3f(0.0,0.0,i);
+    //        glVertex3f(-10.0,10.0,i);
+    //    }
+    //glEnd();
+    int x = (int)(40*2);
+    glBegin(GL_LINES);
+        for(int i = -x ;i <= x ; i+=4 )
+        {
+            glVertex3i(-x,0,i);
+            glVertex3i(x,0,i);
+
+            glVertex3i(i,0,x);
+            glVertex3i(i,0,-x);
+        }
+    glEnd();
+    GLUquadricObj *pObj;
+    pObj = gluNewQuadric();
+    gluQuadricDrawStyle(pObj,GLU_LINE);
+    gluQuadricNormals(pObj,GLU_SMOOTH);
+    gluSphere(pObj,16,16,16);
+
+```
 
 ## three.js
 
@@ -4360,6 +4532,10 @@ Sorted Set(有序集合)	将Set中的元素增加一个权重参数score,元素�
 + 分片
 + 哨兵
 + 客户端
+
+主从：读写分离，备份
+哨兵：监控，自动转移，选主
+集群：数据 hash 分片，同时包含主从及哨兵特性
 
 
 
@@ -4687,6 +4863,10 @@ Java Spring AMQP
 
 分布式，paxos算法。
 
+## Kafka
+
+https://www.yiibai.com/kafka/apache_kafka_simple_producer_example.html
+
 
 
 ## 集群
@@ -4729,6 +4909,10 @@ ZooKeeper 提供的通用服务如下-
 锁定和同步服务 − 锁定数据，同时修改它。这种机制可以帮助自动故障恢复，同时连接其它的分布式应用程序。如Apache HBase。
 
 高可靠的数据注册表 − 一个或几个节点的可用性的数据向下。
+
+
+### 分布式事务
+
 
 ## 分布式 RPC 服务框架 Dubbo
 
@@ -4978,6 +5162,251 @@ TopN 问题
 
 ## 日志系统
 
+## 机器学习
+
+
+Principal component analysis (PCA) selects the successive components that explain the maximum variance in the signal.
+The point cloud spanned by the observations above is very flat in one direction: one of the three univariate features can almost be exactly computed using the other two. PCA finds the directions in which the data is not flat
+
+
+数据 由不同的列构成
+文档 由单词构成
+图片 由像素点构成
+
+
+流程 提取特征 + 调参
+
+
+目标 预测的误差最小
+
+原始数据----提取特征-->特征-----训练fit------>模型 
+原始数据----提取特征-->特征-----模型------>预测
+
+
+调参
++ 样本的数量
++ 选择模型
++ 选择超参数
++ 验证
+
+
+
+
+
+
+
+实际上，在噪声高斯分布的假设下，最小误差平方和优化问题（即求使误差平方和最小的参数）等价于求最大似然函数（即使似然函数最大的参数）。做一个总结，判别模型求解的思路是：条件分布------>模型参数后验概率最大------->（似然函数参数先验）最大------->最大似然
+
+
+
+生成模型的求解思路是：联合分布------->求解类别先验概率和类别条件概率
+
+假设你现在有一个分类问题，x是特征，y是类标记。用生成模型学习一个联合概率分布P（x，y），而用判别模型学习一个条件概率分布P（y|x）。
+
+简单地说，对于监督学习，预测时，一般都是在求生成模型： 从数据中学习联合概率分布，然后利用贝叶斯公式求：;  这类典型的模型包括：朴素贝叶斯、LDA、HMM判别模型：直接学习， 它直观输入什么特征X，就直接预测出最可能的; 典型的模型包括：LR, SVM,CRF,Boosting,Decision tree....
+
+生成模型得到的是联合概率模型，判别模型得到的是条件概率模型。
+
+
+If there are few data points per dimension, noise in the observations induces high variance:
+
+
+For classification, as in the labeling iris task, linear regression is not the right approach as it will give too much weight to data far from the decision frontier. A linear approach is to fit a sigmoid function or logistic function
+
+penalty : str, ‘l1’ or ‘l2’, default: ‘l2’
+
+For example, RBF kernel of Support Vector Machines or the L1 and L2 regularized linear models typically work better when all features have unit variance and/or zero mean.
+
+
+    True Positive (TP) - label is positive and prediction is also positive
+    True Negative (TN) - label is negative and prediction is also negative
+    False Positive (FP) - label is negative but prediction is positive
+    False Negative (FN) - label is positive but prediction is negative
+
+
+precision and recall 
+
+F-measure
+
+
+
+Binary classification
+Threshold tuning
+
+Precision (Positive Predictive Value) 	PPV=TPTP+FP
+Recall (True Positive Rate) 	TPR=TPP=TPTP+FN
+F-measure 	F(β)=(1+β2)⋅(PPV⋅TPRβ2⋅PPV+TPR)
+Receiver Operating Characteristic (ROC
+
+
+
+Multiclass classification
+
+Precision	1N∑N−1i=0|Pi∩Li||Pi|
+Recall	1N∑N−1i=0|Li∩Pi||Li|
+Accuracy 	1N∑N−1i=0|Li∩Pi||Li|+|Pi|−|Li∩Pi|
+Precision by label	PPV(ℓ)=TPTP+FP=∑N−1i=0IPi(ℓ)⋅ILi(ℓ)∑N−1i=0IPi(ℓ)
+Recall by label	TPR(ℓ)=TPP=∑N−1i=0IPi(ℓ)⋅ILi(ℓ)∑N−1i=0ILi(ℓ)
+F1-measure by label	F1(ℓ)=2⋅(PPV(ℓ)⋅TPR(ℓ)PPV(ℓ)+TPR(ℓ))
+Hamming Loss
+
+Regression model evaluation
+
+Regression analysis is used when predicting a continuous output variable from a number of independent variables.
+
+Available metrics
+Metric	Definition
+Mean Squared Error (MSE) 	MSE=∑N−1i=0(yi−y^i)2N
+Root Mean Squared Error (RMSE) 	RMSE=∑N−1i=0(yi−y^i)2N−−−−−−−−−√
+Mean Absolute Error (MAE) 	MAE=1N∑N−1i=0|yi−y^i|
+Coefficient of Determination (R2)
+	R2=1−MSEVAR(y)⋅(N−1)=1−∑N−1i=0(yi−y^i)2∑N−1i=0(yi−y¯)2
+Explained Variance
+
+
+
+
+
+
+
+
+
+
+http://spark.apache.org/docs/latest/mllib-guide.html
+
+
+
+### Basic statistics
+
+Correlations
+Hypothesis testing
+
+### Regression
+
+
+### Classification
+
+### Clustering
+
+    k-means
+    Gaussian mixture | expectation-maximization algorithm
+    power iteration clustering (PIC)
+    latent Dirichlet allocation (LDA)
+    streaming k-means
+
+### Dimensionality reduction
+
+SVD 计算A'A的特征值和特征向量
+
+PCA 计算最大方差 variance
+
+是根据训练集去对测试集降维，降维后输出的特征作为判别模型的输入。
+
+
+### Feature extraction and transformation 
+
+Feature extraction
+Pre-processing
+
+
+    TF-IDF 词频*IDF
+    Word2Vec
+        Model
+        Example
+    StandardScaler
+        Model Fitting
+        Example
+    Normalizer
+        Example
+    ChiSqSelector
+        Model Fitting
+        Example
+    ElementwiseProduct
+        Example
+    PCA
+        Example
+
+Feature Extractors
+
+    TF-IDF
+    Word2Vec
+    CountVectorizer
+    FeatureHasher
+
+Feature Transformers
+
+    Tokenizer
+    StopWordsRemover
+    n
+
+    -gram
+    Binarizer
+    PCA
+    PolynomialExpansion
+    Discrete Cosine Transform (DCT)
+    StringIndexer
+    IndexToString
+    OneHotEncoder (Deprecated since 2.3.0)
+    OneHotEncoderEstimator
+    VectorIndexer
+    Interaction
+    Normalizer
+    StandardScaler
+    MinMaxScaler
+    MaxAbsScaler
+    Bucketizer
+    ElementwiseProduct
+    SQLTransformer
+    VectorAssembler
+    VectorSizeHint
+    QuantileDiscretizer
+    Imputer
+
+Feature Selectors
+
+    VectorSlicer
+    RFormula
+    ChiSqSelector
+
+Locality Sensitive Hashing
+
+    LSH Operations
+        Feature Transformation
+        Approximate Similarity Join
+        Approximate Nearest Neighbor Search
+    LSH Algorithms
+        Bucketed Random Projection for Euclidean Distance
+        MinHash for Jaccard Distance
+
+
+### Collaborative filtering
+
+距离 cosine similarity of the vectors.
+
+### Frequent Pattern Mining
+
+
+FP-growth
+
+Association Rules
+
+PrefixSpan
+
+### Evaluation Metrics
+
+
+
+
+
+### Optimization
+
+梯度下降
+
+拟牛顿法 LBFGS
+
+### Streaming
+
+
 
 ## Erlang
 
@@ -5039,6 +5468,18 @@ SVD PCA
 
 ## References
 
+教程
+
++ http://www.runoob.com/
+
++ http://www.yiibai.com/
+
+工具
+
++ https://runjs.cn/
++ 
+
+
 参考链接
 
 + https://docs.oracle.com/javase/tutorial/index.html
@@ -5064,6 +5505,9 @@ SVD PCA
 + https://www.drupal.org/docs/8/core/modules/workflows/overview
 + https://www.google.com
 + https://www.bing.com
+
+
+
 
 
 

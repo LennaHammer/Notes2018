@@ -6,19 +6,28 @@
 ### 向量
 
 向量 
-+ 向量加法、数乘 $c=xa+yb$、矩阵形式 c=Ax
-+ 坐标 (x,y)' 基 a b 标准正交基
++ 向量加法 $\alpha+\beta$、数乘$k\alpha$
++ 基 a b 标准正交基
++ 坐标 (x,y)'  即 $c=xa+yb$、矩阵形式 y=Ax 列向量构成矩阵*列向量形式的坐标
+
 线性运算
-+ T(a+b) = T(a)+T(b)
++ T(a+b) = T(a)+T(b)，T(ka)=kT(a)
 + 基变换，同一个向量在不同基下的坐标
 + 拉伸（对角矩阵）
+
 矩阵分解
 + 相似，特征值不变
 + 合同，内积不变
+
 内积
 + y=x'x
+
 多项式
 + y = x'Ax+x'B+C
+
+线性方程组与行列式
++ 解的结构，求解（上三角行列式）
+
 
 ### 统计
 
@@ -27,16 +36,21 @@
 + 方差 标准差
 + 协方差 相关系数
 + 统计量的分布
+
 分布
 + 大数定律，正态分布，叠加
 + 正态分布 3 sigma
 + 分布函数
++ 二维分布，函数的分布
+
 参数估计
 + 最大似然估计
 + 区间估计
+
 检验
 + 均值，方差，双侧
 + 显著性
+
 概率问题的计算
 + 条件概率
 
@@ -44,20 +58,24 @@
 
 级数
 + 泰勒级数
++ 收敛性，收敛域
++ 幂级数，傅里叶级数
 
 极限
 
 微分
-+ 定义，通过极限求微分，常见的微分，法则
-+ 应用
++ 定义，通过极限求微分，常见的微分，计算法则 多元微分 
++ 应用 导数（梯度） 极值（一元单调性，多元，最值） 零点存在（证明）
 + 多元微分的应用
+
 积分
 + 微分的逆运算
-+ 计算，多元积分
-+ 几何和物理应用
++ 计算，一元，多元积分，面积 体积
++ 几何和物理应用 弧 面 体 上的积分 第一类，第二类（有方向）
+
 
 微分方程
-+ 求解
++ 求解（方程+初始值） 一阶 二阶
 
 
 ## 模型
@@ -272,7 +290,17 @@ plt.show()
 数据挖掘
 
 
-### 拟合
+### 回归
+
+## 数值计算
+
+零点
+极值
+拟合
+插值
+矩阵
+统计
+
 
 ## ML
 
@@ -526,6 +554,7 @@ nnet Neural Network Package for Octave
 
 ### nnet
 
+
 ## Python
 
 
@@ -567,6 +596,8 @@ TCP ACK
 pool
 map
 
+send、recv fork、join
+### gevent
 
 ### OpenGL
 
@@ -637,6 +668,11 @@ clf.predict(X[-1:])
 import pickle
 s = pickle.dumps(clf)
 
+# model selection 
+cross_val_score(svc, X_digits, y_digits, cv=k_fold, n_jobs=-1)
+
+
+
 ```
 
 Datasets
@@ -681,15 +717,22 @@ Choosing the right estimator
 图像
 数值
 
+
+## Demo
+
+
 ## Processing
 
 
 ## 其他
+
 maxima
 
-synaptic
+synaptic xiapan
 
-## 
+
+
+## Draft
 
 Basic statistics
 Pipelines

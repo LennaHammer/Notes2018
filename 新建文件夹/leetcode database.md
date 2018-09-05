@@ -375,7 +375,10 @@ update salary set sex = case sex when 'm' then 'f' else 'm' end
 + select count(*) from table limit 1
 
 
-https://www.cnblogs.com/grandyang
++ https://www.cnblogs.com/grandyang
++ https://www.sqlite.org/lang_select.html
++ https://dev.mysql.com/doc/refman/8.0/en/window-functions-usage.html
+
 
 
 语句
@@ -387,6 +390,7 @@ https://www.cnblogs.com/grandyang
 字符串
 
 参考资料
+
 + mysql
 + sqlite
 + sql server
@@ -402,8 +406,15 @@ SELECT
 
 group==distinct
 
-性能优化
+注意性能优化！！！
 
++ 用尽量简单的写法
 + where 和 order 有对应的索引
-+ join 会先循环行数少的表
-+ 
++ join 会先循环行数少的表，性能可能优于子查询
++ 一些常规问题别人的写法
+
+
+
+
+
+
