@@ -1,4 +1,5 @@
 class Parser
+
   def initialize
     @s = ""
     @p = 0
@@ -63,6 +64,7 @@ class Parser
       s.intern
     end
   end
+
 end
 
 
@@ -81,3 +83,4 @@ p Parser.('(begin (define (f x) (if (= x 0) 0 (+ x (f (- x 1))))) (f 100))')
     '(begin (define (f x) (if (= x 0) 0 (+ x (f (- x 1))))) (f 100))' =>
         [:begin, [:define, [:f, :x], [:if, [:'=', :x, 0], 0, [:+, :x, [:f, [:-, :x, 1]]]]], [:f, 100]],
 }.all? { |k, v| Parser.(k)==v } or fail
+
