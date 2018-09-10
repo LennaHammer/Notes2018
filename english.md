@@ -143,6 +143,12 @@ one hundred一百 [wʌn] [ˈhʌndrəd]
 
 单词表，听读
 
+## 手写体
+
+斜体
+
+
+
 
 构词法
 -ly 副词
@@ -405,7 +411,6 @@ Dolch Basic Sight Words
 http://www.mrsperkins.com/dolch.htm
 
 
-
 ## 草稿
 
 
@@ -418,6 +423,13 @@ My name is ...
 
 | dd | ff |
 | ff | ff |
+
+
+now
+名词 + which + 被动
+
+
+## 素材
 
 ### 走遍美国
 
