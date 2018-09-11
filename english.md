@@ -143,6 +143,12 @@ one hundred一百 [wʌn] [ˈhʌndrəd]
 
 单词表，听读
 
+## 手写体
+
+斜体
+
+
+
 
 构词法
 -ly 副词
@@ -194,6 +200,25 @@ be + 现在分词
 be + 过去分词
 
 
+## 语法
+
+词性
+
+
+名词
+
+形容词
+
+
+动词
+
+副词
+类型
+位置 地点副词在前面，时间副词在后面。
+
+句式
+
+主谓宾定状补
 
 
 
@@ -386,7 +411,6 @@ Dolch Basic Sight Words
 http://www.mrsperkins.com/dolch.htm
 
 
-
 ## 草稿
 
 
@@ -399,6 +423,145 @@ My name is ...
 
 | dd | ff |
 | ff | ff |
+
+单词
+
+be
+
+have
+
+，now，as，with，have，do，go to，say，tell，of
+
+词组（短语） + 句子
+
+
+**动词**
+
++ 动词 + 名词 close the door，give me the book 加名词，或者双宾语
+    give/take ... to ...,    
+    set up a world record
+be + 形容词 + 介词  be full of water,be aware of the danger
+have the ... packaged,rebuilt，spend his lifetime doing ...
+动词 + 名词 + 补语（介词短语）hung a pot of paint on one of the hands
++ love/like/enjoy doing ... 后面加现在分词
+    avoid meeting him
++ have to，agree to，refuse to，ought to，want to，be able to，are going to 后面加动词
+    manage to，begin to，
+    decide to, plan to,
+    fail to，
+    be disappointed to learn that ...
++ can，must，need，will，do（强调）加动词
++ notice that，加从句
+    learn that
+加形容词 feel sorry，get angry
+
+时态 （过去，现在，将来）*（完成，一般，进行） 从句
+I have been here for three years.
+
+虚拟语气 should have known that ... would ...
+
+名词，形容词
+a group of
+
+
+**副词**
+
+now
+
+副词 + 动词 often，always, later，suddenly
+    rarely
+    specially
+动词 + 副词（-ly） completely,successfully，clearly，sadly,quitly
+副词 + 形容词 very hard，too，so
+
+accidentally，often
+
+**定语**
+
+形容词 large animals，a red apple
+
+分词、不定式 a ... called ..., the message saying that ...
+
+从句 noun + which + 被动、主动，位置 句尾
+名词（复数） + which(主语) + 被动/be/have ...
+   the famous clock which can be heard all over the world on th BBC
+   a painter who had been working
+   children who ...
+the + 名词（）+ that（作宾语省略） I hear/He gave to me
+all those who ...
+
+**状语**
+
+
+副词
+动词（分词，不定式） dressed up as ..., accompanied by ..., riding a ba y elephant
+从句 分词（句首） tired of doing ..., glancing at ...
+    following in his father's footsteps
+
+多个状语
+
+**时间** now， today
+(did ...) three days ago，two days later，last/this/next Christmas，this time
+介词 for years，in 1963，threes years after the crash，for very long
+   in time，for the third time
+   during a bullfight
+   by this time ...have ...
+   twice a day
+   a fews day later,many years later
+介词连词 when before after（时态） as
+    主句从句时态
+    When you visit London， ... will ...
+    After his attempt
+
+
+**地点** here there
+
+into，towards
+
+**目的，原因，方式**
+in this way
+in a mournful voice
+... so that ...
+
+**连词**
+
+and（两个句子，两个动词短语，两个名词主语宾语，介词短语）
+but + not/反义词
+though 让步
+
+not ... until ...
+so ... that ...
+more ... than
+
+It was no use pretending that
+There is
+
+疑问词 疑问句
+
+What is/are ...
+Who is ...
+
+where do ...
+when did ...
+Why do/does ...
+How do ...
+  How old are ...
+  How much is ...
+
+Which one do ...
+
+Do you ...
+Are you ...
+Can you ...
+Would you like
+   Would you mind my coming with you?
+
+tell me what to do，how to get there，what he has
+
+
+'Jumbo must weigh a few tons,' said a policeman afterwards.' so it was fortunate that we didn't have to carry him.'
+
+## 素材
 
 ### 走遍美国
 
