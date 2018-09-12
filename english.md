@@ -426,11 +426,13 @@ My name is ...
 
 单词
 
-be
+1. be
 
-have
+2. have
 
-，now，as，with，have，do，go to，say，tell，of
+，now，as，with，have，do，go to，say，tell，of, for
+
+increace, good
 
 词组（短语） + 句子
 
@@ -441,28 +443,52 @@ have
     give/take ... to ...,    
     set up a world record
 be + 形容词 + 介词  be full of water,be aware of the danger
+   
 have the ... packaged,rebuilt，spend his lifetime doing ...
+动词 + 介词 go to
 动词 + 名词 + 补语（介词短语）hung a pot of paint on one of the hands
+    drag him into the bushes
+    补语（形容词）make themselves comfortable
+
 + love/like/enjoy doing ... 后面加现在分词
     avoid meeting him
+    finish doing ...
+    be busy doing
+
+
 + have to，agree to，refuse to，ought to，want to，be able to，are going to 后面加动词
     manage to，begin to，
     decide to, plan to,
     fail to，
++ be+形容词+to do
     be disappointed to learn that ...
-+ can，must，need，will，do（强调）加动词
-+ notice that，加从句
+    be willing to
+    be happy to
++ can，must，need，will，do（强调）加动词(原型)
+
++ notice that，加从句 that/ who/ what/ how/ why
     learn that
+    show yout what will happen at the end of the harvest
+    trying to find out whether the woman died of a rare disease.
+    know ...
 加形容词 feel sorry，get angry
+    He looked very angry.
+名词+动词 A stranger appeared.
+
++ say/answer/agree/shout/ 
+   '... ,' said he.
+
 
 时态 （过去，现在，将来）*（完成，一般，进行） 从句
 I have been here for three years.
 
 虚拟语气 should have known that ... would ...
 
+
 名词，形容词
 a group of
-
+名词从句 that what which who
+名词+定语
 
 **副词**
 
@@ -471,61 +497,97 @@ now
 副词 + 动词 often，always, later，suddenly
     rarely
     specially
+    sometimes
 动词 + 副词（-ly） completely,successfully，clearly，sadly,quitly
+    rapidly
 副词 + 形容词 very hard，too，so
 
 accidentally，often
 
 **定语**
 
-形容词 large animals，a red apple
+形容词+名词 （物种） large animals，a red apple，
+    人（职业） famous actors
 
-分词、不定式 a ... called ..., the message saying that ...
+后置定语 分词、不定式 a ... called ..., the message saying that ...
+    the lives of travellers crossing the dangerous  pass
+后置定语 介词短语 the hunt for the puma
 
-从句 noun + which + 被动、主动，位置 句尾
-名词（复数） + which(主语) + 被动/be/have ...
+从句 noun + which + 被动、主动，位置 1 句尾 2 动词前
+形容词 + 名词（复数） + which(主语) + be被动/be+adj/have ...
    the famous clock which can be heard all over the world on th BBC
    a painter who had been working
    children who ...
+   two workers who have just finished cutting ...
+   an Egyptian woman who died in 800 BC
+   that of Shepenmut who was once a singer in ...
 the + 名词（）+ that（作宾语省略） I hear/He gave to me
-all those who ...
+    the next car the boy stopped
+all those who ... 人，职业
+the local factory where the crop os processed    
 
 **状语**
 
 
 副词
-动词（分词，不定式） dressed up as ..., accompanied by ..., riding a ba y elephant
+动词（分词，不定式） 
+    dressed up as ..., accompanied by ..., riding a ba y elephant
 从句 分词（句首） tired of doing ..., glancing at ...
     following in his father's footsteps
-
+介词短语 
+     in the eleventh century
+     in American
 多个状语
 
-**时间** now， today
+**时间** 
+
+now， today
+    meanwhile
+    at that moment,
 (did ...) three days ago，two days later，last/this/next Christmas，this time
 介词 for years，in 1963，threes years after the crash，for very long
    in time，for the third time
    during a bullfight
    by this time ...have ...
    twice a day
+   once a year
    a fews day later,many years later
+   last for over four hours
 介词连词 when before after（时态） as
     主句从句时态
     When you visit London， ... will ...
     After his attempt
+    when he had done ...,the prisoner of war quickly did ...
+时刻（范围），持续时间for，频率
 
 
 **地点** here there
 
 into，towards
 
-**目的，原因，方式**
+under some trees
+on the right
+in the darkness
+in Japan
+
+
+**目的，原因，方式，让步**
+
+短语
 in this way
 in a mournful voice
+with a sneer
+because of
+
+从句
 ... so that ...
+as he hoped it would
+because of the hard resin which covered the skin
 
 **连词**
 
-and（两个句子，两个动词短语，两个名词主语宾语，介词短语）
+and（两个完整句子，两个动词短语，两个被动，两个名词主语宾语，介词短语）
+   The driver gave him a few biscuits and a cup of coffee and left him just ouside the city.
 but + not/反义词
 though 让步
 
