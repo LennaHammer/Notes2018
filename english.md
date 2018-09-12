@@ -430,7 +430,8 @@ My name is ...
 
 2. have
 
-，now，as，with，have，do，go to，say，tell，of, for
+
+，now，as，with，have，do，go to，say，tell，of, for，give
 
 increace, good
 
@@ -442,7 +443,11 @@ increace, good
 + 动词 + 名词 close the door，give me the book 加名词，或者双宾语
     give/take ... to ...,    
     set up a world record
+    offer the opportunity to do
+    gain valuable experience
+    offer suggestions for activities
 be + 形容词 + 介词  be full of water,be aware of the danger
+    be interested in it
    
 have the ... packaged,rebuilt，spend his lifetime doing ...
 动词 + 介词 go to
@@ -456,15 +461,19 @@ have the ... packaged,rebuilt，spend his lifetime doing ...
     be busy doing
 
 
-+ have to，agree to，refuse to，ought to，want to，be able to，are going to 后面加动词
++ have to，agree to，refuse to，ought to，want to，be able to，are going to | to后面加动词
     manage to，begin to，
-    decide to, plan to,
+    decide to, plan to, choose to
     fail to，
+    would like to 
 + be+形容词+to do
     be disappointed to learn that ...
     be willing to
-    be happy to
+    be happy to 表示态度
+    be available to
 + can，must，need，will，do（强调）加动词(原型)
++ ask sb. to do
+    encourage
 
 + notice that，加从句 that/ who/ what/ how/ why
     learn that
@@ -478,6 +487,7 @@ have the ... packaged,rebuilt，spend his lifetime doing ...
 + say/answer/agree/shout/ 
    '... ,' said he.
 
+It looks good 加形容词 grow，remain，
 
 时态 （过去，现在，将来）*（完成，一般，进行） 从句
 I have been here for three years.
@@ -486,7 +496,8 @@ I have been here for three years.
 
 
 名词，形容词
-a group of
+a group of，an important component of ...
+
 名词从句 that what which who
 名词+定语
 
@@ -511,8 +522,9 @@ accidentally，often
 
 后置定语 分词、不定式 a ... called ..., the message saying that ...
     the lives of travellers crossing the dangerous  pass
+    a program called '...'
 后置定语 介词短语 the hunt for the puma
-
+    experience with children
 从句 noun + which + 被动、主动，位置 1 句尾 2 动词前
 形容词 + 名词（复数） + which(主语) + be被动/be+adj/have ...
    the famous clock which can be heard all over the world on th BBC
@@ -534,6 +546,7 @@ the local factory where the crop os processed
     dressed up as ..., accompanied by ..., riding a ba y elephant
 从句 分词（句首） tired of doing ..., glancing at ...
     following in his father's footsteps
+    句尾 , showing that ....
 介词短语 
      in the eleventh century
      in American
@@ -544,31 +557,37 @@ the local factory where the crop os processed
 now， today
     meanwhile
     at that moment,
+    at the same time
 (did ...) three days ago，two days later，last/this/next Christmas，this time
 介词 for years，in 1963，threes years after the crash，for very long
    in time，for the third time
    during a bullfight
    by this time ...have ...
-   twice a day
-   once a year
+   this week
    a fews day later,many years later
    last for over four hours
+   every Tuesday
 介词连词 when before after（时态） as
     主句从句时态
     When you visit London， ... will ...
     After his attempt
     when he had done ...,the prisoner of war quickly did ...
-时刻（范围），持续时间for，频率
-
+时刻（范围），持续时间for
+频率
+   twice a day
+   once a year
+   two days a week
 
 **地点** here there
 
 into，towards
 
+
 under some trees
 on the right
 in the darkness
 in Japan
+at our university
 
 
 **目的，原因，方式，让步**
