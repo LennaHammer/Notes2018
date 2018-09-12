@@ -200,6 +200,7 @@ class Parser
 
   def parse(tokens); 
     @tokens = tokens
+    parse_rule(@rules[:arith_expr])
   end
 
   def type
@@ -210,31 +211,65 @@ class Parser
     @token[0][0]
   end
 
+  def shift
+    @token.shift
+  end
+
   def parse_rule(rule)
     case rule
     when String
       if rule==value
+        shift
         [type, value]
       else
         nil
       end
     when Symbol
       if rule.to_s[0].upcase?
-        type==rule ? [type, value]
+        if rule==value
+          shift
+          [type, value]
+        else
+          nil
+        end
       else
         parse_rules(@rules[rule])
       end
     when Array
       case rule[0]
       when :&
-        # 第一个返回 false 第二个 raise
-        for e in rule[1..-1]
-          parse_rule e
+        xs = []
+        # 第一个失败 false 第二个 raise
+        for i in 1...rule.size
+          x = parse_rule e
+          if !x
+            raise
+          end
+          xs << x
         end
       when :|
+        for i in 1...rule.size
+          x = parse_rule rule[i]
+          return x if x
+        end
+        raise
       when :*
+        xs = []
+        while x = parse_rule rule[1]
+          xs << x
+        end
+        xs
       when :+
+        fail
       when :'?'
+        xs = []
+        x = parse_rule rule[1]
+        if !x
+          raise
+        end
+        xs << x
+        xs
+
       end
     else
       fail
@@ -245,4 +280,4 @@ end
 
 $p = Parser.new($g)
 
-$p.parse [:Int, '+', :Int]
+pp $p.parse [1, '+', 2].zip([:NUMBER,'+',:NUMBER])
