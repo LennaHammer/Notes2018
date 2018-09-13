@@ -186,7 +186,7 @@ pp $g = Grammar.parse("
   ")
 
 
-fail unless $g=={
+$g=={
     :expr=>[:&, :term, [:*, [:&, [:|, "+", "-"], :term]]],
     :term=>[:&, :factor, [:*, [:&, [:|, "*", "/"], :factor]]],
     :factor=>[:|, [:&, [:|, "+", "-"], :factor], :power],
@@ -208,26 +208,26 @@ class Parser
   end
 
   def token
-    if !@token.empty?
-      {type:@token[0][1],data:@token[0][0]}
+    if !@tokens.empty?
+      {type:@tokens[0][1],data:@tokens[0][0]}
     else
         nil
     end
   end
 
   def token_type
-    return nil if @token.empty?
-    @token[0][1]
+    return nil if @tokens.empty?
+    @tokens[0][1]
   end
 
   def token_value
-    return nil if @token.empty?
-    @token[0][0]
+    return nil if @tokens.empty?
+    @tokens[0][0]
   end
 
   def shift
     t = token
-    @token.shift
+    @tokens.shift
     t
   end
 
@@ -242,6 +242,7 @@ class Parser
   # 返回 nil | Exception | [] | token | token list 
   #
   def parse_rule(rule)
+    #puts "] #{rule}, #{@tokens}"
     case rule
     when String
       if rule==token_value
@@ -250,7 +251,7 @@ class Parser
         nil
       end
     when Symbol
-      if rule.to_s[0].upcase?
+      if rule.to_s[0]=~/^[A-Z]/
         if rule==token_type
           shift
         else
@@ -286,14 +287,15 @@ class Parser
         xs
       when :|
         for i in 1...rule.size
-          if x = parse_rule rule[i]
+          if x = parse_rule(rule[i])
             return x
           end
         end
-        raise "|"
+        #raise "| #{rule} #{@tokens}"
+        nil
       when :*
         xs = []
-        while x = parse_rule rule[1]
+        while x = parse_rule(rule[1])
           xs << x
         end
         xs # 不消耗 token 时返回 []
@@ -301,7 +303,7 @@ class Parser
         fail :not_impl
       when :'?'
         xs = []
-        if x = parse_rule rule[1]
+        if x = parse_rule(rule[1])
             xs << x
         end
         xs
@@ -317,5 +319,6 @@ end
 $p = Parser.new($g)
 
 pp $p.parse [1, '+', 2].zip([:NUMBER,'+',:NUMBER])
+pp $p.parse [1, '+', 2,'+',3].zip([:NUMBER,'+',:NUMBER,'+',:NUMBER])
 pp $p.parse [1, '+', 2,'*',3].zip([:NUMBER,'+',:NUMBER,'*',:NUMBER])
 pp $p.parse ['(',1, '+', 2,')','*',3].zip(['(',:NUMBER,'+',:NUMBER,')','*',:NUMBER])
