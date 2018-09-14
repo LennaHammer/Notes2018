@@ -288,7 +288,7 @@ class Parser
       when :|
         for i in 1...rule.size
           if x = parse_rule(rule[i])
-            return x
+            return x # {type: sum, enum: i-1, data: x}
           end
         end
         #raise "| #{rule} #{@tokens}"

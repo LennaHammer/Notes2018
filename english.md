@@ -222,7 +222,58 @@ be + 过去分词
 
 
 
+用法 口语 
+简单句
+use ... to do ...
+encourage ... to do
+try to do
+
+
+
+人
+物品
+地点
+事情
+
+
+属性
+动作
+
+
+简单句
+be
+have
+do
+单词（名词，动词）
+动词短语
+
+复合句
++ 宾语从句
++ 定语从句
++ 
+and
+which 补充（插入，句尾）
+做名词（主语） the places where .../ what ... / the message that .../ people who ...
+notice that
+when
+疑问句 are you ... / do you ... / Would you
+
+
+
+
+
+into, out of ,towards
+
+### 介词
+
+### 时间
+
+
 ## 单词
+
+背单词，读单词表，近义词，同根词，读原文，高频词，常用词。
+
+### about
 
 
 ### be
@@ -231,14 +282,28 @@ is
 
 `... is ...` 
 
++ 形容词
++ the/a 名词
 
+### have
 
-### of
+be a part of
+
+#### of
 
 `the ... of ...`
 
 of the
 
+### thing
+
+
+
+### go
+
+change
+
+### give
 
 动词
 
@@ -367,6 +432,8 @@ afternoon noon morning night
 
 now later
 
+use
+
 
 ## 附录
 
@@ -411,7 +478,61 @@ Dolch Basic Sight Words
 http://www.mrsperkins.com/dolch.htm
 
 
-## 草稿
+## 阅读
+
+长难句
+1. 有插入
+2. 特殊句型
+
+
+段落
+
+话题
+
+## 写作
+
+
+常用词
+替换词
+动词短语
+复合句
+
+模版
+句子模版
+段落布局
+
+要求
+1. 主题
+2. 段落连接逻辑
+3. 单词灵活准确
+4. 语法丰富正确
+
+
+
+书信通知
+
+
+
+图表作文
+
+
+
+### 时间
+
+this/last/next
+ago/later
+at
+in
+for
+during
+when/after/before
+
+
+do, be doing, will do
+did, have done
+
+
+## 草稿 1
 
 
 
@@ -564,7 +685,7 @@ now， today
    during a bullfight
    by this time ...have ...
    this week
-   a fews day later,many years later
+   a fews day later, many years later
    last for over four hours
    every Tuesday
 介词连词 when before after（时态） as
@@ -650,40 +771,26 @@ Family Album, U.S.A.
 
 http://www.tingroom.com/lesson/album/105.html
 
-My name is Richard Stewart. | 
-I'm a photographer. | be+a+单数名词
-You're writing a book? | be+现在分词 现在进行时
++ My name is Richard Stewart. | is + 专有名词
++ I'm a photographer. | be + a + 单数名词
++ You're writing a book? | be + 现在分词 现在进行时
 
 
-What's it for? It's for a book.
-What's your name? Gerald.
-How old are you, Gerald? Five.
-And where do you live? We live in California.
-Can I help you? Oh, please.
-Are you from New York? No, I'm from Greece.
-When did you come here? Three months ago.
-Would you like some coffee? No, thank you.
-Would you like to see them? Yes. I'd like that.
-What's her name?
++ What's it for? It's for a book.
++ What's your name? Gerald.
++ How old are you, Gerald? Five.
++ And where do you live? We live in California.
++ Can I help you? Oh, please.
++ Are you from New York? No, I'm from Greece.
++ When did you come here? Three months ago.
++ Would you like some coffee? No, thank you.
++ Would you like to see them? Yes. I'd like that.
++ What's her name?
 
 
-Excuse me.
-Thank you. I appreciate your help.
-Oh, you're welcome.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
++ Excuse me.
++ Thank you. I appreciate your help.
++ Oh, you're welcome.
 
 
 ### 新概念英语
@@ -750,20 +857,6 @@ P2
 + went on for several weeks 介词短语作时间状语
 
 + It is disturbing to think that a dangerous wild animal
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
