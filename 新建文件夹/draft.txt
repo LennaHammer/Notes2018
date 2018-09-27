@@ -1,22 +1,35 @@
 
 
+# 和声
 
 和弦
 
-+ C
+### 记号
+
+Chord
++ 根音 C D E F G A B
++ None Maj Min Aug Sus2 Sus4 5
++ None 6 7 Maj7 add9 9 11
+
+低音 Bass None
+
+
+
+例子
 + C7 Cmaj7 Cm7
 
-
-根音
-
-低音
-
-
-转位 
+说明
+可省略3音
+转位
+    原位 1根音 3 5
+    第一 1 3 6根音
+    第二 1 4根音 6
 排列
 
 
+### 进行
 
+I - (IV) - V - I
 
 
 ### 转位

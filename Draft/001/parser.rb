@@ -65,31 +65,31 @@ class Grammar
     skip_space
     xs = {}
     until peek.nil?
-      puts "> parsing: #{@s[@p..-1].inspect}"
+      #puts "> parsing: #{@s[@p..-1].inspect}"
       k = parse_ident_token
-      puts "> k = #{k}"
+      #puts "> k = #{k}"
       skip_space
       match_token ':'
       #p peek
       v = parse_expr
-      puts "> v = #{v}"
+      #puts "> v = #{v}"
       skip_space
       match_token ';'
       xs[k] = v
-      p xs
+      #p xs
     end
     xs
   end
 
   def parse_expr
     xs = []
-    xs << parse_seq
+    xs << parse_capture #parse_seq
     skip_space
     while peek == '|'
       match_token '|'
       #advance
       #skip_space
-      xs << parse_seq
+      xs << parse_capture #parse_seq
       skip_space
     end
     if xs.size != 1
@@ -99,10 +99,22 @@ class Grammar
     end
   end
 
+  def parse_capture
+	seq = parse_seq
+	if peek=='{'
+	  match_token '{'
+	  name = parse_ident_token
+	  match_token '}'
+	   [:'@', seq, name]
+	 else
+	   seq
+	end
+  end
+
   def parse_seq
     xs = []
     skip_space
-    while !peek.nil? && peek != '|' && peek != ')' && peek != '' && peek != ';' #保留字? peek=~/[\(\w']/
+    while peek=~/[\(\w']/ # !peek.nil? && peek != '|' && peek != ')' && peek != '' && peek != ';' && peek != '{' #保留字? peek=~/[\(\w']/
       xs << parse_quu
       skip_space
     end
@@ -176,10 +188,12 @@ p Grammar.new("abc '+' (def '*' ss)").parse_line
 p Grammar.new("abc '+' def | abc '+' def | abc '+' def").parse_line
 p Grammar.new("abc '+' def | abc '+' (def | abc '+' def)+").parse_line
 p Grammar.new("factor (('*'|'/') factor)*").parse_line
+p Grammar.new("factor (('*'|'/') factor)* {callback}").parse_line
+
 
 pp $g = Grammar.parse("
-  expr: term (('+'|'-') term)*;
-  term: factor (('*'|'/') factor)*;
+  expr: term (('+'|'-') term)* {bin};
+  term: factor (('*'|'/') factor)* {bin};
   factor: ('+'|'-') factor | power;
   power: atom ('**' factor)?;
   atom: '(' expr ')' | NUMBER;
@@ -200,10 +214,12 @@ class Parser
     @rules = grammer
     @top = nil
     @tokens = []
+    @stack = []
   end
 
   def parse(tokens); 
     @tokens = tokens
+    puts "> %s"%(tokens.map{|x|x[1]}*" ")
     parse_rule(@rules[:expr])
   end
 
@@ -229,6 +245,7 @@ class Parser
     t = token
     @tokens.shift
     t
+    "#{t[:data]}"
   end
 
   def error(message)
@@ -259,7 +276,8 @@ class Parser
         end
       else
         if x = parse_rule(@rules[rule])
-            {type: rule, children: x}
+            #{type: rule, children: x}
+            x
         else
             nil
         end
@@ -307,6 +325,12 @@ class Parser
             xs << x
         end
         xs
+      when :'@'
+        name = rule[2]
+        if x = parse_rule(rule[1])
+          #@callback.call(name, x)
+        end
+        x
       else
         fail rule.inspect
       end

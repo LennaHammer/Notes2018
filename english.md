@@ -68,16 +68,21 @@ eə  hair  /heə(r)/ (British English)
 ʊə  pure  /pjʊə(r)/ (British English)
 ```
 
-说明
-+ t 辅音之间省略，元音之间读 d 
-+ ə 用在单词弱读时 如 to of the 介词 冠词
-+ bit bet e bat æ but ʌ
 
-+ ə 用在单词*弱读*时 如 to of the 介词 冠词
+
+说明
+
++ t 辅音之间省略，元音之间读 /d/ 
++ /ə/ 用在单词弱读时 如 to of the 介词 冠词
++ 区分 bit bet /e/ bat /æ/ but /ʌ/
+
++ /ə/ 用在单词*弱读*时 如 to of the 介词 冠词
   + and can are was them him her at to of for you the
 + 连读 不完全爆破
-+ 缩读 'cause(because) gaonna(going to) gatta(go to) wanna(want to) 'd 've
-  + 'n(and)
++ 缩读 'cause(because), gaonna(going to), gatta(go to), wanna(want to), 'd, 've, 'n(and)
+
++ 双音节词通常名词重音在前，动词重音在后
+
 读音
 
 重音
@@ -275,6 +280,8 @@ into, out of ,towards
 ## 单词
 
 背单词，读单词表，近义词，同根词，读原文，高频词，常用词。
+
+重点记忆 名词，动词，形容词，动词短语。
 
 about
 + talk about，a book about ...
@@ -489,6 +496,264 @@ Dolch Basic Sight Words
 
 http://www.mrsperkins.com/dolch.htm
 
+## 日常对话
+
+基础篇
++ 打招呼 Hello.
++ 感谢 Thank you.
++ 道歉 I'm sorry.
++ 告别 
++ 喜欢 like 
++ 想要 
++ 高兴
++ 建议 suggest
++ 意见 In my opinion,
++ 问路
++ 抱怨 complain of
+
+生活篇
++ 校园
+
+## 语法知识
+
+http://edu.sina.com.cn/kids/2017-12-05/doc-ifypikwt9568450.shtml
+
+多个形容词修饰名词时，其顺序为：
+　 限定词--数词--描绘词--(大小，长短，形状，新旧，颜色) --出处--材料性质，类别--名词
+
+
+## 副词的用法
+
+多个不同副词排列：程度+方式+地点+时间
+
+时间/频率副词
+now，then，often，always，usually，next，last day，already(已经)，generally(一般地)，
+frequently（频繁），seldom/hardly（很少地），ever，never，yet，soon，too， immediately（立即），
+finally，shortly（很快）， before， ago，sometimes， yesterday. once，twice，
+lately，recently，personally，today……yet
+
+地点副词 place
+here， there， everywhere， anywhere，somewhere， in， out， inside， outside，
+above， below， up，down， back， forward（向前地）， home，
+upstairs(楼上地)， downstairs， across， along， round ， around，
+near， off， past， up， away， on.……
+
+方式副词 manner
+carefully， properly(适当地)， anxiously(焦虑地)， suddenly， normally(正常地)，
+fast， well， calmly(冷静地)， politely(有礼貌地)， proudly(自豪地)， softly，
+warmly ，slowly，badly，hard，bravely……
+actually
+
+Here is a list of common `-ly' adverbs which describe the way in which something is done: ab-
+ruptly, accurately, awkwardly, badly, beautifully, brightly, brilliantly, briskly, carefully, careles-
+sly, casually, cheaply, clearly, closely, clumsily, comfortably, consistently, conveniently, cor-
+rectly, dangerously, delicately, differently,discreetly, distinctly, dramatically, easily, economi-
+cally, effectively, efficiently, evenly, explicitly, faintly, faithfully,fiercely, finely, firmly, flu-
+ently,formally, frankly, freely,gently, gracefully, hastily, heavily, honestly, hurriedly, intently,
+meticulously, neatly,nicely, oddly, patiently, peacefully, peculiarly, perfectly, plainly, ple-
+asantly, politely, poorly, professionally, properly, quietly, rapidly, readily, richly, rigidly, ro-
+ughly,ruthlessly, securely, sensibly, sharply, silently, simply, smoothly, softly,solidly, specifi-
+cally, splendidly, steadily, steeply, stiffly,strangely, subtly, superbly,swiftly,systematically,
+tenderly, thickly, thinly, thoroughly, thoughtfully,tightly, truthfully, uncomfortably, urgently,
+vaguely, vigorously, violently, vividly, voluntarily, warmly, widely, willingly, wonderfully
+
+Here is a list of common adverbs which describe the feelings of the person who does somet-
+hing as well as the way in which it is done: angrily, anxiously, bitterly, boldly, calmly, cheerful-
+ly, confidently, desperately, eagerly, excitedly, furiously, gladly, gloomily, gratefully, happily,
+helplessly, hopefully, hopelessly, impatiently, miserably, nervously, passionately,proudly, reluc-
+tantly, sadly, shyly, sincerely, uncomfortably, uneasily, unhappily, wearily
+
+Here is a list of common adverbs which are used to indicate the circumstances in which an ac-
+tion takes place: accidentally, alone, artificially, automatically, bodily, collectively, commercial-
+ly, deliberately,directly, duly, first-class, full-time, illegally, independently, indirectly, individu-
+ally, innocently, instinctively, involuntarily, jointly, legally, logically, mechanically, naturally,
+officially, openly, overtly, part-time, personally, politically, privately, publicly, regardless, retail,
+scientifically, secretly, solo, specially, symbolically, wholesale
+
+
+程度副词 degree
+much，little， very，rather(相当)，so，too，still， quite， perfectly(完美地)，
+enough， extremely(非常)， entirely(整个)，almost， slightly(细小地)， hardly.……
+
+疑问副词
+how， when， where， why……
+
+关系副词
+when， where， why……
+
+连接副词
+therefore(因此)，moreover(此外)，however，otherwise(另外的)，
+then，when ，where，how，why……
+
+表顺序的副词
+first，then，next，finally，afterwards，primarily……
+
+完成时的副词
+already，ever，just，never，since，yet，recently……
+
+
+## 介词的用法
+
+简单介词
+包括in，on，with，by，for，at，about，under，of等。
+合成介词
+包括into，within，throughout，inside，outside，without等
+重叠介词
+包括
+from among 从...当中
+from behind 从...后面，
+until after 直至...之后，
+at about 在大约...，
+after about 在大约...之后 等
+短语介词
+一个或两个简单介词和一个或几个其他词类构成一个短语，作用相当于一个介词，这就叫做短语介词。这类介词的末尾总是一个简单介词
+如 according to，because of，by means of，in addition to，in front of， in spite of，into等。
+分词介词
+有极少数介词的词尾是“-ing”，形似现在分词（其中也有些可做分词）。
+常用的有：considering，regarding，respecting，including。
+按词义分
+表示“地点（包括动向）”的有：about around（在...附近、周围），above(高于、在...斜上方)，across(在...对面、横过)......
+
+
+
+
+主要用途
+
+表示时间
+1、表示在某时间.常用介词at，on，in等。
+用 at 来表示在某一段时刻：
+　　at dawn/daybreak： 在黎明
+　　at six ：在6点钟
+　　at midnight ：在午夜
+　　at 4:30 ：在4点30分
+　　用 at 来表示在……岁时
+　　at sixteen/at the age of sixteen ：16岁的时候
+用 on 来表示在星期几/某日
+　　on Monday ：在星期一
+　　on January fifth：在1月5日
+　　on Christmas Day ：在圣诞节那一天 也可用at Christmas
+　　on New Year's Day：在新年那天
+用in来表示一天中的早中晚，月份，季节或年份
+　　in the morning/afternoon/evening在早晨，下午，晚上
+　　in January/February在一月，二月
+　　in Spring在春天
+　　in 2014在2014年
+
+2、表示 期间 常用介词during，for，over，within，throughout，from和to等。
+during用于已知的一段时间包括大家熟知的节日或者某种已确切限定的时期或阶段之前
+　　during the Middle Ages： 在中世纪
+　　during 1942 ：在1942年中
+　　during the summer（of that year）：在（那一年的）夏季
+　　during his childhood ：在他童年时期
+for用来表示一段时间
+　　for six years ：六年之久
+　　for two months ：有两个月
+　　for ever ：永远 [1] 
+
+3、表示其他时间概念的介词有before，after，since，until，till，between，up to等
+
+
+
+
+表示方位
+at ，in， on， to，for
+　　at (1)表示在小地方; (2)表示“在„„附近，旁边”
+　　in (1)表示 在大地方; (2)表示“在„范围之内”。
+　　on 表示毗邻，接壤，“在„„上面”。
+　　to 表示在„„范围外，不强调是否接壤；或“到„„”
+above， over， on 在„„上
+　　above 指在„„上方，不强调是否垂直，与 below相对；
+　　over指垂直的上方，与under相对，但over与物体有一定的空间，不直接接触。
+　　on表示某物体上面并与之接触。
+　　The bird is flying above my head.
+　　There is a bridge over the river.
+　　He put his watch on the desk.
+below， under 在„„下面 under表示在„正下方 below表示在„„下，不一定在正下方
+　　There is a cat under the table. Please write your name below the line.
+in front [frant]of， in the front of在„„前面 in front of…意思是“在„„前面”，指甲物在乙物之前，两者互不包括；其反义词是behind（在„„的后面）。
+　　There are some flowers in front of the house.(房子前面有些花卉。) in the front of 意思是“在„..的前部”，即甲物在乙物的前部.反义词是at the back of…（在„„范围内的后部）。
+　　There is a blackboard in the front of our classroom. 我们的教室前边有一块黑板。
+　　Our teacher stands in the front of the classroom. 我们的老师站在教室前.(老师在教室里)
+beside，behind beside 表示在„„旁边 behind 表示在„„后面
+
+
+表示进行
+著名学者周海中教授曾经指出：作为表语时，英语介词可以表示正在“进行”的动作。他举例说明：
+He is at work. (他正在工作。)
+The house is on fire! (房子着火了!)
+The road isunder construction. (路正在修。)
+
+
+表示原因
+表示原因常用的介词有for 等。
+
+
+表示方法
+表示“方法 ，手段”的介词常用by，with，through等
+by bike ： 骑自行车
+
+
+表示数量
+表示数量的常用介词有about(around)，over等
+
+
+与不及物动词搭配
+不及物动词不能够直接跟宾语，且没有被动语态。但是和介词搭配后，不及物动词不但可以跟宾语，也有了被动语态。
+
+
+常用介词短语
+above构成的惯用短语：
+　　above all 尤其是，最重要的是
+　　above suspicion 无可怀疑
+　　above praise 赞美不尽
+　　above criticism 无可指责
+　　above reproach 无可厚非
+　　above price 价值连城
+after构成的惯用短语
+　　after all 毕竟，到底
+　　day after day 日复一日
+　　one after another 接二连三
+　　page after page一页又一页地
+　　year after year 年年岁岁
+　　wave after wave一波又一波地
+　　bus after bus 公共汽车一辆又一辆
+at构成的惯用短语
+　　at the sight of看到
+　　at the news of听到
+　　at one’s ease/ at one’s leisure 在闲暇时
+
+
+## 连词的用法
+
+并列连词用来连接平行的词、词组和分句、句子。如：
+and（和，与;而且;于是，然后;因此）
+but（但是；通常用not...but...不是...而是...；可是,然而；表示惊讶，不同意等--喔，哇；用来加强语句重复部分的语气--一定；用来引入新话题--那就；常用于否定句--而不，若不；用于含doubt,question等字的否定句中相当于that--对于），
+or（或者，还是；用于否定句或问句--也不；否则，要不然；也就是说，换言之），
+nor（用在neither之后--也不；用在no,not,never之后--也不；用在句首，句子需倒装--也不），
+so（因此，所以；因而，从而），
+yet（可是，却，然而），
+for（因为，由于），
+both…and（既...又...；不但...而且），
+not only…but also（不但，而且），
+either…or（不是...就是；要么...要么），
+neither…nor（既不...也不...),
+注意：
+then, therefore 等词，并不是连词，而是副词！
+
+## 特殊句型
+
+比较级最高级
+倒装
+动词句型
+
+
+说(report)
+say that
+think that
+suggest that ... (should) ...
+
+
+# 考试
 
 ## 阅读
 
@@ -496,10 +761,17 @@ http://www.mrsperkins.com/dolch.htm
 1. 有插入
 2. 特殊句型
 
-
 段落
 
+
+
+
+
 话题
+
+科技
+
+政治（注意政治相关的词汇）
 
 ## 写作
 
@@ -529,8 +801,14 @@ http://www.mrsperkins.com/dolch.htm
 
 ## 口语
 
+
+
 目标
 1. 流利
+
+形式
++ 对话
++ 表达观点
 
 ## 语法
 
@@ -563,6 +841,9 @@ when/after/before
 
 do, be doing, will do
 did, have done
+
+## 草稿
+
 
 
 ## 草稿 1 （语法）
@@ -602,7 +883,7 @@ increace, good
     offer suggestions for activities
 be + 形容词 + 介词  be full of water,be aware of the danger
     be interested in it
-   
+
 have the ... packaged,rebuilt，spend his lifetime doing ...
 动词 + 介词 go to
 动词 + 名词 + 补语（介词短语）hung a pot of paint on one of the hands
@@ -797,6 +1078,13 @@ tell me what to do，how to get there，what he has
 'Jumbo must weigh a few tons,' said a policeman afterwards.' so it was fortunate that we didn't have to carry him.'
 
 ## 素材
+
+
+
++ 走遍美国
++ 新概念英语
++ 新英语900句
++ 
 
 ### 走遍美国
 
@@ -1264,7 +1552,7 @@ stem from
 gain experience
 
 
-## 构词法（词缀词根词源）
+## 构词法（词缀词源词根）
 
 参考
 + http://msu.edu/~defores1/gre/sufx/gre_suffx.htm
@@ -4523,21 +4811,21 @@ however, therefore
   同义改写
   段落总结
   合理引申
-  
+
 干扰项
 1. 望文生义
-  偷换概念
-  逻辑颠倒
-  张冠李戴
-  反向干扰
-  无中生有
-  断章取义
-  以偏概全
-  弄错时态语态
-  利用常识
-  遗漏信息
-  答非所问
-  过渡引申
+    偷换概念
+    逻辑颠倒
+    张冠李戴
+    反向干扰
+    无中生有
+    断章取义
+    以偏概全
+    弄错时态语态
+    利用常识
+    遗漏信息
+    答非所问
+    过渡引申
 
 ### 文章结构
 
@@ -4577,8 +4865,8 @@ however, therefore
 要素
 1. 标点符号
 2. 连词
-  并列句
-  从句
+    并列句
+    从句
 3. 代词
    it 这种情况，这种观点，这件事情
    替换为所指代的内容
@@ -4595,7 +4883,7 @@ however, therefore
      + when/which/that/when/where，限定性，非限定性（逗号隔开，修饰句子）
      + 找出指代的名词或句子，参考单复数
      + 提取放在名词前（...的╳╳），或者断开/抽出作为放在后面的单独的句子，并补上指代的词（该╳╳，这个/些╳╳，在这一时间，在此，该观点/情况）
-   断开成句并重复被指代的词（这个╳╳，即……）
+      断开成句并重复被指代的词（这个╳╳，即……）
 2. when 从句
    定语从句 当时，当……时，在这次╳╳中
 3. 比较结构
@@ -4626,7 +4914,7 @@ however, therefore
     看到and
     翻译时补上（重复）省略的内容
 11. 其它
-   补充主语，人们
+      补充主语，人们
 
 
 长句：分析句子结构，1调整翻译的语序，或者2拆开句子补上指代的词。
@@ -4664,3 +4952,134 @@ not only ... but ... and ... 不仅……而且……甚至……
 + 写作
 
 
+
+# 草稿
+
+https://www.oxfordlearnersdictionaries.com/wordlist/english/usage_notes/UsageNoteList_Express_Yourself/
+
+
+
+OK
+advice
+agree
+
+
+
+apologize
+
+
+
+    Apologizing
+    When you have caused a problem for somebody, they are less likely to be very angry if you can make a polite apology:
+    
+    I'm so/terribly/very sorry I'm late.I do apologize. I'll get you another cup.I must apologize for keeping you waiting.(British English)We would like to apologize on behalf of the management.We would like to offer/Please accept our apologies for the inconvenience.
+    
+    Responses:That's all right/OK.No problem.Don't worry about it.It's fine, really. 
+
+
+
+appreciate
+ask
+background
+because
+careful
+cartoon
+certain
+choice
+clear
+close 1
+complaint
+concede
+conclusion
+congratulate
+conversation
+correct
+describe
+disagree
+end
+explain
+favour
+finish
+forbid
+foreground
+grateful
+guess
+have to
+help
+ignorance
+imagine
+information
+interrupt
+introduce
+invite
+know
+like
+likely
+luck
+mean
+message
+mind
+must
+obligation
+offer
+open
+opinion
+order
+permission
+permit
+phone
+photo
+picture
+please
+possible
+possibly
+prefer
+question
+rather
+reason
+recommend
+say
+shall
+sorry
+speculate
+start
+stop
+suggest
+suppose
+sympathy
+tell
+thank
+
+    Thanking somebody for somethingWhen someone gives you something, or does something for you, you often want to say more than just a brief ‘thank you’:	
+    
+    Thank you very much. It's very kind of you./You really shouldn't have.	Thank you so much for coming. It was really nice to see you.	I'm very grateful.	I do appreciate your help.
+    
+    Responses:	That's all right.	Don't mention it.	No problem.	My pleasure.	I'm glad I could help. 
+
+
+think
+uncertain
+understand
+unlikely
+warn
+why
+
+
+
+### opinion
+
+Giving your personal opinion
+
++ In my opinion, everyone should have some understanding of science.
++ Everyone should, in my opinion, have some understanding of science.
++ It seems to me that many people in this country have a poor understanding of science.
++ This is, in my view, the result of a failure of the scientific community to get its message across.
++ Another reason why so many people have such a poor understanding of science is, I believe, the lack of adequate funding for science in schools.
++ Smith argues that science is separate from culture. My own view is that science belongs with literature, art, philosophy and religion as an integral part of our culture.
++ In this writer’s opinion, the more the public know about science, the less they will fear and distrust it.
+
+# 草稿
+
+
+
+编辑器 Typora
