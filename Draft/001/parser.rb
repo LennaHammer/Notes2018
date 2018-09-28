@@ -30,7 +30,6 @@ class Grammar
     @grammer.inspect
   end
 
-
   def peek
     @s[@p]
   end
@@ -65,31 +64,31 @@ class Grammar
     skip_space
     xs = {}
     until peek.nil?
-      #puts "> parsing: #{@s[@p..-1].inspect}"
+      # puts "> parsing: #{@s[@p..-1].inspect}"
       k = parse_ident_token
-      #puts "> k = #{k}"
+      # puts "> k = #{k}"
       skip_space
       match_token ':'
-      #p peek
+      # p peek
       v = parse_expr
-      #puts "> v = #{v}"
+      # puts "> v = #{v}"
       skip_space
       match_token ';'
       xs[k] = v
-      #p xs
+      # p xs
     end
     xs
   end
 
   def parse_expr
     xs = []
-    xs << parse_capture #parse_seq
+    xs << parse_capture # parse_seq
     skip_space
     while peek == '|'
       match_token '|'
-      #advance
-      #skip_space
-      xs << parse_capture #parse_seq
+      # advance
+      # skip_space
+      xs << parse_capture # parse_seq
       skip_space
     end
     if xs.size != 1
@@ -100,21 +99,21 @@ class Grammar
   end
 
   def parse_capture
-	seq = parse_seq
-	if peek=='{'
-	  match_token '{'
-	  name = parse_ident_token
-	  match_token '}'
-	   [:'@', seq, name]
-	 else
-	   seq
-	end
+    seq = parse_seq
+    if peek == '{'
+      match_token '{'
+      name = parse_ident_token
+      match_token '}'
+      [:'@', seq, name]
+    else
+      seq
+    end
   end
 
   def parse_seq
     xs = []
     skip_space
-    while peek=~/[\(\w']/ # !peek.nil? && peek != '|' && peek != ')' && peek != '' && peek != ';' && peek != '{' #保留字? peek=~/[\(\w']/
+    while peek =~ /[\(\w']/ # !peek.nil? && peek != '|' && peek != ')' && peek != '' && peek != ';' && peek != '{' #保留字? peek=~/[\(\w']/
       xs << parse_quu
       skip_space
     end
@@ -181,7 +180,7 @@ class Grammar
   end
 end
 
-p Grammar.new("abc").parse_line
+Grammar.new('abc').parse_line==:abc or fail
 p Grammar.new("'for'").parse_line
 p Grammar.new("abc '+' def").parse_line
 p Grammar.new("abc '+' (def '*' ss)").parse_line
@@ -190,54 +189,50 @@ p Grammar.new("abc '+' def | abc '+' (def | abc '+' def)+").parse_line
 p Grammar.new("factor (('*'|'/') factor)*").parse_line
 p Grammar.new("factor (('*'|'/') factor)* {callback}").parse_line
 
-
 pp $g = Grammar.parse("
-  expr: term (('+'|'-') term)* {bin};
-  term: factor (('*'|'/') factor)* {bin};
+  expr: term (('+'|'-') term)*;
+  term: factor (('*'|'/') factor)*;
   factor: ('+'|'-') factor | power;
   power: atom ('**' factor)?;
   atom: '(' expr ')' | NUMBER;
   ")
 
-
-$g=={
-    :expr=>[:&, :term, [:*, [:&, [:|, "+", "-"], :term]]],
-    :term=>[:&, :factor, [:*, [:&, [:|, "*", "/"], :factor]]],
-    :factor=>[:|, [:&, [:|, "+", "-"], :factor], :power],
-    :power=>[:&, :atom, [:"?", [:&, "**", :factor]]],
-    :atom=>[:|, [:&, "(", :expr, ")"], :NUMBER]
-}
-
+$g == {
+  :expr=>[:&, :term, [:*, [:&, [:|, "+", "-"], :term]]],
+  :term=>[:&, :factor, [:*, [:&, [:|, "*", "/"], :factor]]],
+  :factor=>[:|, [:&, [:|, "+", "-"], :factor], :power],
+  :power=>[:&, :atom, [:"?", [:&, "**", :factor]]],
+  :atom=>[:|, [:&, "(", :expr, ")"], :NUMBER]
+} or fail
 
 class Parser
-  def initialize(grammer)
+  def initialize(grammer, actions = {})
     @rules = grammer
     @top = nil
     @tokens = []
-    @stack = []
+    # @stack = []
+    @actions = actions
   end
 
-  def parse(tokens); 
+  def parse(tokens)
     @tokens = tokens
-    puts "> %s"%(tokens.map{|x|x[1]}*" ")
+    puts format('> %s', (tokens.map { |x| x[1] } * ' '))
     parse_rule(@rules[:expr])
   end
 
   def token
-    if !@tokens.empty?
-      {type:@tokens[0][1],data:@tokens[0][0]}
-    else
-        nil
-    end
+    { type: @tokens[0][1], value: @tokens[0][0] } unless @tokens.empty?
   end
 
   def token_type
     return nil if @tokens.empty?
+
     @tokens[0][1]
   end
 
   def token_value
     return nil if @tokens.empty?
+
     @tokens[0][0]
   end
 
@@ -245,41 +240,39 @@ class Parser
     t = token
     @tokens.shift
     t
-    "#{t[:data]}"
+    # "#{t[:data]}"
   end
 
   def error(message)
-    raise Exception.new(message)
+    raise Exception, message
   end
 
-  # 
+  #
   # 不消耗 token 匹配失败时 返回 nil
   # 不消耗 token 量词为空时 返回 []
   # 消耗 token 回退失败时 raise 异常
-  # 返回 nil | Exception | [] | token | token list 
+  # 返回 nil | Exception | [] | token | token list
   #
   def parse_rule(rule)
-    #puts "] #{rule}, #{@tokens}"
+    # puts "] #{rule}, #{@tokens}"
     case rule
     when String
-      if rule==token_value
-        shift
-      else
-        nil
-      end
+      rule == token_value ? shift : nil
     when Symbol
-      if rule.to_s[0]=~/^[A-Z]/
-        if rule==token_type
-          shift
-        else
-          nil
-        end
+      if rule.to_s[0] =~ /^[A-Z]/
+        rule == token_type ? shift : nil
       else
         if x = parse_rule(@rules[rule])
-            #{type: rule, children: x}
+          # {type: rule, children: x}
+          if action = @actions[rule]
+            action.call(x)
+          elsif x.is_a?(Array) && x.flatten.size == 1
+            x.flatten[0]
+          else
             x
+          end
         else
-            nil
+          nil
         end
       end
     when Array
@@ -291,12 +284,12 @@ class Parser
         count = 0
         for i in 1...rule.size
           x = parse_rule rule[i]
-          if x==[]
+          if x == []
             xs << x
           elsif x
             xs << x
             count += 1
-          elsif count==0 # 不匹配且无法回溯
+          elsif count == 0 # 不匹配且无法回溯
             return nil
           else
             raise '&'
@@ -309,7 +302,7 @@ class Parser
             return x # {type: sum, enum: i-1, data: x}
           end
         end
-        #raise "| #{rule} #{@tokens}"
+        # raise "| #{rule} #{@tokens}"
         nil
       when :*
         xs = []
@@ -318,31 +311,94 @@ class Parser
         end
         xs # 不消耗 token 时返回 []
       when :+
-        fail :not_impl
+        raise :not_impl
       when :'?'
         xs = []
         if x = parse_rule(rule[1])
-            xs << x
+          xs << x
         end
         xs
       when :'@'
         name = rule[2]
         if x = parse_rule(rule[1])
-          #@callback.call(name, x)
+          if action = @actions[name]
+            action.call(x)
+          else
+            x
+          end
+        else
+          nil
         end
-        x
       else
-        fail rule.inspect
+        raise rule.inspect
       end
     else
-      fail rule.inspect
+      raise rule.inspect
     end
   end
 end
 
 $p = Parser.new($g)
 
-pp $p.parse [1, '+', 2].zip([:NUMBER,'+',:NUMBER])
-pp $p.parse [1, '+', 2,'+',3].zip([:NUMBER,'+',:NUMBER,'+',:NUMBER])
-pp $p.parse [1, '+', 2,'*',3].zip([:NUMBER,'+',:NUMBER,'*',:NUMBER])
-pp $p.parse ['(',1, '+', 2,')','*',3].zip(['(',:NUMBER,'+',:NUMBER,')','*',:NUMBER])
+pp $p.parse [1, '+', 2].zip([:NUMBER, '+', :NUMBER])
+pp $p.parse [1, '+', 2, '+', 3].zip([:NUMBER, '+', :NUMBER, '+', :NUMBER])
+pp $p.parse [1, '+', 2, '*', 3].zip([:NUMBER, '+', :NUMBER, '*', :NUMBER])
+pp $p.parse ['(', 1, '+', 2, ')', '*', 3].zip(['(', :NUMBER, '+', :NUMBER, ')', '*', :NUMBER])
+
+
+class Calc
+  def initialize
+    grammer = Grammar.parse("
+      expr: term (('+'|'-') term)* {bin};
+      term: factor (('*'|'/') factor)* {bin};
+      factor: ('+'|'-') factor | atom;
+      atom: '(' expr ')' {group} | NUMBER;
+    ")
+    
+    
+    actions = {
+    group: lambda { |e|
+               e[1]
+             },
+    bin: lambda { |e|
+             puts "bin> #{e}"
+             x = e[0][:value]
+             while item = e[1].shift
+               op = item[0][:type]
+               y = item[1][:value]
+               case op
+               when '+'
+                 x += y
+               when '-'
+                 x -= y
+               when '*'
+                 x *= y
+               when '/'
+                 x /= y
+               else
+                 raise op
+               end
+             end
+             # puts "return> #{x}"
+             { type: :NUMBER, value: x }
+           }
+    }
+    $p = @parser = Parser.new(grammer, actions)
+    
+    pp $p.parse [1, '+', 2].zip([:NUMBER, '+', :NUMBER])
+    pp $p.parse [1, '+', 2, '+', 3].zip([:NUMBER, '+', :NUMBER, '+', :NUMBER])
+    pp $p.parse [1, '+', 2, '*', 3].zip([:NUMBER, '+', :NUMBER, '*', :NUMBER])
+    pp $p.parse ['(', 1, '+', 2, ')', '*', 3].zip(['(', :NUMBER, '+', :NUMBER, ')', '*', :NUMBER])
+    
+  end
+  def tokenize(string)
+  end
+  def eval(string)
+    -1
+  end
+
+end
+
+calc = Calc.new
+
+p calc.eval("1+1")
