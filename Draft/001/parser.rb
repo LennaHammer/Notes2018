@@ -227,7 +227,7 @@ class Parser
   def token_type
     return nil if @tokens.empty?
 
-    @tokens[0][1]
+    @tokens[0][1] #.intern
   end
 
   def token_value
@@ -257,7 +257,7 @@ class Parser
     # puts "] #{rule}, #{@tokens}"
     case rule
     when String
-      rule == token_value ? shift : nil
+      rule == token_type ? shift : nil # token_value
     when Symbol
       if rule.to_s[0] =~ /^[A-Z]/
         rule == token_type ? shift : nil
@@ -349,9 +349,9 @@ pp $p.parse ['(', 1, '+', 2, ')', '*', 3].zip(['(', :NUMBER, '+', :NUMBER, ')', 
 class Calc
   def initialize
     grammer = Grammar.parse("
-      expr: term (('+'|'-') term)* {bin};
-      term: factor (('*'|'/') factor)* {bin};
-      factor: ('+'|'-') factor | atom;
+      expr: term (('+'|'-') term)* {infix};
+      term: factor (('*'|'/') factor)* {infix};
+      factor: ('+'|'-') factor {prefix} | atom;
       atom: '(' expr ')' {group} | NUMBER;
     ")
     
@@ -360,11 +360,11 @@ class Calc
     group: lambda { |e|
                e[1]
              },
-    bin: lambda { |e|
+    infix: lambda { |e|
              puts "bin> #{e}"
              x = e[0][:value]
              while item = e[1].shift
-               op = item[0][:type]
+               op = item[0][:value]
                y = item[1][:value]
                case op
                when '+'
@@ -381,7 +381,18 @@ class Calc
              end
              # puts "return> #{x}"
              { type: :NUMBER, value: x }
-           }
+           },
+    prefix: lambda {|e|
+          x = e[1][:value]
+          case e[0]
+          when '+'
+            { type: :NUMBER, value:  x}
+          when '-'
+            { type: :NUMBER, value: -x }
+          else
+            fail e
+          end
+          },
     }
     $p = @parser = Parser.new(grammer, actions)
     
@@ -402,3 +413,23 @@ end
 calc = Calc.new
 
 p calc.eval("1+1")
+
+
+def tokenize(string)
+  ys = []
+  rule = {
+    NUMBER: /\d+/,
+    OP: %r'[()*/+-]',
+  }
+  # /(?<foo>.)(?<foo>.)/
+  pat = Regexp.union(*rule.map{|k,v|/(?<#{k}>#{v})/})
+  
+  string.scan(pat){
+    tag = pat.names.find{|e|$~[e]}
+    lit = $~[0]
+    ys << [lit, tag]#{type:tag, value:$~[0]}
+  }
+  ys
+end
+
+p tokenize("1+(2+-3)*4")
