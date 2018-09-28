@@ -257,7 +257,7 @@ class Parser
     # puts "] #{rule}, #{@tokens}"
     case rule
     when String
-      rule == token_type ? shift : nil # token_value
+      rule == token_type.to_s ? shift : nil # token_value
     when Symbol
       if rule.to_s[0] =~ /^[A-Z]/
         rule == token_type ? shift : nil
@@ -400,20 +400,44 @@ class Calc
     pp $p.parse [1, '+', 2, '+', 3].zip([:NUMBER, '+', :NUMBER, '+', :NUMBER])
     pp $p.parse [1, '+', 2, '*', 3].zip([:NUMBER, '+', :NUMBER, '*', :NUMBER])
     pp $p.parse ['(', 1, '+', 2, ')', '*', 3].zip(['(', :NUMBER, '+', :NUMBER, ')', '*', :NUMBER])
-    
-  end
-  def tokenize(string)
+    @tokenize = Tokenize.new({
+      /\d+/ => ->(lit){[lit.to_f, :NUMBER]},
+      %r'[()*/+-]' => ->(lit){[lit, lit.intern]}
+    })
   end
   def eval(string)
-    -1
+    @parser.parse(@tokenize.(string))[:value]
   end
 
 end
 
-calc = Calc.new
+#calc = Calc.new
 
-p calc.eval("1+1")
+#p calc.eval("1+1")
 
+class Tokenize
+  def initialize(lex)
+    id = 'a'
+    @actions = {}
+    @pattern = Regexp.union(*lex.map{|k,v|
+      pat = /(?<#{id}>#{k})/
+      @actions[id] = v
+      id = id.succ 
+      pat
+    })
+    #@actons = actions || Hash.new{|h,k|h[k]=->(lit){[lit,k]}}
+  end
+  def call(string)
+    ys = []
+    string.scan(@pattern){
+      tag = @pattern.names.find{|e|$~[e]}
+      lit = $~[0]
+      #p [@actions,tag]
+      ys << @actions[tag][lit]
+    }
+    ys
+  end
+end
 
 def tokenize(string)
   ys = []
@@ -433,3 +457,17 @@ def tokenize(string)
 end
 
 p tokenize("1+(2+-3)*4")
+p tokenize("111+222")
+
+t = Tokenize.new({
+  /\d+/ => ->(lit){[lit, :NUMBER]},
+  %r'[()*/+-]' => ->(lit){[lit, lit.intern]}
+})
+
+t.call("1+(2+-3)*4")==[["1", :NUMBER], ["+", :+], ["(", :"("], ["2", :NUMBER], ["+", :+], ["-", :-], ["3", :NUMBER], [")", :")"], ["*", :*], ["4", :NUMBER]] or fail
+t.call("111+222")==[["111", :NUMBER], ["+", :+], ["222", :NUMBER]] or fail
+
+
+calc = Calc.new
+
+p calc.eval("1+1")
