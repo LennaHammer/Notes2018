@@ -15,7 +15,7 @@ require 'pp'
 
 class Grammar
   def initialize(source)
-    p source
+    #p source
     @grammer = nil
     @s = source
     @p = -1
@@ -181,15 +181,15 @@ class Grammar
 end
 
 Grammar.new('abc').parse_line==:abc or fail
-p Grammar.new("'for'").parse_line
-p Grammar.new("abc '+' def").parse_line
-p Grammar.new("abc '+' (def '*' ss)").parse_line
-p Grammar.new("abc '+' def | abc '+' def | abc '+' def").parse_line
-p Grammar.new("abc '+' def | abc '+' (def | abc '+' def)+").parse_line
-p Grammar.new("factor (('*'|'/') factor)*").parse_line
-p Grammar.new("factor (('*'|'/') factor)* {callback}").parse_line
+Grammar.new("'for'").parse_line=="for" or fail
+Grammar.new("abc '+' def").parse_line==[:&, :abc, "+", :def] or fail
+Grammar.new("abc '+' (def '*' ss)").parse_line==[:&, :abc, "+", [:&, :def, "*", :ss]] or fail
+Grammar.new("abc '+' def | abc '+' def | abc '+' def").parse_line==[:|, [:&, :abc, "+", :def], [:&, :abc, "+", :def], [:&, :abc, "+", :def]] or fail
+Grammar.new("abc '+' def | abc '+' (def | abc '+' def)+").parse_line==[:|, [:&, :abc, "+", :def], [:&, :abc, "+", [:+, [:|, :def, [:&, :abc, "+", :def]]]]] or fail
+Grammar.new("factor (('*'|'/') factor)*").parse_line==[:&, :factor, [:*, [:&, [:|, "*", "/"], :factor]]] or fail
+Grammar.new("factor (('*'|'/') factor)* {callback}").parse_line==[:"@", [:&, :factor, [:*, [:&, [:|, "*", "/"], :factor]]], :callback] or fail
 
-pp $g = Grammar.parse("
+$g = Grammar.parse("
   expr: term (('+'|'-') term)*;
   term: factor (('*'|'/') factor)*;
   factor: ('+'|'-') factor | power;
@@ -208,7 +208,7 @@ $g == {
 class Parser
   def initialize(grammer, actions = {})
     @rules = grammer
-    @top = nil
+    #@top = nil
     @tokens = []
     # @stack = []
     @actions = actions
@@ -216,7 +216,7 @@ class Parser
 
   def parse(tokens)
     @tokens = tokens
-    puts format('> %s', (tokens.map { |x| x[1] } * ' '))
+    puts format('PARSING>  %s', (tokens.map { |x| x[1] } * ' '))
     parse_rule(@rules[:expr])
   end
 
@@ -224,17 +224,15 @@ class Parser
     { type: @tokens[0][1], value: @tokens[0][0] } unless @tokens.empty?
   end
 
-  def token_type
+  def token_type # 返回是 Symbol
     return nil if @tokens.empty?
-
     @tokens[0][1] #.intern
   end
 
-  def token_value
-    return nil if @tokens.empty?
-
-    @tokens[0][0]
-  end
+  # def token_value
+  #   return nil if @tokens.empty?
+  #   @tokens[0][0]
+  # end
 
   def shift
     t = token
@@ -361,7 +359,7 @@ class Calc
                e[1]
              },
     infix: lambda { |e|
-             puts "bin> #{e}"
+             #puts "bin> #{e}"
              x = e[0][:value]
              while item = e[1].shift
                op = item[0][:value]
@@ -384,13 +382,13 @@ class Calc
            },
     prefix: lambda {|e|
           x = e[1][:value]
-          case e[0]
+          case e[0][:value]
           when '+'
             { type: :NUMBER, value:  x}
           when '-'
             { type: :NUMBER, value: -x }
           else
-            fail e
+            fail e.inspect
           end
           },
     }
@@ -432,42 +430,47 @@ class Tokenize
     string.scan(@pattern){
       tag = @pattern.names.find{|e|$~[e]}
       lit = $~[0]
-      #p [@actions,tag]
       ys << @actions[tag][lit]
     }
     ys
   end
 end
 
-def tokenize(string)
-  ys = []
-  rule = {
-    NUMBER: /\d+/,
-    OP: %r'[()*/+-]',
-  }
-  # /(?<foo>.)(?<foo>.)/
-  pat = Regexp.union(*rule.map{|k,v|/(?<#{k}>#{v})/})
+# def tokenize(string)
+#   ys = []
+#   rule = {
+#     NUMBER: /\d+/,
+#     OP: %r'[()*/+-]',
+#   }
+#   # /(?<foo>.)(?<foo>.)/
+#   pat = Regexp.union(*rule.map{|k,v|/(?<#{k}>#{v})/})
   
-  string.scan(pat){
-    tag = pat.names.find{|e|$~[e]}
-    lit = $~[0]
-    ys << [lit, tag]#{type:tag, value:$~[0]}
-  }
-  ys
-end
+#   string.scan(pat){
+#     tag = pat.names.find{|e|$~[e]}
+#     lit = $~[0]
+#     ys << [lit, tag]#{type:tag, value:$~[0]}
+#   }
+#   ys
+# end
 
-p tokenize("1+(2+-3)*4")
-p tokenize("111+222")
+# p tokenize("1+(2+-3)*4")
+# p tokenize("111+222")
 
-t = Tokenize.new({
+tokenize = Tokenize.new({
   /\d+/ => ->(lit){[lit, :NUMBER]},
   %r'[()*/+-]' => ->(lit){[lit, lit.intern]}
 })
 
-t.call("1+(2+-3)*4")==[["1", :NUMBER], ["+", :+], ["(", :"("], ["2", :NUMBER], ["+", :+], ["-", :-], ["3", :NUMBER], [")", :")"], ["*", :*], ["4", :NUMBER]] or fail
-t.call("111+222")==[["111", :NUMBER], ["+", :+], ["222", :NUMBER]] or fail
+tokenize.call("1+(2+-3)*4")==[["1", :NUMBER], ["+", :+], ["(", :"("], ["2", :NUMBER], ["+", :+], ["-", :-], ["3", :NUMBER], [")", :")"], ["*", :*], ["4", :NUMBER]] or fail
+tokenize.call("111+222")==[["111", :NUMBER], ["+", :+], ["222", :NUMBER]] or fail
 
 
 calc = Calc.new
 
-p calc.eval("1+1")
+calc.eval("1+1")==2 or fail
+calc.eval("1+(2+3)*4")==21 or fail
+calc.eval("111+222")==333 or fail
+calc.eval("1+(2+-3)*4")==-3 or fail
+
+p calc.eval("1+(2+-3)*4")
+
