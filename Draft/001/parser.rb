@@ -216,7 +216,7 @@ class Parser
 
   def parse(tokens)
     @tokens = tokens
-    puts format('PARSING>  %s', (tokens.map { |x| x[1] } * ' '))
+    puts format('# PARSING>  %s', (tokens.map { |x| x[1] } * ' '))
     parse_rule(@rules[:expr])
   end
 
@@ -238,7 +238,6 @@ class Parser
     t = token
     @tokens.shift
     t
-    # "#{t[:data]}"
   end
 
   def error(message)
@@ -344,7 +343,8 @@ pp $p.parse [1, '+', 2, '*', 3].zip([:NUMBER, '+', :NUMBER, '*', :NUMBER])
 pp $p.parse ['(', 1, '+', 2, ')', '*', 3].zip(['(', :NUMBER, '+', :NUMBER, ')', '*', :NUMBER])
 
 
-class Calc
+class Calculator
+
   def initialize
     grammer = Grammar.parse("
       expr: term (('+'|'-') term)* {infix};
@@ -392,16 +392,13 @@ class Calc
           end
           },
     }
-    $p = @parser = Parser.new(grammer, actions)
-    
-    pp $p.parse [1, '+', 2].zip([:NUMBER, '+', :NUMBER])
-    pp $p.parse [1, '+', 2, '+', 3].zip([:NUMBER, '+', :NUMBER, '+', :NUMBER])
-    pp $p.parse [1, '+', 2, '*', 3].zip([:NUMBER, '+', :NUMBER, '*', :NUMBER])
-    pp $p.parse ['(', 1, '+', 2, ')', '*', 3].zip(['(', :NUMBER, '+', :NUMBER, ')', '*', :NUMBER])
+    @parser = Parser.new(grammer, actions)
+
     @tokenize = Tokenize.new({
-      /\d+/ => ->(lit){[lit.to_f, :NUMBER]},
+      /(\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)?/ => ->(lit){[lit.to_f, :NUMBER]},
       %r'[()*/+-]' => ->(lit){[lit, lit.intern]}
     })
+
   end
   def eval(string)
     @parser.parse(@tokenize.(string))[:value]
@@ -414,6 +411,18 @@ end
 #p calc.eval("1+1")
 
 class Tokenize
+
+  # scanf() Token	Regular Expression
+  # %c	.
+  # %5c	.{5}
+  # %d	[-+]?\d+
+  # %e, %E, %f, %g	[-+]?(\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)?
+  # %i	[-+]?(0[xX][\dA-Fa-f]+|0[0-7]*|\d+)
+  # %o	[-+]?[0-7]+
+  # %s	\S+
+  # %u	\d+
+  # %x, %X	[-+]?(0[xX])?[\dA-Fa-f]+
+
   def initialize(lex)
     id = 'a'
     @actions = {}
@@ -423,8 +432,8 @@ class Tokenize
       id = id.succ 
       pat
     })
-    #@actons = actions || Hash.new{|h,k|h[k]=->(lit){[lit,k]}}
   end
+
   def call(string)
     ys = []
     string.scan(@pattern){
@@ -434,6 +443,7 @@ class Tokenize
     }
     ys
   end
+  
 end
 
 # def tokenize(string)
@@ -464,13 +474,23 @@ tokenize = Tokenize.new({
 tokenize.call("1+(2+-3)*4")==[["1", :NUMBER], ["+", :+], ["(", :"("], ["2", :NUMBER], ["+", :+], ["-", :-], ["3", :NUMBER], [")", :")"], ["*", :*], ["4", :NUMBER]] or fail
 tokenize.call("111+222")==[["111", :NUMBER], ["+", :+], ["222", :NUMBER]] or fail
 
+class Checker
+end
 
-calc = Calc.new
+calc = Calculator.new
 
 calc.eval("1+1")==2 or fail
 calc.eval("1+(2+3)*4")==21 or fail
 calc.eval("111+222")==333 or fail
 calc.eval("1+(2+-3)*4")==-3 or fail
+calc.eval("1.2e6*2e-3")==2400 or fail
 
-p calc.eval("1+(2+-3)*4")
+p calc.eval("1 +(2+-3)*4.5")
+
+
+
+
+
+
+
 
