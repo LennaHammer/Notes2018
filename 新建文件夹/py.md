@@ -81,9 +81,11 @@
 ## 数值计算
 
 求根
+极值
+拟合
 
 
-## AI
+## ML
 
 系数向量 点乘 特征向量 = 输出标量
 系数向量 乘 特征矩阵 = 输出向量
@@ -142,15 +144,17 @@ PCA、SVD
 聚类（无监督学习）
 
 最优化
-损失函数 正则化
+损失函数
+正则化
 梯度下降
 
 模型参数选择
 + 准确度
++ 召回率
 
 
 
-## 统计
+## 统计（废弃）
 
 
 
@@ -324,7 +328,7 @@ plt.show()
 
 ### 回归
 
-## 数值计算
+## 数值计算（废弃）
 
 零点
 极值
@@ -368,6 +372,8 @@ from sklearn import linear_model
 keras
 
 pytorch
+
+theao
 
 指标
 
@@ -415,7 +421,6 @@ https://www.yiibai.com/opencv/opencv_writing_image.html
 
 
 
-## NLP
 
 
 
@@ -424,88 +429,6 @@ NLTK
 jieba
 
 
-
-## Web
-
-requests
-
-```python
-import requests
-session = requests.Session()
-
-def http_get(url):
-	r = session.get(url, timeout=60)
-	r.raise_for_status()
-	return r
-```
-
-ajax
-
-```python
-class RestClient:
-    
-    def __init__(self, host):
-        self._host = host
-        self._s = requests_html.HTMLSession()
-
-
-    def get(self, path, data=None):
-        r = self._s.get(self._host+path, params=data)
-        return r.status_code, r.json()
-
-
-    def post(self, path, data=None):
-        r = self._s.post(self._host+path, json=data)
-        return r.status_code, r.json()
-    
-    
-```
-
-
-
-BeautifulSoup
-
-```python
-from bs4 import BeautifulSoup
-
-doc = BeautifulSoup(text, 'lxml')
-elements = doc.select(...)
-
-
-```
-
-requests_html
-
-
-
-Selenium
-
-```python
-from selenium import webdriver
-
-browser = webdriver.Chrome()
-browser.get("http://www.google.com")
-element = browser.find_element_by...(...)
-element.click()
-```
-
-
-
-
-
-
-
-Django
-
-
-
-Flask
-
-
-
-
-
-draft
 
 
 
@@ -520,34 +443,18 @@ par(mfrow=c(2, 2))
 plot(m)
 ```
 
-## 数据库接口
-
-sql
-
-## 工具箱
-
-
-
-
-
 ## 附录
+
 
 ### 安装
 
-Python 3
+运行环境
++ Python3
++ Anaconda/Miniconda
 
-```
-pip install numpy
-pip install ipython
-```
-
-Miniconda
-
-```bash
-coda install anaconda
-```
-
-
+安装第三方库
++ pip install ...
++ coda install ...
 
 
 ## Matlab
@@ -556,6 +463,7 @@ coda install anaconda
 
 
 ### 绘图
+
 折线图 plot
 
 其他类型
@@ -569,7 +477,7 @@ coda install anaconda
 + contour
 
 
-newff
+
 
 
 ### stats
@@ -580,18 +488,24 @@ imread
 imshow
 
 
+
+
 Octave
 
 nnet Neural Network Package for Octave
 
 ### nnet
 
+newff
+
 
 ## Python
 
 
 
+
 ### sqlite3
+
 
 ```python
 import sqlite3
@@ -601,6 +515,7 @@ conn.commit()
 ```
 
 ### mysql
+
 
 ```python
 import mysql.connector
@@ -618,6 +533,65 @@ cursor.lastrowid
 
 ### requests
 
+requests
+
+```python
+import requests
+session = requests.Session()
+r = session.get(url, timeout=60)
+r.raise_for_status()
+print(r)
+
+
+```
+
+设置 headers
+
+```python
+HEADERS = {
+
+}
+requests.session.update('headers', HEADERS)
+```
+
+设置 cookies，会自动更新
+
+```python
+
+```
+
+BeautifulSoup
+
+```python
+from bs4 import BeautifulSoup
+
+doc = BeautifulSoup(text, 'lxml')
+elements = doc.select(...)
+
+
+```
+
+requests_html
+
+```python
+session = requests_html.HTMLSession()
+r = session.get(url, timeout=60)
+r.raise_for_status()
+title = r.html.find('title')[0]
+
+```
+
+
+Selenium
+
+```python
+from selenium import webdriver
+
+browser = webdriver.Chrome()
+browser.get("http://www.google.com")
+element = browser.find_element_by...(...)
+element.click()
+```
 
 ### Socket
 
@@ -677,7 +651,23 @@ if __name__ == '__main__':
 
 ### sklearn
 
+
+步骤
+1. 整理数据
+2. 选择模型和超参数
+3. 训练模型
+4. 测试模型
+
+步骤
+1. 特征选择
+2. 回归聚类
+2. 超参数选择
+
+
+
 数据类型 numpy
+
+
 
 ```python
 #%%
@@ -693,7 +683,7 @@ from sklearn import svm
 clf = svm.SVC(gamma=0.001, C=100.) # Choosing the parameters of the model
 clf.fit(X[:-1], y[:-1])
 
-# 
+# 预测
 clf.predict(X[-1:])
 
 # Model persistence
@@ -749,13 +739,215 @@ Choosing the right estimator
 图像
 数值
 
+
 ### PyGame
+
+用途
++ 游戏
++ 交互
 
 
 循环
-+ 事件 鼠标，键盘，队列 
++ 事件 鼠标，键盘，队列
 + 定时 30帧，更新游戏状态 可以读取按键状态
 + 渲染 可以跳过，且跳过时不会影响逻辑 可以读取按键状态
+
+
+
+```python
+import pygame
+
+pygame.init()
+# print(pygame.font.get_fonts())
+screen = pygame.display.set_mode((480, 320))
+screen.fill((255, 255, 255))
+
+md = 0
+ox = 0
+oy = 0
+
+while 1:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            exit()
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            md = 1
+            ox, oy = event.pos
+        elif event.type == pygame.MOUSEBUTTONUP:
+            if md == 1:
+                pygame.draw.line(screen, (0, 0, 0), (ox, oy), event.pos)
+                md = 0
+        elif event.type == pygame.MOUSEMOTION:
+            if md == 1:
+                pygame.draw.line(screen, (0, 0, 0), (ox, oy), event.pos)
+                ox, oy = event.pos
+    
+    pygame.display.flip()
+    pygame.time.wait(1000//30)
+
+```
+
+
+### NLTK
+
+查找文章中某个单词出现的句子
+
+```python
+import nltk
+
+text = nltk.corpus.gutenberg.raw('austen-emma.txt')
+sents = nltk.sent_tokenize(text)
+index = {}
+porter = nltk.PorterStemmer()
+for sent in sents:
+    tokens = nltk.word_tokenize(sent)
+    for word in tokens:
+        stem = porter.stem(word)
+        if stem not in index:
+            index[stem] = []
+        index[stem].append(sent)
+
+print(index[porter.stem("influence")])
+
+```
+
+词性标注
+
+```python
+```
+
+文章分类
+
+```python
+```
+
+### PIL/Pillow
+
+
+
+
+### OpenCV
+
+人脸识别
+
+```python
+import numpy as np
+import cv2
+
+face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+
+img = cv2.imread('Lenna.png')
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+for (x,y,w,h) in faces:
+    cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
+
+cv2.imshow('img',img)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+```
+
+
+
+### Sympy
+
+
+符号计算
+
+```python
+from sympy import *
+
+x = symbols('x')
+print(diff(exp(x)*sin(x**2), x))
+#  2*x*exp(x)*cos(x**2) + exp(x)*sin(x**2)
+
+```
+
+
+### Matplotlib
+
+类似 Matlab 的绘图函数
+
+```python
+import numpy as np
+from matplotlib import pyplot as plt
+
+x = np.arange(0., 5., 0.1)
+y = np.sin(x)
+plt.plot(x, y)
+plt.show()
+
+```
+
+### theano
+
+
+
+## R
+
+
+线性回归
+
+```r
+x <- 1:10
+y <- 23*x+rnorm(length(x))
+m <- lm(y~x)
+summary(m)
+par(mfrow=c(2, 2))
+plot(m)
+```
+
+Residual standard error: 0.7298 on 8 degrees of freedom
+Multiple R-squared:  0.9999,    Adjusted R-squared:  0.9999 
+F-statistic: 8.26e+04 on 1 and 8 DF,  p-value: < 2.2e-16
+
+pars
+
+iris
+
+罗吉斯特回归
+
+非线性回归
+最小二乘法
+最大似然
+假设验证
+
+## 概念
+
+### 梯度下降（最优化）
+
+求函数的最小值
+
+y=(x+1)^2+3
+
+求导 y' = 2(x+1)=0
+得 x=-1,y=3
+y''=2
+
+y=x^2+y^2
+
+可求
+
+### tf-idf
+
+词频高的词可以作为文档的关键词，但是stop-words词频很高，所以利用语料库，
+
+term frequency–inverse document frequency
+利用语料库对文档中的词频修正
+$ tf-idf=tf*idf $
+文档
+语料库
+某词在文档中出现越多的，在语料库中出现越少，值越大 stop-words，小
+
+
+### Perceptron
+
+输入为向量，输出为 0 1
+$ f(x) = \begin{cases}1 & \text{if }w \cdot x + b > 0\\0 & \text{otherwise}\end{cases} $
+$ w \cdot x = \sum_{i=1}^m w_i x_i $
 
 
 ## Demo
@@ -764,12 +956,13 @@ Choosing the right estimator
 ## Processing
 
 
-## 其他
+## 其他工具
 
 maxima
+Mathematica
+
 
 synaptic xiapan
-
 
 
 ## Draft
@@ -803,6 +996,390 @@ imagemagic
 
 
 
+
+
+
+
+# 科学计算笔记（废弃！）
+
+
+### 数学
+
+包括
++ 数值计算
++ 统计
+
+### Matlab
+
+### R
+
+数据类型
+
+
+vector
+
+list
+
+dataframe
+
+model
+
+### Mathematica
+
+### Python 科学工具箱
+
+
+侧重不同类型的问题有对应的解决方案
+
+淡化库的细节
+
+### 说明
+
+
+发行版
++ Anaconda 
++ WinPython winpython.github.io
+
+IDE
++ PyCharm
+
+相关软件
++ matlab
++ Mathematica
++ R
+
+## Scipy
+
+http://www.scipy.org/
+
+### NumPy
+
+提供 `多维数组` 类型
+
+基础
+
+> Array 源于 APL 语言，在 Matlab 和 R中，
+> 性能好于 python 内置的 list
+
+二维数组进行矩阵运算
+
+```python
+import numpy as np
+x = np.array([[1, 2], [3, 4]])
+y = np.array([[1, 2, 3], [4, 5, 6]])
+np.dot(x,y)
+# array([[ 9, 12, 15],[19, 26, 33]])
+```
+
+数组上的标量函数对每个元素分别计算
+
+```python
+np.sin(np.array([0, np.pi/2]))
+# array([ 0.,  1.])
+```
+
+维数不一致时自动扩充
+
+```python
+np.array([1, 2, 3]) + 1
+# array([2, 3, 4])
+np.array([[1, 2], [3, 4]]) + np.array([1,2])
+# array([[2, 4],[4, 6]])
+```
+
+注意：
+切片是共享数据的
+
+### SciPy
+
+最优化
+
+### Matplotlib
+
+Pyplot 模块，提供了类似 Matlab 的绘图函数
+不过认为没有 ggplot2 美观好用
+
+```python
+import numpy as np
+from matplotlib import pyplot as plt
+x = np.arange(0., 5., 0.1)
+plt.plot(x, np.sin(x))
+plt.show()
+```
+
+### IPython
+
+提供交互环境
+
+Notebook
++ http://try.jupyter.org/
+
+
+  https://github.com/jupyter/jupyter/wiki/A-gallery-of-interesting-Jupyter-Notebooks
+  https://github.com/jdwittenauer/ipython-notebooks
+
+### Sympy
+
+http://www.sympy.org/
+
+符号计算
+
+```python
+from sympy import *
+x = symbols('x')
+print(diff(exp(x)*sin(x**2), x))
+#  2*x*exp(x)*cos(x**2) + exp(x)*sin(x**2)
+```
+
+### pandas
+
+用于处理数据表，提供 DataFrame，类似 Excel 和 SQL
+基于 Numpy，和矩阵相比，表格有表头，列的类型相同
+用于处理数据与分析
+
+> 类似 R 中 `data.frame`
+
+```
+import pandas as pd
+read_table
+datetime
+```
+
+## NLP
+
+### NLTK
+
+Natural Language Processing with Python
+
+http://nltk.org/book
+http://www.nltk.org/howto/
+
+
+
+词性标注
+
+**例子1**
+
+查找文章中某个单词出现的句子
+
+> 涉及 1.分词 2.分句 3.提取词干
+
+```python
+import nltk
+text = nltk.corpus.gutenberg.raw('austen-emma.txt')
+sents = nltk.sent_tokenize(text)
+index = {}
+porter = nltk.PorterStemmer()
+for sent in sents:
+    tokens = nltk.word_tokenize(sent)
+    for word in tokens:
+        stem = porter.stem(word)
+        if stem not in index:
+            index[stem] = []
+        index[stem].append(sent)
+print(index[porter.stem("influence")])
+```
+
+
+例子2 词性标注
+
+```
+
+```
+
+
+例子2
+文章分类
+```
+
+```
+
+### jieba
+
+## Image
+
+### OpenCV
+
+
+http://docs.opencv.org/3.2.0/d6/d00/tutorial_py_root.html
+
+OpenCV 的 Python 绑定用到 numpy 的矩阵上
+
+numpy 和 opencv 的矩阵运算的函数都可以使用
+
+
+**人脸识别**
+
+```python
+import numpy as np
+import cv2
+face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+img = cv2.imread('Lenna.png')
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+for (x,y,w,h) in faces:
+    cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
+cv2.imshow('img',img)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+```
+
+### pillow
+
+可以进行简单的文件读写
+
+
+## ML
+
+### scikit-learn
+
+http://scikit-learn.org/
+
+
+fit/predict
+
+
+tf-idf
+
+
+sklearn 的模型提供 `fit/learn` 的接口
+输入的矩阵，是 matlab 的转置
+
+```python
+from sklearn import datasets
+iris = datasets.load_iris()
+x, y = iris.data, iris.target
+
+from sklearn import svm
+m = svm.SVC()
+m.fit(x[:-1], y[:-1])
+m.predict(x[-1:])==y[-1:]
+
+from sklearn.model_selection import cross_val_score
+cross_val_score(m, x, y)
+```
+
+
+```python
+digits = datasets.load_digits()
+x, y = digits.data, digits.target
+```
+
+datasets.fetch_mldata('MNIST original')
+
+
+
+### theano
+### keras
+
+
+
+## Web
+
+### Requests
+
+### BeautifulSoup
+
+### Selenium
+
+载入浏览器，并模拟操作
+
+> Selenium 本身支持多种语言，和多种浏览器
+
+模拟Forrm操作
+
+获取Cookies可以用 requests模块读取内容
+
+## UI
+
+### Web
+
+### TK
+
+## 内置库
+
+socket
+
+
+## 其他
+
+## Java
+
+### CoreNLP
+### Elasticsearch
+
+
+
+
+### 线性回归
+
+```r
+x <- 1:10
+y <- 23*x+rnorm(length(x))
+m <- lm(y~x)
+summary(m)
+par(mfrow=c(2, 2))
+plot(m)
+```
+
+Residual standard error: 0.7298 on 8 degrees of freedom
+Multiple R-squared:  0.9999,    Adjusted R-squared:  0.9999 
+F-statistic: 8.26e+04 on 1 and 8 DF,  p-value: < 2.2e-16
+
+pars
+
+iris
+
+
+
+
+## 数学原理
+
+
+### 最优化
+
+求函数的最小值
+
+y=(x+1)^2+3
+
+求导 y' = 2(x+1)=0
+得 x=-1,y=3
+y''=2
+
+y=x^2+y^2
+
+可求
+
+### tf–idf
+
+词频高的词可以作为文档的关键词，但是stop-words词频很高，所以利用语料库，
+
+term frequency–inverse document frequency
+利用语料库对文档中的词频修正
+$ tf-idf=tf*idf  $
+文档
+语料库
+某词在文档中出现越多的，在语料库中出现越少，值越大 stop-words，小
+
+
+
+### 降维
+
+## 数学模型
+
+### Perceptron
+
+输入为向量，输出为 0 1
+$ f(x) = \begin{cases}1 & \text{if }w \cdot x + b > 0\\0 & \text{otherwise}\end{cases} $
+$ w \cdot x = \sum_{i=1}^m w_i x_i $
+
+
+学习
+
+http://www.mathworks.com/help/nnet/ref/perceptron.html
+
+
+### Feedforward neural network
 
 
 
