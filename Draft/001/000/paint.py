@@ -6,8 +6,7 @@ screen = pygame.display.set_mode((480, 320))
 screen.fill((255, 255, 255))
 
 md = 0
-ox = 0
-oy = 0
+ox, oy = 0, 0
 
 while 1:
     for event in pygame.event.get():
@@ -25,6 +24,6 @@ while 1:
             if md == 1:
                 pygame.draw.line(screen, (0, 0, 0), (ox, oy), event.pos)
                 ox, oy = event.pos
-    
+
     pygame.display.flip()
     pygame.time.wait(1000//30)
