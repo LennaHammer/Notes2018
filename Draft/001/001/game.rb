@@ -17,16 +17,38 @@ class Rect
     Gosu.draw_rect(@x, @y, @w, @h, Gosu::Color::WHITE)
     Gosu.draw_rect(@x + 1, @y + 1, @w - 2, @h - 2, Gosu::Color::BLACK)
   end
-end
+  def resize(delta, direction)
+    dx,dy = delta
+    n,s,e,w = direction
+    @x = @x + e * dx
+    @y = @y + n * dy
+    # if self.alignToGrid:
+    #     xOffset = xOffset / self.xGridSize * self.xGridSize
+    #     yOffset = yOffset / self.yGridSize * self.yGridSize
+    #     xStartOffset = xStartOffset / self.xGridSize * self.xGridSize
+    #     yStartOffset = yStartOffset / self.yGridSize * self.yGridSize
 
+    @w = @w + (w - e) * dx
+    @h = @h + (s - n) * dy
+    @w=5 if @w<=5
+    @h=5 if @h<=5
+  end
+end
+module Utils
+  def self.in?(point, rect)
+    px, py = point
+    x, y, w, h = rect
+    x <= px && px <= x + w && y <= py && py < y + h
+  end
+end
 class App < Gosu::Window
   def initialize
     super 320, 240
 
     @objects = []
 
-    @objects << Rect.new(50, 50, 50, 50)
-    @objects << Rect.new(50, 50, 50, 50)
+    @objects << Rect.new(50, 50, 50, 150)
+    @objects << Rect.new(50, 50, 150, 50)
   end
 
   def needs_cursor?
@@ -44,9 +66,14 @@ class App < Gosu::Window
     if e = @select
       # Gosu.draw_rect(e.x - 5, e.y - 5, e.w + 10, e.h + 10, Gosu::Color::RED)
       Gosu.draw_rect(e.x - 5, e.y - 5, 5, 5, Gosu::Color::RED)
-      Gosu.draw_rect(e.x - 5, e.y + e.w, 5, 5, Gosu::Color::RED)
-      Gosu.draw_rect(e.x + e.h, e.y - 5, 5, 5, Gosu::Color::RED)
-      Gosu.draw_rect(e.x + e.h, e.y + e.w, 5, 5, Gosu::Color::RED)
+      Gosu.draw_rect(e.x - 5, e.y + e.h, 5, 5, Gosu::Color::RED)
+      Gosu.draw_rect(e.x + e.w, e.y - 5, 5, 5, Gosu::Color::RED)
+      Gosu.draw_rect(e.x + e.w, e.y + e.h, 5, 5, Gosu::Color::RED)
+    end
+    if @sizing
+      px,py = @sizing_point
+      @select.resize([mouse_x-px,mouse_y-py],@sizing)
+      @sizing_point = [mouse_x,mouse_y]
     end
   end
 
@@ -58,12 +85,39 @@ class App < Gosu::Window
       @select.y = mouse_y - @mouse_down[1]
       @mouse_down = nil
       end
+      if @sizing
+        px,py = @sizing_point
+        @select.resize([mouse_x-px,mouse_y-py],@sizing)
+        @sizing_point = [mouse_x,mouse_y]
+        @sizing= nil
+      end      
   end
 
   def button_down(id)
     p id
     case id
     when Gosu::MS_LEFT
+      if @select
+        px,py=mouse_x,mouse_y
+        x,y,w,h = @select.x,@select.y,@select.w,@select.h
+        case  
+        when Utils.in?([px,py],[x - 5, y - 5, 5, 5])
+          @sizing = [1,0,1,0] # :LEFTTOP
+        when Utils.in?([px,py],[x - 5, y + h, 5, 5])
+          @sizing =[0,1,1,0]  # :RIGHTTOP
+        when Utils.in?([px,py],[x + w, y - 5, 5, 5])
+          @sizing = [1,0,0,1] # :LEFTBOTTOM 
+        when Utils.in?([px,py],[x + w, y + h, 5, 5])
+          @sizing = [0,1,0,1] # :RIGHTBOTTOM
+        else
+          @sizing = nil
+        end
+        p @sizing
+        if @sizing
+          @sizing_point = [px, py]
+          return 
+        end
+      end
       @select = nil
       @objects.reverse_each do |e|
         if e.contain?(mouse_x, mouse_y)
