@@ -394,7 +394,7 @@ class Calculator
     }
     @parser = Parser.new(grammer, actions)
 
-    @tokenize = Tokenize.new({
+    @tokenize = Tokenizer.new({
       /(\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)?/ => ->(lit){[lit.to_f, :NUMBER]},
       %r'[()*/+-]' => ->(lit){[lit, lit.intern]}
     })
@@ -410,7 +410,7 @@ end
 
 #p calc.eval("1+1")
 
-class Tokenize
+class Tokenizer
 
   # scanf() Token	Regular Expression
   # %c	.
@@ -422,6 +422,11 @@ class Tokenize
   # %s	\S+
   # %u	\d+
   # %x, %X	[-+]?(0[xX])?[\dA-Fa-f]+
+
+  INTEGER = /[-+]?\d+/
+  NUMBER = /[-+]?(\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)?/
+  STRING = //
+  NEWLING = /\n/
 
   def initialize(lex)
     id = 'a'
@@ -441,6 +446,7 @@ class Tokenize
       lit = $~[0]
       ys << @actions[tag][lit]
     }
+    #ys.compact!
     ys
   end
   
@@ -466,7 +472,7 @@ end
 # p tokenize("1+(2+-3)*4")
 # p tokenize("111+222")
 
-tokenize = Tokenize.new({
+tokenize = Tokenizer.new({
   /\d+/ => ->(lit){[lit, :NUMBER]},
   %r'[()*/+-]' => ->(lit){[lit, lit.intern]}
 })
