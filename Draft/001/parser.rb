@@ -221,7 +221,7 @@ class Parser
   end
 
   def token
-    { type: @tokens[0][1], value: @tokens[0][0] } unless @tokens.empty?
+    { type: @tokens[0][1], value: @tokens[0][0] } unless @tokens.empty? # info: nil
   end
 
   def token_type # 返回是 Symbol
@@ -384,9 +384,9 @@ class Calculator
           x = e[1][:value]
           case e[0][:value]
           when '+'
-            { type: :NUMBER, value:  x}
+            { value:  x }
           when '-'
-            { type: :NUMBER, value: -x }
+            { value: -x }
           else
             fail e.inspect
           end
