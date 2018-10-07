@@ -136,6 +136,8 @@ class App < Gosu::Window
       @select.y += 5 if @select
     when Gosu::KB_UP
       @select.y -= 5 if @select
+    when 9
+      @objects << Rect.new(50, 50, 150, 50)
     end
   end
 
@@ -144,3 +146,5 @@ class App < Gosu::Window
   end
 end
 App.new.show
+
+# 参考 PythonCard

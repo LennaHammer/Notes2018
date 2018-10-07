@@ -67,12 +67,12 @@ class Grammar
       # puts "> parsing: #{@s[@p..-1].inspect}"
       k = parse_ident_token
       # puts "> k = #{k}"
-      skip_space
+      #skip_space
       match_token ':'
       # p peek
       v = parse_expr
       # puts "> v = #{v}"
-      skip_space
+      #skip_space
       match_token ';'
       xs[k] = v
       # p xs
@@ -346,14 +346,14 @@ pp $p.parse ['(', 1, '+', 2, ')', '*', 3].zip(['(', :NUMBER, '+', :NUMBER, ')', 
 class Calculator
 
   def initialize
-    grammer = Grammar.parse("
+    grammar = Grammar.parse("
       expr: term (('+'|'-') term)* {infix};
       term: factor (('*'|'/') factor)* {infix};
       factor: ('+'|'-') factor {prefix} | atom;
       atom: '(' expr ')' {group} | NUMBER;
     ")
-    
-    
+
+
     actions = {
     group: lambda { |e|
                e[1]
@@ -392,7 +392,7 @@ class Calculator
           end
           },
     }
-    @parser = Parser.new(grammer, actions)
+    @parser = Parser.new(grammar, actions)
 
     @tokenize = Tokenize.new({
       /(\d+(\.\d*)?|\.\d+)([eE][-+]?\d+)?/ => ->(lit){[lit.to_f, :NUMBER]},
@@ -429,7 +429,7 @@ class Tokenize
     @pattern = Regexp.union(*lex.map{|k,v|
       pat = /(?<#{id}>#{k})/
       @actions[id] = v
-      id = id.succ 
+      id = id.succ
       pat
     })
   end
@@ -443,7 +443,7 @@ class Tokenize
     }
     ys
   end
-  
+
 end
 
 # def tokenize(string)
@@ -454,7 +454,7 @@ end
 #   }
 #   # /(?<foo>.)(?<foo>.)/
 #   pat = Regexp.union(*rule.map{|k,v|/(?<#{k}>#{v})/})
-  
+
 #   string.scan(pat){
 #     tag = pat.names.find{|e|$~[e]}
 #     lit = $~[0]
