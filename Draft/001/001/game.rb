@@ -49,6 +49,10 @@ class App < Gosu::Window
 
     @objects << Rect.new(50, 50, 50, 150)
     @objects << Rect.new(50, 50, 150, 50)
+
+    @selection = nil
+    @selections = []
+    
   end
 
   def needs_cursor?
