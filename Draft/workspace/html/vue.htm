@@ -1,0 +1,26 @@
+<script src="https://unpkg.com/vue"></script>
+
+<div id="app">
+  <p>{{ count }}</p>
+  <button @click="inc">+1</button>
+  <div v-for="item in items">
+    {{ item }},
+  </div>
+</div>
+
+
+<script lang="javascript">
+  new Vue({
+    el: '#app',
+    data: {
+      count: 0,
+      items: [],
+    },
+    methods: {
+      inc: function () {
+        this.count++;
+        this.items.push(this.count)
+      }
+    }
+  })
+</script>
