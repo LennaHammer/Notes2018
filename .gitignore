@@ -8,3 +8,7 @@ workspace/hcosplay/
 Rails Cookbook-CSDN下载.url
 Draft/000/
 Draft/001/.idea/
+Draft/001/002/输出/
+*.cpython-36.pyc
+**/tempCodeRunnerFile.py
+**/.idea/

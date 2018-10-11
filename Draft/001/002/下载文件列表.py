@@ -61,18 +61,28 @@ def read_lines(filename, table=None):
     return rows
 
 
-
-
 def download_task(filename):
-    dirname = "[" + os.path.basename(filename)+"]"
+    dirname = "[" + os.path.basename(filename) + "]"
     table = read_lines(filename, True)
     for url, out in table:
         retry(lambda: download_file(url, f'{dirname}/{out}'))
 
 
 def download_url_list(filename):
-    dirname = "[" + os.path.basename(filename)+"]"
+    dirname = "[" + os.path.basename(filename) + "]"
     table = read_lines(filename, False)
     for url in table:
         filename = os.path.basename(url)
         retry(lambda: download_file(url, f'{dirname}/{filename}'))
+
+
+def download_web_task(filename):
+    dirname = "[" + os.path.basename(filename) + "]"
+    table = read_lines(filename, True)
+    for url, title, items in table:
+        for i, item in enumerate(items.split(","), 1):
+            tag = '{:08X}'.format(binascii.crc32(title.encode("utf-8")))
+            url = item.strip()
+            extname = os.path.splitext(url)[1]
+            out = f"{tag}{i:02d}{title}{extname}"
+            retry(lambda: download_file(url, f'{dirname}/{out}'))

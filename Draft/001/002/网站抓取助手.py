@@ -7,6 +7,7 @@ import os
 import re
 import traceback
 import w3lib
+import tempfile
 
 
 session = requests_html.HTMLSession()
@@ -14,28 +15,44 @@ session.mount('http://', requests.adapters.HTTPAdapter(max_retries=3))
 session.mount('https://', requests.adapters.HTTPAdapter(max_retries=3))
 
 
+# class Skip(Exception):
+#     pass
+
+
 def http_get(url):
+
+    print(f"GET: {url}")
     r = session.get(url, timeout=60)
     r.raise_for_status()
     return r
 
 
-def append_lines(filename, lines):
-    with open(filename, 'at', encoding='utf-8', end="\n") as f:
-
+def write_lines(filename, lines):
+    with open(filename, 'w', encoding='utf-8', newline="\n") as f:
         for line in lines:
             print(line, file=f)
 
 
+def read_lines(filename):
+    with open(filename, 'r', encoding='utf-8') as f:
+        for line in f:
+            line = line.rstrip("\n")
+            yield line
+
+
 def parse_response(response):
-    data:
-        bytes = response.content
-    text:
-        str = w3lib.encoding.html_to_unicode(None, data)[1]
+    data = response.content
+    _encoding, text = w3lib.encoding.html_to_unicode(None, data)
     document = BeautifulSoup(text, 'lxml')
-    title = document.select("title", limit=1)[0].text.strip()
-    title:
-        str = re.sub(r'\s+', ' ', title)
+    title = document.select("title", limit=1)
+    if title:
+        title = title[0].text.strip()
+        title = re.sub(r'\s+', ' ', title)
+    else:
+        title = None
+        raise Exception("title")
+    assert text, text
+    assert title, title
     return text, document, title
 
 
@@ -67,16 +84,21 @@ def expand_url(url):
     ['a1b', 'a2b', 'a3b']
     >>> expand_url("a[1-2]b[2-3]c")
     ['a1b2c', 'a1b3c', 'a2b2c', 'a2b3c']
-
+    >>> expand_url("[4-2]")
+    ['4', '3', '2']
+    >>> expand_url("abc")
+    ['abc']
     """
     urls = []
     for x in url.split(","):
         x = x.strip()
         m = re.search(r'\[(\d+)-(\d+)\]', x)
         if m:
-            for i in range(int(m[1]), int(m[2]) + 1):
+            a, b = int(m[1]), int(m[2])
+            r = range(a, b + 1, 1) if a <= b else range(a, b - 1, -1)
+            for i in r:  # range(int(m[1]), int(m[2]) + 1):
                 if m[1].startswith('0'):
-                    pass
+                    raise NotImplementedError
                 y = f"{x[:m.start()]}{i}{x[m.end():]}"
                 urls += expand_url(y)
         else:
@@ -96,6 +118,7 @@ def tsv_row(cols):
 def test():
     '''
     >>> test()
+    GET: https://www.baidu.com
     百度一下，你就知道
     百度一下，你就知道
     '''
@@ -107,35 +130,78 @@ def test():
 
 
 def download_index(filename, urls, callback):
-    if os.path.exists(filename):
+    '''
+    保存网页上的列表项，假定列表项逆序。
+    下载顺序按从新往旧，返回结果按从旧往新。
+    '''
+    if filename and os.path.exists(filename):
         return
     lines = []
     for url in expand_url(urls):
         r = http_get(url)
         text, doc, _ = parse_response(r)
-        line = callback(text, doc)
-        lines.append(line)
-    append_lines(filename, unique(lines))
+        lines += callback(text, doc)
+    if filename:
+        lines = unique(lines)
+        lines.reverse()
+        write_lines(filename, lines)
+    else:
+        print(lines, len(lines), len(unique(lines)))
 
 
 def download_details(filename, urls, callback):
+    '''
+    注意：
+    1. 网络的返回结果是不可靠的，注意检查，以及不要随便无视异常。
+    2. 有时候重试就行，有时是代码问题。
+
+    '''
+    # if urls is None:
+    #     urls = list(reversed(list(g.read_lines(filename))))
+    #     name, ext = os.path.splitext(filename)
+    #     filename = f'{name}_详细{ext}'
+    # if filename is None:
+    #    _, filename = tempfile.mkstemp()
+    urls = list(urls)
     keys = set()
-    with open(filename, 'r', encoding='utf-8') as f:
-        for line in f:
-            key = line[:line.index("\n")]
-            keys.add(key)
-    with open(filename, 'at', encoding='utf-8', end="\n") as f:
-        for url in urls:
+    if os.path.exists(filename):
+        with open(filename, 'r', encoding='utf-8') as f:
+            for line in f:
+                key = line[:line.index("\t")]
+                keys.add(key)
+    print(len(keys))
+    with open(filename, 'at', encoding='utf-8', newline="\n") as f:
+        for i, url in enumerate(urls):
             if url in keys:
                 continue
-            r = http_get(url)
-            text, doc, title = parse_response(r)
-            assert "下一页" not in text
-            values = callback(text, doc)
-            assert all(x for x in values), values
-            #assert values is not None, None
-            assert values, values
-            print(tsv_row([url, title, unique(values)]), file=f)
+            print(f'[{i+1}/{len(urls)}]', end='')
+            r = None
+            skip = False
+            for _ in range(3):
+                try:
+                    r = http_get(url)
+                    text, doc, title = parse_response(r)
+                    values = callback(url, text, doc)
+                    assert all(x for x in values), values
+                    #assert values is not None, None
+                    assert values, values
+                    print(values)
+                    break
+                except requests.exceptions.TooManyRedirects:
+                    skip = True
+                except Exception:
+                    traceback.print_exc()
+                    input("continue>")
+                    r = None
+            if r is None:
+                continue
+            if skip:
+                continue
+            print(r.status_code)
+            #text, doc, title = parse_response(r)
+            #assert "下一页" not in text
+
+            print(tsv_row([url, title, ','.join(unique(values))]), file=f)
             f.flush()
 
 
