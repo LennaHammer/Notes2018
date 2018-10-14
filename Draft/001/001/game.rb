@@ -12,7 +12,7 @@ class Rect
   end
 
   def contain?(x, y)
-    @x <= x && x <= @x + @w && @y <= y && y < @y + @h
+    @x <= x && x <= @x + @w && @y <= y && y <= @y + @h
   end
 
   def draw
@@ -48,12 +48,15 @@ module Utils
     x <= px && px <= x + w && y <= py && py < y + h
   end
 
-  def self.rect_intersect?(a, b)
+  def self.rect_intersect1?(a, b)
     x1 = [a.x, b.x].max
     y1 = [a.y, b.y].max
     x2 = [a.x+a.w, b.x+b.w].min
     y2 = [a.y+a.h, b.y+b.y].min
     x1 <= x2 && y1 <= y2
+  end
+  def self.rect_intersect?(a, b)
+    !(a.x+a.w<b.x || a.y+a.h<b.y || b.x+b.w<a.x || b.y+b.h<a.y)
   end
 
   def self.draw_handlers(e, active=true)
@@ -103,6 +106,7 @@ module Utils
     h = (y1 - y2).abs
     [x, y, w, h]
   end
+
 end
 
 
@@ -145,6 +149,7 @@ class App < Gosu::Window
       end
       @moving = [mouse_x, mouse_y]
     end
+
     if @resizing
       px, py = @resizing_point
       @selection.resize([mouse_x-px, mouse_y-py], @resizing)
@@ -157,7 +162,7 @@ class App < Gosu::Window
 
     Gosu.draw_rect(0, 0, width, height, Gosu::Color::BLACK)
 
-    @status_bar.draw(0, 0, 0, 1, 1, Gosu::Color::WHITE)
+    @status_bar.draw(0, 0, 0, 1, 1, Gosu::Color::WHITE) if (Gosu.milliseconds/1000)%2==1
 
     if !@selections.empty?
       @selections.each do |e|
@@ -184,9 +189,9 @@ class App < Gosu::Window
   end
 
   def button_up(id)
-    if id == Gosu::MS_LEFT
+    if id == Gosu::MS_LEFT # 当松开鼠标左键
 
-      if @dragging # && @selection
+      if @dragging # && @selection # 拖动
         if @selection
           @selection.x = mouse_x - @dragging[0]
           @selection.y = mouse_y - @dragging[1]
@@ -199,19 +204,20 @@ class App < Gosu::Window
         @moving = nil
       end
 
-      if @resizing
+      if @resizing # 改变大小
         px, py = @resizing_point
         @selection.resize([mouse_x-px, mouse_y-py], @resizing)
         @resizing_point = nil # [mouse_x, mouse_y]
         @resizing = nil
       end
 
-      if @mouse_down2
+      if @mouse_down2 # 框选
         x = [mouse_x, @mouse_down2[0]].min
         y = [mouse_y, @mouse_down2[1]].min
         w = (mouse_x - @mouse_down2[0]).abs
         h = (mouse_y - @mouse_down2[1]).abs
         rect = Rect.new(x, y, w, h)
+        @selection = nil #
         @selections.clear
         @objects.each do |e|
           if Utils.rect_intersect?(e, rect)
@@ -226,7 +232,7 @@ class App < Gosu::Window
         @mouse_down2 = nil
       end
 
-      if @drawing_start
+      if @drawing_start # 新建元素
         x, y, w, h=Utils.rect_two_points(*@drawing_start, mouse_x, mouse_y)
         w, h = 50, 20 if w<5 && h<5
         @objects << Rect.new(x, y, w, h)
@@ -260,6 +266,29 @@ class App < Gosu::Window
           end
         end
 
+
+
+        shift_down = Gosu.button_down?(Gosu::KB_LEFT_SHIFT)
+        if shift_down # 有 Bug
+          @objects.reverse_each do |e|
+            if e.contain?(mouse_x, mouse_y)
+              if @selections.include?(e)
+                @selections.delete(e)
+              else
+                @selections << e
+                if @selection
+                  @selections << @selection if  @selection!=e
+                  @selection = nil
+                end
+              end
+              return
+            end
+          end
+          #@mouse_down2 = [mouse_x, mouse_y]
+          return
+        end
+        #@selections<<@selection if @selection && @selections.empty?
+
         # 单选或开始拖动
         @selection = nil
         @objects.reverse_each do |e|
@@ -270,14 +299,15 @@ class App < Gosu::Window
             end
             @dragging = [mouse_x - e.x, mouse_y - e.y]
             @moving = [mouse_x, mouse_y]
-            return # break
+            return
           end
-          self
         end
 
         # 开始框选
         @selections.clear
         @mouse_down2 = [mouse_x, mouse_y]
+
+        # 注意单击事件也会识别为原地拖动
 
       when Gosu::KB_LEFT
         @selection.x -= 5 if @selection
