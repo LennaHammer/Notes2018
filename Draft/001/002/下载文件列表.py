@@ -79,10 +79,15 @@ def download_url_list(filename):
 def download_web_task(filename):
     dirname = "[" + os.path.basename(filename) + "]"
     table = read_lines(filename, True)
-    for url, title, items in table:
+    for key, title, items in table:
+        pid = ''.join(re.findall(r'\d+',key))
+        count = len(items)
+        title = escape_filename(title)
+        tag = '{:08X}'.format(binascii.crc32(key.encode("utf-8")))
         for i, item in enumerate(items.split(","), 1):
-            tag = '{:08X}'.format(binascii.crc32(title.encode("utf-8")))
             url = item.strip()
+            tag2 = '{:08X}'.format(binascii.crc32(url.encode("utf-8")))
             extname = os.path.splitext(url)[1]
-            out = f"{tag}{i:02d}{title}{extname}"
+            out = f"[pid]{title}_{i:02d}_{tag2}{extname}" 
+            # 注意文件名排序的顺序（编号/时间，标题（可能重复），子项号）
             retry(lambda: download_file(url, f'{dirname}/{out}'))

@@ -518,8 +518,13 @@ http://www.mrsperkins.com/dolch.htm
 
 http://edu.sina.com.cn/kids/2017-12-05/doc-ifypikwt9568450.shtml
 
+
+
+形容词
+
 多个形容词修饰名词时，其顺序为：
 　 限定词--数词--描绘词--(大小，长短，形状，新旧，颜色) --出处--材料性质，类别--名词
+
 
 
 ## 副词的用法
@@ -592,7 +597,7 @@ first，then，next，finally，afterwards，primarily……
 already，ever，just，never，since，yet，recently……
 
 
-## 介词的用法
+## 介词用法
 
 简单介词
 包括in，on，with，by，for，at，about，under，of等。
@@ -739,6 +744,8 @@ either…or（不是...就是；要么...要么），
 neither…nor（既不...也不...),
 注意：
 then, therefore 等词，并不是连词，而是副词！
+
+
 
 ## 特殊句型
 
