@@ -50,7 +50,7 @@ def parse_response(response):
         title = re.sub(r'\s+', ' ', title)
     else:
         title = None
-        raise Exception("title")
+        raise Exception("no title")
     assert text, text
     assert title, title
     return text, document, title
@@ -143,7 +143,7 @@ def download_index(filename, urls, callback):
         lines += callback(text, doc)
     if filename:
         lines = unique(lines)
-        lines.reverse()
+        lines.reverse() # reverse！
         write_lines(filename, lines)
     else:
         print(lines, len(lines), len(unique(lines)))
@@ -191,7 +191,7 @@ def download_details(filename, urls, callback):
                     skip = True
                 except Exception:
                     traceback.print_exc()
-                    input("continue>")
+                    input("continue>") # 暂停
                     r = None
             if r is None:
                 continue
@@ -199,7 +199,7 @@ def download_details(filename, urls, callback):
                 continue
             print(r.status_code)
             #text, doc, title = parse_response(r)
-            #assert "下一页" not in text
+            assert "下一页" not in text
 
             print(tsv_row([url, title, ','.join(unique(values))]), file=f)
             f.flush()
@@ -208,7 +208,10 @@ def download_details(filename, urls, callback):
 def find_items(text, document):
     pass
 
+DIR = os.path.dirname(__file__)
+
 
 if __name__ == "__main__":
     import doctest
     doctest.testmod()
+    print("ok")
