@@ -33,7 +33,9 @@ def retry(foo, times=3, ignore=False):
             print(e)
             exc = e
     if not ignore:
-        raise exc
+        #raise exc
+        print(exc)
+        input("> ")
     traceback.print_exc()
 
 
@@ -72,6 +74,10 @@ def read_lines(filename, table=None):
             rows.append(line)
     return rows
 
+def file_exists(filename):
+    if os.path.exists(filename):
+        return True
+    return False
 
 def download_task(filename):
     dirname = "[" + os.path.basename(filename) + "]"
@@ -95,7 +101,7 @@ def download_web_task(filename):
     os.makedirs(dirname, exist_ok=True)
     table = read_lines(filename, True)
     for k, (key, title, items) in enumerate(table, 1):
-        print(f'[{k}/{len(table)}]')
+        #print(f'[{k}/{len(table)}]')
         assert 'http' in key, key
         path = urllib.parse.urlparse(key).path
         pid = ''.join(re.findall(r'\d+', path))  # 排序用
@@ -109,6 +115,8 @@ def download_web_task(filename):
             extname = os.path.splitext(url)[1]
             out = f"[{pid}]{title}_{size:d}_{i:02d}_{tag2}{extname}"  # 不要修改
             # 注意文件名排序的顺序（编号/时间，标题（可能重复），子项号）
+            if not file_exists(f'{dirname}/{out}'):
+                print(f'[{k}/{len(table)}]')
             retry(lambda: download_file(
                 url, f'{dirname}/{out}'), ignore=IGNORE_EXCEPTION)
 

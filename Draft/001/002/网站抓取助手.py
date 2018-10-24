@@ -129,7 +129,7 @@ def test():
     print(title)
 
 
-def download_index(filename, urls, callback):
+def download_index(filename, urls, callback, reverse=True):
     '''
     保存网页上的列表项，假定列表项逆序。
     下载顺序按从新往旧，返回结果按从旧往新。
@@ -143,7 +143,8 @@ def download_index(filename, urls, callback):
         lines += callback(text, doc)
     if filename:
         lines = unique(lines)
-        lines.reverse() # reverse！
+        if reverse:
+            lines.reverse() # reverse！
         write_lines(filename, lines)
     else:
         print(lines, len(lines), len(unique(lines)))
