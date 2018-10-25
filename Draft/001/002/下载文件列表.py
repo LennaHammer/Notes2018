@@ -44,7 +44,7 @@ def download_file(url, filename):
         return
     print(f'{url} -> {filename}')
     #referer = urllib.parse.urlparse(url).netloc
-    r = session.get(url, timeout=60,headers = {'Referer': url})
+    r = session.get(url, timeout=60, headers={'Referer': url})
     r.raise_for_status()
     data = r.content
     assert not os.path.exists('temp')
@@ -74,10 +74,23 @@ def read_lines(filename, table=None):
             rows.append(line)
     return rows
 
+
+def read_filelist(path):
+    '''
+        用来跳过保存过的文件，按文件名
+    '''
+    filename = f'{path}/filelist.txt'
+    if os.path.exists(filename):
+        x = set(read_lines(filename))
+        return x
+    return set()
+
+
 def file_exists(filename):
     if os.path.exists(filename):
         return True
     return False
+
 
 def download_task(filename):
     dirname = "[" + os.path.basename(filename) + "]"
@@ -89,9 +102,13 @@ def download_task(filename):
 
 def download_url_list(filename):
     dirname = "[" + os.path.basename(filename) + "]"
+    skip = read_filelist(dirname)
     table = read_lines(filename, False)
     for url in table:
         filename = os.path.basename(url)
+        if filename in skip:
+            print("SKIP")
+            continue
         retry(lambda: download_file(
             url, f'{dirname}/{filename}'), ignore=IGNORE_EXCEPTION)
 
@@ -101,7 +118,7 @@ def download_web_task(filename):
     os.makedirs(dirname, exist_ok=True)
     table = read_lines(filename, True)
     for k, (key, title, items) in enumerate(table, 1):
-        #print(f'[{k}/{len(table)}]')
+        # print(f'[{k}/{len(table)}]')
         assert 'http' in key, key
         path = urllib.parse.urlparse(key).path
         pid = ''.join(re.findall(r'\d+', path))  # 排序用
@@ -132,6 +149,9 @@ def main():
         if x.endswith('.tsv.task'):
             print(x)
             download_web_task(x)
+        if x.endswith('.list.task'):
+            print(x)
+            download_url_list(x)
 
 
 try:
