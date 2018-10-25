@@ -529,6 +529,17 @@ http://edu.sina.com.cn/kids/2017-12-05/doc-ifypikwt9568450.shtml
 
 ## 副词的用法
 
+today 时间
+- recently, ago, yesterday
+often 频率
+- often, always, usually, sometimes
+already 完成
+- ever
+so 副词，所以
+happily 方式
+
+
+
 多个不同副词排列：程度+方式+地点+时间
 
 时间/频率副词
@@ -598,6 +609,16 @@ already，ever，just，never，since，yet，recently……
 
 
 ## 介词用法
+
+in 地点，时间
+on 天
+at 时刻
+for 原因，目的 (+sb/sth)
+about 大约，关于
+
+for, because of
+
+
 
 简单介词
 包括in，on，with，by，for，at，about，under，of等。
@@ -686,7 +707,7 @@ beside，behind beside 表示在„„旁边 behind 表示在„„后面
 著名学者周海中教授曾经指出：作为表语时，英语介词可以表示正在“进行”的动作。他举例说明：
 He is at work. (他正在工作。)
 The house is on fire! (房子着火了!)
-The road isunder construction. (路正在修。)
+The road is under construction. (路正在修。)
 
 
 表示原因
